@@ -133,4 +133,4 @@ dmypy.json
 *.sublime-workspace
 
 # PyCharm
-.idea   
+.idea
