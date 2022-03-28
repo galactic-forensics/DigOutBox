@@ -19,7 +19,7 @@ void SetDigIO(SCPI_C commands, SCPI_P parameters, Stream& interface);
 void ListenForRemote();
 int GetChannel(int ch);
 void SetChannel(int ch, int state);
-
+void AllOff();
 
 
 // version of program
@@ -33,6 +33,7 @@ void setup() {
   DigIOBox.RegisterCommand(F("DOut#?"), &GetDigIO);
   DigIOBox.RegisterCommand(F("DOut#"), &SetDigIO);
   DigIOBox.RegisterCommand(F("ALLDOut?"), &GetAllDigIO);
+  DigIOBox.RegisterCommand(F("AllOFF"), &AllOff);
 
   // Output and LED setups
   for (int it = 0; it < numOfChannels; it++) {
@@ -48,10 +49,8 @@ void setup() {
   // Start serial console
   Serial.begin(9600);
 
-  // Put the switches into the init position
-  for (int it = 0; it < numOfChannels; it++) {
-    SetChannel(it, DOutOffState[it]);
-  }
+  // Put the switches into the off position
+  AllOff();
 }
 
 
@@ -138,19 +137,20 @@ void SetDigIO(SCPI_C commands, SCPI_P parameters, Stream& interface) {
 void ListenForRemote() {
   if (myRemote.available()) {
     // read remote value
-    int received_value = myRemote.getReceivedValue();
-    int channel = -1;  // no channel
+    long received_value = myRemote.getReceivedValue();
+    int channel = -2;  // no channel
     // Read channel to be triggered
-    for (int it = 0; it < sizeof(numOfRemoteButtons); it++) {
+    for (int it = 0; it < numOfRemoteButtons; it++) {
       for (int rt = 0; rt < numOfRemotes; rt++) {
         if (received_value == RFRemoteCodes[it][rt]){
           channel = RFChannels[it];
-          break;          
+          Serial.println(channel);
+         break;          
         }
       }
-      if (channel != -1) {
-        break;
-      }
+     if (channel != -2) {
+       break;
+     }
     }
 
     if (debug) {
@@ -161,7 +161,10 @@ void ListenForRemote() {
     }
 
     // Now toggle if required
-    if (channel > -1) {
+    if (channel == -1) {
+      AllOff();
+    }
+    else if ((channel > -1) && (channel < numOfChannels)) {
       ToggleRFChannel(channel);
       delay(rf_delay);
     }
@@ -174,7 +177,8 @@ void ListenForRemote() {
 
 int GetChannel(int ch) {
   // Get the status of a channel, return 0 if off, otherwise on
-  if (digitalRead(DOut[ch]) == HIGH) {
+  // In order to invert actual channels, we read the LED state here!
+  if (digitalRead(LedPins[ch]) == HIGH) {
     return 1;
   }
   else {
@@ -187,11 +191,24 @@ int GetChannel(int ch) {
 void SetChannel(int ch, int state) {
   // Set a given channel with the given state
   if ((state == 0) || (state == 1)) {
-    digitalWrite(DOut[ch], state);
-    if (DOutOffState[ch] == 1) {
-      state = not state;  // Invert the LED with respect to the signal?
-    }
-    digitalWrite(LedPins[ch], state);
+    // states to set
+    int out_state = state;
+    // check if inverted
+    if (DOutInvert[ch] == 1) {
+      out_state = not out_state;
+    }        
+
+    // write the states out
+    digitalWrite(DOut[ch], out_state);
+    digitalWrite(LedPins[ch], state);  // LED is always the actual state
+  }
+}
+
+
+// Turn all channels off
+void AllOff() {
+  for (int it = 0; it < numOfChannels; it++) {
+    SetChannel(it, 0);
   }
 }
 
