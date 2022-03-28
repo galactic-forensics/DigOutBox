@@ -22,10 +22,6 @@ void SetChannel(int ch, int state);
 void AllOff();
 
 
-// version of program
-const char fw_version[7] = "v0.1.0";
-
-
 void setup() {
   
   // SCPI Setup
@@ -61,7 +57,9 @@ void loop() {
 
 
 void Identify(SCPI_C commands, SCPI_P parameters, Stream& interface) {
-  interface.print(F("DigIOBox "));
+  interface.print(F("DigIOBox, Hardware "));
+  interface.print(hw_version);
+  interface.print(", Firmware ");
   interface.println(fw_version);
 }
 
@@ -144,7 +142,6 @@ void ListenForRemote() {
       for (int rt = 0; rt < numOfRemotes; rt++) {
         if (received_value == RFRemoteCodes[it][rt]){
           channel = RFChannels[it];
-          Serial.println(channel);
          break;          
         }
       }

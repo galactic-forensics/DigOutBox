@@ -57,7 +57,7 @@ class DigIOBoxComm(DevComm):
         """
         super().__init__(port, baudrate=baudrate)
 
-        self._num_channels = 3
+        self._num_channels = 16
 
     @property
     def num_channels(self) -> int:

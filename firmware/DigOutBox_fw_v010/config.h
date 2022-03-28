@@ -7,17 +7,24 @@
 // DIGOUTBOX HW CONFIGURATION
 // **************************
 
-// In debug mode, additional comments aside from SCPI comms are sent over serial
-const bool debug = true;
+// Initial output for the following serial numbers:
+// - llnl001
 
 // Channels and remote control buttons
 const int numOfChannels = 16;
 const int numOfRemoteButtons = 10;
 
+// hard- and firmware versions
+const char fw_version[7] = "v0.1.0";
+const char hw_version[7] = "v0.1.0";
+
 
 // **********
 // USER SETUP
 // **********
+
+// Debug mode, additional comments aside from SCPI commands are sent over serial
+const bool debug = false;
 
 // Set delay in ms after valid RF press
 const int rf_delay = 500;
@@ -36,7 +43,7 @@ const int RFChannels[numOfRemoteButtons] = {
   -1
 };
 
-// What is the off-state of the channels?
+// Define the "off-state" of all channels?
 // 0: LOW / 1: HIGH
 const int DOutInvert[numOfChannels] = {
   1,
@@ -63,7 +70,7 @@ const int DOutInvert[numOfChannels] = {
 
 // Channels: A, B, C, D, E, F, G, H, 1, 2, 3, 4, 5, 6, 7, 8
 
-// Setup of the digital outputs and LED channels (pins)
+// Setup of pins for the digital outputs
 const int DOut[numOfChannels] = {
   36,
   34,
@@ -81,7 +88,9 @@ const int DOut[numOfChannels] = {
   42,
   40,
   38
-};  // Output pin assignment
+};
+
+// Setup of pins for LEDs
 const int LedPins[numOfChannels] = {
   37,
   35,
@@ -99,7 +108,7 @@ const int LedPins[numOfChannels] = {
   43,
   41,
   39
-};  // Where are the LEDs?
+};
 
 // Interrupt the RF Receiver is connected to (NOT pin number!)
 const int RFInterrupt = 0;  // Which interrupt does the R receiver sit on? NOT pin!
@@ -109,16 +118,15 @@ const int numOfRemotes = 2;
 
 // RF codes for Remotes, number must be defined before
 const long RFRemoteCodes[numOfRemoteButtons][numOfRemotes]  {
-  {4543795, 0},
-  {4543804, 0},
-  {4543939, 0},
-  {4543948, 0},
-  {4544259, 0},
-  {4544268, 0},
-  {4545795, 0},
-  {4545804, 0},
-  {4551939, 0},
-  {4551948, 0}
+  {4543795, 349491},
+  {4543804, 349500},
+  {4543939, 349635},
+  {4543948, 349644},
+  {4544259, 349955},
+  {4544268, 349964},
+  {4545795, 351491},
+  {4545804, 351500},
+  {4551939, 357635},
+  {4551948, 357644}
 
 };
-
