@@ -1,5 +1,7 @@
 """Class to communicate with the DigIOBox."""
 
+from time import sleep
+
 from serial_comm import DevComm
 
 from util_fns import ProxyList
@@ -55,9 +57,10 @@ class DigIOBoxComm(DevComm):
         :param port: Port to find device on.
         :param baudrate: Baud rate to connect with.
         """
+        self._num_channels = 16
+
         super().__init__(port, baudrate=baudrate)
 
-        self._num_channels = 16
 
     @property
     def num_channels(self) -> int:
@@ -85,3 +88,15 @@ class DigIOBoxComm(DevComm):
     def identify(self):
         """Get firmware version of box."""
         return self.query("*IDN?")
+
+    @property
+    def states(self):
+        """Read the states of all channels and return as a list."""
+        retval = self.query("ALLDOut?")
+        return retval
+
+    ### METHODS ###
+
+    def all_off(self):
+        """Turn all channels off."""
+        self.sendcmd("ALLOFF")

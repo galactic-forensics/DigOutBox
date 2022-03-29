@@ -12,12 +12,12 @@ if the channel is high (LED on) or low (LED off).
 The Arduino can be controlled via a serial using a standard set of
 [SCPI commands](https://en.wikipedia.org/wiki/Standard_Commands_for_Programmable_Instruments)
 in order to control the device.
-Furhtermore, 
+Furthermore, 
 a Python communications class 
 and a Python GUI (making use of this class)
 are provided for easy control of the DigOutBox.
 Finally,
-the Arduino can also take commands from an RF control at 433MHz,
+the Arduino can also take commands from an RF control at 433 MHz,
 which puts it in the allowable range in the US and in Europe,
 to drive digital outputs. 
 The idea of the remote is to give the user direct control
@@ -64,4 +64,4 @@ that you would like to contribute.
 ## License
 
 This project is licensed under [MIT](LICENSE). 
-Copyright: 2021, Galactic Forensics Laboratory.
+Copyright: 2021-2022, Galactic Forensics Laboratory.

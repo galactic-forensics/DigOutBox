@@ -29,7 +29,7 @@ void setup() {
   DigIOBox.RegisterCommand(F("DOut#?"), &GetDigIO);
   DigIOBox.RegisterCommand(F("DOut#"), &SetDigIO);
   DigIOBox.RegisterCommand(F("ALLDOut?"), &GetAllDigIO);
-  DigIOBox.RegisterCommand(F("AllOFF"), &AllOff);
+  DigIOBox.RegisterCommand(F("ALLOFF"), &AllOff);
 
   // Output and LED setups
   for (int it = 0; it < numOfChannels; it++) {
@@ -44,7 +44,7 @@ void setup() {
 
   // Start serial console
   Serial.begin(9600);
-
+  
   // Put the switches into the off position
   AllOff();
 }
