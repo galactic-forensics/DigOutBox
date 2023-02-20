@@ -27,20 +27,26 @@ Depending on the number of channels the control has
 multiple channels can be controlled.
 
 
-## Documentation
+| [<img src="images/gfl002_setup_small.jpeg" width="600"><br>Front and top of DigOutBox</img>](images/gfl002_setup.jpeg) | [<img src="images/gfl002_back_top.jpeg" width="600"><br>Back of DigOutBox</img>](images/gfl002_back_top.jpeg) |
+|:----------------------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------:|
 
 
-## Hardware design
+## Folders and further information
 
+This git repository contains the following folders:
 
-## Firmware
+- `DigIOBoxController`: Python software to control the box from a computer via CLI or GUI.
+- `firmware`: Arduino firmware. 
+- `hardware`: Designs with bill of materials, build instructions, etc.
+- `images`: Images of the box.
 
+Each folder contains its own, specific README file
+that contains further information on what can be done
+with the specific files.
 
-## Python driver
+## Issues
 
-
-## Python GUI
-
+If you encounter any issues, please raise an issue in this repository.
 
 ## Contribution
 
@@ -64,4 +70,19 @@ that you would like to contribute.
 ## License
 
 This project is licensed under [MIT](LICENSE). 
-Copyright: 2021-2022, Galactic Forensics Laboratory.
+Copyright: 2021-2023, Galactic Forensics Laboratory.
+
+## Images of assembled boxes
+
+### All around the transparent `llnl001` box
+
+| [<img src="images/llnl001_front_small.jpeg" width="600"/>](images/llnl001_front.jpeg) | [<img src="images/llnl001_front_top_small.jpeg" width="600"/>](images/llnl001_front_top.jpeg) |
+|:-------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------:|
+|  [<img src="images/llnl001_back_small.jpeg" width="600"/>](images/llnl001_back.jpeg)  |                                                                                               |
+
+### The black/transparent `gfl002` box
+
+| [<img src="images/gfl002_setup_small.jpeg" width="600"/>](images/gfl002_setup.jpeg) | [<img src="images/gfl002_back_top_small.jpeg" width="600"/>](images/gfl002_back_top.jpeg) |
+|:-----------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|
+|  [<img src="images/gfl002_back_small.jpeg" width="600"/>](images/gfl002_back.jpeg)  |   [<img src="images/gfl002_inside_small.jpeg" width="600"/>](images/gfl002_inside.jpeg)   |
+

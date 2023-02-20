@@ -1,5 +1,5 @@
 /*
- * Simple SCPI test for identiy and result set and get
+ * Firmware v010 for DigIOBox
  */
 #include <Arduino.h>
 #include <RCSwitch.h>

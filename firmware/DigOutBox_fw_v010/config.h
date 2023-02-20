@@ -8,7 +8,7 @@
 // **************************
 
 // Initial output for the following serial numbers:
-// - llnl001
+// - llnl001, gfl002
 
 // Channels and remote control buttons
 const int numOfChannels = 16;
