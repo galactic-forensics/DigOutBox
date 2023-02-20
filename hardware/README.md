@@ -104,7 +104,8 @@ after the components have been installed and tested!
    2. Connect the ground pin of the RF receiver to the ground line on the proto shield.
    3. Connect the `Data` pin of the RF receiver to pin `2` on the proto shield: This is interrupt 0.    
       [![RF receiver](../images/rf_connections_small.jpeg)](../images/rf_connections.jpeg)     
-      Note that the blue and green boxes show connections underneath the proto shield
+      Note that the blue (data) and red (5V) boxes show connections made on the bottom of the proto shield. 
+      The ground connection (leftmost) is directly connected to the ground line on the proto shield.
 5. Solder all the  LED cathodes together and add a wire that can plug into the proto shield (see image below).
 6. Solder all the grounds of the BNC connectors together and add a wire that can plug into the proto shield (see image below).
 7. Solder DB-9 pin 9 to the ground line on the proto shield (see image below).
