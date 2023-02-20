@@ -13,7 +13,7 @@ for chit in range(nof_channels):
     print(f"\nChannel {ch}")
     ch.state = True
     _ = input("> Press enter to turn off")
-    ch.state=False
+    ch.state = False
     _ = input("> Press enter to continue")
 
 ## Testing remote control

@@ -4,8 +4,12 @@ ProxyList is taken from InstrumentKit: https://github.com/Galvant/InstrumentKit
 """
 
 
+from enum import Enum, IntEnum
+
+
 class ProxyList:
-    """
+    """Proxy List class from instrumentkit.
+
     This is a special class used to generate lists of objects where the valid
     keys are defined by the `valid_set` init parameter. This allows an
     instrument to have a single property through which all of its various
@@ -27,6 +31,7 @@ class ProxyList:
     """
 
     def __init__(self, parent, proxy_cls, valid_set):
+        """Initialize the class."""
         self._parent = parent
         self._proxy_cls = proxy_cls
         self._valid_set = valid_set
@@ -40,10 +45,12 @@ class ProxyList:
             self._isenum = False
 
     def __iter__(self):
+        """Iterate."""
         for idx in self._valid_set:
             yield self._proxy_cls(self._parent, idx)
 
     def __getitem__(self, idx):
+        """Get an individual item."""
         # If we have an enum, try to normalize by using getitem. This will
         # allow for things like 'x' to be used instead of enum.x.
         if self._isenum:
@@ -67,4 +74,5 @@ class ProxyList:
         return self._proxy_cls(self._parent, idx)
 
     def __len__(self):
+        """Length of the valid set."""
         return len(self._valid_set)

@@ -5,7 +5,7 @@ you will need to configure the firmware
 and flash it to the Arduino.
 If you followed the instructions
 and used an existing pinout mapping,
-this should be fairly straightforward. 
+this should be fairly straightforward.
 However,
 you might need to detect and register new remotes.
 
@@ -22,6 +22,12 @@ There are two files:
 Please read the following sections
 for details on configuration, registering remotes,
 flashing the firmware, and communicating with the Arduino via serial.
+
+Once finished with this section,
+your box can be used with the remote.
+To use our GUI for computer control
+(or to use our python routines),
+look [here](../controller_cli/README.md).
 
 ## Overview of the configuration
 
@@ -41,8 +47,8 @@ It contains the following variables:
 
 ### User setup
 
-This section contains the user setup. 
-If you have a box with an existing setup, 
+This section contains the user setup.
+If you have a box with an existing setup,
 this section is likely the one you might want to tweak.
 The section contains the following variables:
 
@@ -83,7 +89,7 @@ This section contains the following variables:
 
 ## Register remotes
 
-To set up a new remote, 
+To set up a new remote,
 set `debug = true;` in the configuration file
 and flash the firmware to the Arduino.
 Leave the Arduino plugged into the computer
@@ -100,7 +106,7 @@ Do this for every remote that you would like to add to the instrument.
 After you have recorded the remote codes,
 enter them into the configuration file.
 
-1. Ensure that you set up the correct `numOfRemotes` value. 
+1. Ensure that you set up the correct `numOfRemotes` value.
 2. Set up the `RFRemoteCodes` array as following:
    ```cpp
    RFRemoteCodes[numOfRemoteButtons][numOfRemotes]{
@@ -110,14 +116,14 @@ enter them into the configuration file.
      {rm1_bn, rm2_bn, ...}
    }
    ```
-   Here, `rm1` and `rm2` stand for remote 1 and remote 2, respectively, and 
+   Here, `rm1` and `rm2` stand for remote 1 and remote 2, respectively, and
    `b1`, `b2`, ..., `bn` for buttons 1 through `n` of the remote.
 3. Flash the firmware and try it out!
 
 ### Already mapped remotes
 
 If you bought the Bestten remotes that are linked in the BOM,
-we might already have mapped out certain codes. 
+we might already have mapped out certain codes.
 These remotes have, in the back, a sticker with a frequency code.
 Below is a table with frequency codes that we have mapped already:
 
@@ -173,4 +179,4 @@ If all works, you can send SCPI commands to the device and see the LEDs turn on 
 but also see the voltage output assume the desired value.
 A simple testing script that allows you to measure each channel individually
 and to test the remote and SCPI commands is provided with the python software
-in the [DigIOBoxController](../DigIOBoxController) folder.
+in the [DigIOBoxController](../controller_cli) folder.

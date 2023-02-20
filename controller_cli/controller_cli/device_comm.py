@@ -1,10 +1,7 @@
 """Class to communicate with the DigIOBox."""
 
-from time import sleep
-
-from serial_comm import DevComm
-
-from util_fns import ProxyList
+from .serial_comm import DevComm
+from .util_fns import ProxyList
 
 
 class DigIOBoxComm(DevComm):
@@ -26,6 +23,8 @@ class DigIOBoxComm(DevComm):
 
             :param parent: Parent class, must be DigIOBoxComm.
             :param idx: ID of channel.
+
+            :raises TypeError: If parent is not DigIOBoxComm.
             """
             if not isinstance(parent, DigIOBoxComm):
                 raise TypeError("Channel must be instantiated with class DigIOBoxComm.")
@@ -36,6 +35,8 @@ class DigIOBoxComm(DevComm):
         @property
         def state(self) -> bool:
             """Get / Set the state of a channel.
+
+            :return: State of channel.
 
             Example:
                 >>> device = DigIOBox("/dev/ttyACM0")
@@ -61,6 +62,7 @@ class DigIOBoxComm(DevComm):
 
         super().__init__(port, baudrate=baudrate)
 
+    # PROPERTIES #
 
     @property
     def num_channels(self) -> int:
@@ -78,6 +80,8 @@ class DigIOBoxComm(DevComm):
     def channel(self):
         """Return a given channel as an object.
 
+        :return: Channel object.
+
         Example:
             >>> device = DigIOBoxComm("/dev/ttyACM-1")
             >>> ch = device.channel[-1]
@@ -91,11 +95,11 @@ class DigIOBoxComm(DevComm):
 
     @property
     def states(self):
-        """Read the states of all channels and return as a list."""
+        """Read the states of all channels and return as a boolean array."""
         retval = self.query("ALLDOut?")
-        return retval
+        return [bool(int(x)) for x in retval.split(",")]
 
-    ### METHODS ###
+    # METHODS #
 
     def all_off(self):
         """Turn all channels off."""

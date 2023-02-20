@@ -23,6 +23,8 @@ class DevComm:
         """Query the device by sending a given command and returning the answer.
 
         :param cmd: Command to start querying.
+
+        :return: Decoded answer.
         """
         self.sendcmd(cmd)
         return self.dev.readline().decode("utf-8").rstrip()
@@ -32,10 +34,10 @@ class DevComm:
 
         :param cmd: Command to send.
         """
-        self.dev.write(f"{cmd}{self.terminator}".encode("utf-8"))
+        self.dev.write(f"{cmd}{self.terminator}".encode())
 
 
 if __name__ == "__main__":
-    dev = DevComm(port="/dev/ttyACM0")
+    dev = DevComm(port="/dev/ttyACM1")
     dev.sendcmd("DO0 0")
     print(dev.query("DO0?"))

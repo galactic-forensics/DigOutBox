@@ -23,7 +23,7 @@ void AllOff();
 
 
 void setup() {
-  
+
   // SCPI Setup
   DigIOBox.RegisterCommand(F("*IDN?"), &Identify);
   DigIOBox.RegisterCommand(F("DOut#?"), &GetDigIO);
@@ -44,7 +44,7 @@ void setup() {
 
   // Start serial console
   Serial.begin(9600);
-  
+
   // Put the switches into the off position
   AllOff();
 }
@@ -142,7 +142,7 @@ void ListenForRemote() {
       for (int rt = 0; rt < numOfRemotes; rt++) {
         if (received_value == RFRemoteCodes[it][rt]){
           channel = RFChannels[it];
-         break;          
+         break;
         }
       }
      if (channel != -2) {
@@ -193,7 +193,7 @@ void SetChannel(int ch, int state) {
     // check if inverted
     if (DOutInvert[ch] == 1) {
       out_state = not out_state;
-    }        
+    }
 
     // write the states out
     digitalWrite(DOut[ch], out_state);

@@ -1,0 +1,42 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "controller_cli"
+authors = [{name = "Reto Trappitsch", email = "reto@galactic-forensics.space"}]
+readme = "README.md"
+license = {file = "LICENSE"}
+classifiers = ["License :: OSI Approved :: MIT License"]
+dynamic = ["version", "description"]
+requires = [
+    "pyserial"
+]
+
+[project.urls]
+Home = "https://github.com/galactic-forensics/DigOutBox"
+
+[project.optional-dependencies]
+dev = [
+    "darglint>=1.5.1",
+    "flake8",
+    "flake8-bandit",
+    "flake8-black",
+    "flake8-bugbear",
+    "flake8-docstrings",
+    "flake8-import-order",
+    "bandit"
+]
+test = [
+    "hypothesis",
+    "pytest>=6.0.0",
+    "pytest-cov",
+    "pytest-mock",
+    "pytest-sugar",
+    "pytest-mock"
+]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "--cov=controller_cli -v"
+testpaths = "tests"

@@ -3,23 +3,23 @@
 This project provides instrument builders with an easy interface
 to control digital output pins to control other devices,
 e.g., laser shutters.
-The project makes use of an 
+The project makes use of an
 [Arduino Mega](https://store.arduino.cc/products/arduino-mega-2560-rev3)
 in order to have digital output pins available via
 DSub-9 and BNC connectors.
-Each channel will have its own LED as an indication status 
+Each channel will have its own LED as an indication status
 if the channel is high (LED on) or low (LED off).
 The Arduino can be controlled via a serial using a standard set of
 [SCPI commands](https://en.wikipedia.org/wiki/Standard_Commands_for_Programmable_Instruments)
 in order to control the device.
-Furthermore, 
-a Python communications class 
+Furthermore,
+a Python communications class
 and a Python GUI (making use of this class)
 are provided for easy control of the DigOutBox.
 Finally,
 the Arduino can also take commands from an RF control at 433 MHz,
 which puts it in the allowable range in the US and in Europe,
-to drive digital outputs. 
+to drive digital outputs.
 The idea of the remote is to give the user direct control
 when attending to, e.g., a laser on the table.
 Depending on the number of channels the control has
@@ -36,7 +36,7 @@ multiple channels can be controlled.
 This git repository contains the following folders:
 
 - `DigIOBoxController`: Python software to control the box from a computer via CLI or GUI.
-- `firmware`: Arduino firmware. 
+- `firmware`: Arduino firmware.
 - `hardware`: Designs with bill of materials, build instructions, etc.
 - `images`: Images of the box.
 
@@ -50,7 +50,7 @@ If you encounter any issues, please raise an issue in this repository.
 
 ## Contribution
 
-If you would like to contribute, 
+If you would like to contribute,
 please get in touch with us.
 If you have a specific issue with the software you would like to discuss,
 please feel free to raise an issue and mention
@@ -69,7 +69,7 @@ that you would like to contribute.
 
 ## License
 
-This project is licensed under [MIT](LICENSE). 
+This project is licensed under [MIT](LICENSE).
 Copyright: 2021-2023, Galactic Forensics Laboratory.
 
 ## Images of assembled boxes
@@ -85,4 +85,3 @@ Copyright: 2021-2023, Galactic Forensics Laboratory.
 | [<img src="images/gfl002_setup_small.jpeg" width="600"/>](images/gfl002_setup.jpeg) | [<img src="images/gfl002_back_top_small.jpeg" width="600"/>](images/gfl002_back_top.jpeg) |
 |:-----------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|
 |  [<img src="images/gfl002_back_small.jpeg" width="600"/>](images/gfl002_back.jpeg)  |   [<img src="images/gfl002_inside_small.jpeg" width="600"/>](images/gfl002_inside.jpeg)   |
-

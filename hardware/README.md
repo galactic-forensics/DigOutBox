@@ -13,7 +13,7 @@ Required:
 
 - Soldering iron, solder, supplies
 - Laser cutter and acrylic sheets
-- M3 tap 
+- M3 tap
 - Wrenches / Screwdrivers to mount DB-9 and BNC connectors
 
 Nice to have:
@@ -27,7 +27,7 @@ The following table lists the parts that are needed to assemble the DigOutBox.
 Note that this assembly for a box that has 8 outputs via a DB-9 connector
 and 8 outputs via BNC connectors.
 Furthermore, the box has 16 LEDs to indicate the status of each output.
-A trigger input is also provided via a BNC connector, 
+A trigger input is also provided via a BNC connector,
 however, it is not used in the current version of the firmware.
 
 | Part                   | Quantity | Description             | Link                                                                                                                                                                                                      |
@@ -64,7 +64,7 @@ The case can be cut out of acrylic sheets using a laser cutter.
 The folder `case` contains the files for the case.
 The `svg` file has been created using [Inkscape](https://inkscape.org/)
 and contains various layers that can be turned on and off.
-In order for all fonts to properly display, 
+In order for all fonts to properly display,
 ensure that you have the font [`Black Ops One`](https://www.fontsquirrel.com/fonts/black-ops-one)
 installed on your system.
 Layers in the file have the following meaning:
@@ -95,45 +95,45 @@ after the components have been installed and tested!
 
 ### Assembly of the electronics
 
-1. Solder the headers that connect the proto shield to the Arduino to the proto shield (blue markings). 
+1. Solder the headers that connect the proto shield to the Arduino to the proto shield (blue markings).
 2. Solder the reset button onto the proto shield (if you want to use the reset button) (yellow marking).
-3. Solder additional headers to the proto shield, see green (ground headers) and red markings (pin headers) in picture below.    
-   [![Proto shield with headers](../images/proto_shield_marked_small.jpeg)](../images/proto_shield_marked.jpeg)  
+3. Solder additional headers to the proto shield, see green (ground headers) and red markings (pin headers) in picture below.
+   [![Proto shield with headers](../images/proto_shield_marked_small.jpeg)](../images/proto_shield_marked.jpeg)
 4. Solder the RF receiver to the proto shield. Anywhere on the proto shield is fine.
    1. Connect the `Vcc` pin of the RF receiver to the `5V` line on the proto shield.
    2. Connect the ground pin of the RF receiver to the ground line on the proto shield.
-   3. Connect the `Data` pin of the RF receiver to pin `2` on the proto shield: This is interrupt 0.    
-      [![RF receiver](../images/rf_connections_small.jpeg)](../images/rf_connections.jpeg)     
-      Note that the blue (data) and red (5V) boxes show connections made on the bottom of the proto shield. 
+   3. Connect the `Data` pin of the RF receiver to pin `2` on the proto shield: This is interrupt 0.
+      [![RF receiver](../images/rf_connections_small.jpeg)](../images/rf_connections.jpeg)
+      Note that the blue (data) and red (5V) boxes show connections made on the bottom of the proto shield.
       The ground connection (leftmost) is directly connected to the ground line on the proto shield.
 5. Solder all the  LED cathodes together and add a wire that can plug into the proto shield (see image below).
 6. Solder all the grounds of the BNC connectors together and add a wire that can plug into the proto shield (see image below).
 7. Solder DB-9 pin 9 to the ground line on the proto shield (see image below).
-8. Solder the anodes of the LED's each to its individual line that can be plugged into the proto shield.  
-   [![LEDs](../images/led_connections_small.jpeg)](../images/led_connections.jpeg)  
-9. Solder each BNC plug to its individual line that can be plugged into the proto shield.  
-   [![BNC connectors](../images/bnc_connections_small.jpeg)](../images/bnc_connections.jpeg)  
-10. Solder pins 1 through 8 of the DB-9 connector to the individual lines that can be plugged into the proto shield.  
-    [![DB-9 connector](../images/db9_connections_small.jpeg)](../images/db9_connections.jpeg)  
+8. Solder the anodes of the LED's each to its individual line that can be plugged into the proto shield.
+   [![LEDs](../images/led_connections_small.jpeg)](../images/led_connections.jpeg)
+9. Solder each BNC plug to its individual line that can be plugged into the proto shield.
+   [![BNC connectors](../images/bnc_connections_small.jpeg)](../images/bnc_connections.jpeg)
+10. Solder pins 1 through 8 of the DB-9 connector to the individual lines that can be plugged into the proto shield.
+    [![DB-9 connector](../images/db9_connections_small.jpeg)](../images/db9_connections.jpeg)
 
 Now you are ready to connect all your components to the proto shield and assemble the box.
 Plug in all the grounds to the ground lines.
 Plug in all LEDs, BNC connectors, and DB-9 connector to their respective lines.
-For the current existing setups, 
+For the current existing setups,
 pin assignments can be found in the [`firmware/configs`](../firmware/configs) folder.
-Here, `xlsx` files provide pin outs for various serial number numbers. 
-Each file goes with its respective `.h` file, which contains the configuration for the firmware 
+Here, `xlsx` files provide pin outs for various serial number numbers.
+Each file goes with its respective `.h` file, which contains the configuration for the firmware
 (discussed below).
 
-Your finished box should look inside something like this:  
+Your finished box should look inside something like this:
 [![Finished box](../images/gfl002_inside_small.jpeg)](../images/gfl002_inside.jpeg)
 
 *Tip*: If you bought the male-male wires from the recommended link,
-or bought similar wires, DO NOT take them apart. 
-Study first the LED setup and connections, 
+or bought similar wires, DO NOT take them apart.
+Study first the LED setup and connections,
 such that you can leave the wires stuck to each other.
 This makes plugging them into the proto shield much easier.
-The same is the case for the wires of the BNC and DB-9 connectors, 
+The same is the case for the wires of the BNC and DB-9 connectors,
 see also the photo of our overall assemble [here](../README.md).
 
 Once everything is plugged in, move on to the section on [firmware](../firmware/README.md).
