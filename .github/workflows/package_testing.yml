@@ -33,5 +33,7 @@ jobs:
       run: |
         cd controller_cli
         nox --no-error-on-missing-interpreters
+    - name: Run pytest with coverage for report
+      run: pytest --cov controller_cli
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v3
