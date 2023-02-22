@@ -9,7 +9,7 @@ readme = "README.md"
 license = {file = "LICENSE"}
 classifiers = ["License :: OSI Approved :: MIT License"]
 dynamic = ["version", "description"]
-requires = [
+dependencies = [
     "pyserial"
 ]
 
@@ -33,7 +33,8 @@ test = [
     "pytest-cov",
     "pytest-mock",
     "pytest-sugar",
-    "pytest-mock"
+    "pytest-mock",
+    "mock_serial"
 ]
 
 [tool.pytest.ini_options]

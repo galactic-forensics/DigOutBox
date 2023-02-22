@@ -65,18 +65,6 @@ class DigIOBoxComm(DevComm):
     # PROPERTIES #
 
     @property
-    def num_channels(self) -> int:
-        """Get / Set number of available channels.
-
-        :return: Number of channels
-        """
-        return self._num_channels
-
-    @num_channels.setter
-    def num_channels(self, value: int):
-        self.num_channels = int(value)
-
-    @property
     def channel(self):
         """Return a given channel as an object.
 
@@ -92,6 +80,18 @@ class DigIOBoxComm(DevComm):
     def identify(self):
         """Get firmware version of box."""
         return self.query("*IDN?")
+
+    @property
+    def num_channels(self) -> int:
+        """Get / Set number of available channels.
+
+        :return: Number of channels
+        """
+        return self._num_channels
+
+    @num_channels.setter
+    def num_channels(self, value: int):
+        self._num_channels = int(value)
 
     @property
     def states(self):

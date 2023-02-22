@@ -4,11 +4,7 @@ import serial
 
 
 class DevComm:
-    """Class to communicate with the Arduino.
-
-    Example usage:
-    - todo
-    """
+    """Class to communicate with the Arduino."""
 
     def __init__(self, port: str, baudrate: int = 9600) -> None:
         """Initialize communication with the device.
@@ -35,9 +31,3 @@ class DevComm:
         :param cmd: Command to send.
         """
         self.dev.write(f"{cmd}{self.terminator}".encode())
-
-
-if __name__ == "__main__":
-    dev = DevComm(port="/dev/ttyACM1")
-    dev.sendcmd("DO0 0")
-    print(dev.query("DO0?"))
