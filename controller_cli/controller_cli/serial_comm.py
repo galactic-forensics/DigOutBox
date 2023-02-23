@@ -1,7 +1,8 @@
 """Class to communicate with device via serial."""
 
-import serial
 import time
+
+import serial
 
 
 class DevComm:

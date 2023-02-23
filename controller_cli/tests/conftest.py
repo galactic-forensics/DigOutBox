@@ -1,6 +1,7 @@
 """Fixtures for controller_cli tests."""
 
 import time
+
 import pytest
 
 
