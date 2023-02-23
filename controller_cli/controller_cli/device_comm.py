@@ -52,15 +52,16 @@ class DigIOBoxComm(DevComm):
         def state(self, value: bool) -> None:
             self._parent.sendcmd(f"DO{self._idx} {int(value)}")
 
-    def __init__(self, port: str, baudrate: int = 9600):
+    def __init__(self, port: str, baudrate: int = 9600, timeout: int = 3):
         """Initialize the class.
 
         :param port: Port to find device on.
         :param baudrate: Baud rate to connect with.
+        :param timeout: Timeout in seconds.
         """
         self._num_channels = 16
 
-        super().__init__(port, baudrate=baudrate)
+        super().__init__(port, baudrate=baudrate, timeout=timeout)
 
     # PROPERTIES #
 
@@ -71,8 +72,8 @@ class DigIOBoxComm(DevComm):
         :return: Channel object.
 
         Example:
-            >>> device = DigIOBoxComm("/dev/ttyACM-1")
-            >>> ch = device.channel[-1]
+            >>> device = DigIOBoxComm("/dev/ttyACM0")
+            >>> ch = device.channel[0]
         """
         return ProxyList(self, self.Channel, range(self._num_channels))
 

@@ -1,8 +1,6 @@
 # DigOutBox
 
  [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![tests](https://github.com/galactic-forensics/DigOutBox/actions/workflows/package_testing.yml/badge.svg)](https://github.com/galactic-forensics/DigOutBox/actions/workflows/package_testing.yml)
-[![codecov](https://codecov.io/github/galactic-forensics/DigOutBox/branch/main/graph/badge.svg?token=R4VQOKG1IR)](https://codecov.io/github/galactic-forensics/DigOutBox)
 
 This project provides instrument builders with an easy interface
 to control digital output pins to control other devices,
