@@ -146,6 +146,10 @@ Below is a table with frequency codes that we have mapped already:
 
 ## Flash firmware
 
+**Important: Make sure that the jumper on the board connecting the reset pin via the capacitor to ground is open!
+Otherwise you will not be able to flash firmware.
+After you are done flashing firmware, close the connection with a jumper again.**
+
 The following libraries are required to compile the firmware:
 
 - `RCSwitch`

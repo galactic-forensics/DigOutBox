@@ -37,6 +37,7 @@ however, it is not used in the current version of the firmware.
  | USB cable              | 1        | USB male A - male B     | [Link](https://www.digikey.com/en/products/detail/micro-connectors-inc/E07-121BLB/16353389)                                                                                                               |
 | Mega Proto Shield      | 1        | Shield for Arduino Mega | [Link](https://www.digikey.com/en/products/detail/dfrobot/DFR0016/7087126)                                                                                                                                |
 | 433 MHz RF receiver    | 1        | 433 MHz RF receiver     | [Link](https://www.digikey.com/en/products/detail/rf-solutions/QAM-RX10-433/6235156)                                                                                                                      |
+| Capacitor              | 1        | 1 - 10 µF               | [Link](https://www.digikey.com/en/products/detail/kyocera-avx/M39014-02-1415V/3451965)                                                                                                                    |
  | Remote control         | 1-2      | Bestten 433.92 MHz      | [Link](https://ibestten.com/products/wireless-remote-controller-compatible-with-bestten-remote-control-outlet-easy-to-program-5-channels-self-learning-code-12v-23a-battery-included-white)               |
 | DB-9 connector         | 1        | DB-9 connector          | [Link](https://www.digikey.com/en/products/detail/mh-connectors/MHDB9SS/16983851)                                                                                                                         |
  | DB-9 hardware          | 1        | D-Sub Hardware Set      | [Link](https://www.digikey.com/en/products/detail/adam-tech/HDW-023/9831277)                                                                                                                              |
@@ -88,32 +89,51 @@ after the components have been installed and tested!
 1. Run the M3 tap through the holes in the bottom of the case.
 2. Screw the standoffs into the holes on the bottom.
    If the standoffs are too long, you can cut them down to the desired length.
-3. Mount the DB-9 connector to the case and tighten it.
-4. Mount the BNC connectors to the case and tighten them.
-5. Mount the LED holders to the case and tighten them.
-6. Add the LEDs to the LED holders.
+3. Screw the Arduino with two short mounting screws to the standoffs (see picture below).
+
+   [![Arduino mounted](../images/arduino_screwed_in_small.jpeg)](../images/arduino_screwed_in.jpeg)
+
+4. Mount the DB-9 connector to the case and tighten it.
+5. Mount the BNC connectors to the case and tighten them.
+6. Mount the LED holders to the case and tighten them.
+7. Add the LEDs to the LED holders.
 
 ### Assembly of the electronics
 
 1. Solder the headers that connect the proto shield to the Arduino to the proto shield (blue markings).
 2. Solder the reset button onto the proto shield (if you want to use the reset button) (yellow marking).
 3. Solder additional headers to the proto shield, see green (ground headers) and red markings (pin headers) in picture below.
+
    [![Proto shield with headers](../images/proto_shield_marked_small.jpeg)](../images/proto_shield_marked.jpeg)
+
 4. Solder the RF receiver to the proto shield. Anywhere on the proto shield is fine.
    1. Connect the `Vcc` pin of the RF receiver to the `5V` line on the proto shield.
    2. Connect the ground pin of the RF receiver to the ground line on the proto shield.
    3. Connect the `Data` pin of the RF receiver to pin `2` on the proto shield: This is interrupt 0.
-      [![RF receiver](../images/rf_connections_small.jpeg)](../images/rf_connections.jpeg)
-      Note that the blue (data) and red (5V) boxes show connections made on the bottom of the proto shield.
-      The ground connection (leftmost) is directly connected to the ground line on the proto shield.
-5. Solder all the  LED cathodes together and add a wire that can plug into the proto shield (see image below).
-6. Solder all the grounds of the BNC connectors together and add a wire that can plug into the proto shield (see image below).
-7. Solder DB-9 pin 9 to the ground line on the proto shield (see image below).
-8. Solder the anodes of the LED's each to its individual line that can be plugged into the proto shield.
+
+   [![RF receiver](../images/rf_connections_small.jpeg)](../images/rf_connections.jpeg)
+
+   Note that the blue (data) and red (5V) boxes show connections made on the bottom of the proto shield.
+   The ground connection (leftmost) is directly connected to the ground line on the proto shield.
+5. Solder the capacitor and a jumper via between the reset pin and ground.
+
+   [![Reset connection](../images/reset_pin_connection_small.jpeg)](../images/reset_pin_connection.jpeg)
+
+   Note that the yellow markings show connections that are done underneath. The red marking show the jumper position.
+   When flashing firmware to the Arduino, this connection must be opened, when running the box, this connection should be closed.
+6. Solder all the  LED cathodes together and add a wire that can plug into the proto shield (see image below).
+7. Solder all the grounds of the BNC connectors together and add a wire that can plug into the proto shield (see image below).
+8. Solder DB-9 pin 9 to the ground line on the proto shield (see image below).
+9. Solder the anodes of the LED's each to its individual line that can be plugged into the proto shield.
+
    [![LEDs](../images/led_connections_small.jpeg)](../images/led_connections.jpeg)
-9. Solder each BNC plug to its individual line that can be plugged into the proto shield.
-   [![BNC connectors](../images/bnc_connections_small.jpeg)](../images/bnc_connections.jpeg)
-10. Solder pins 1 through 8 of the DB-9 connector to the individual lines that can be plugged into the proto shield.
+
+10. Solder each BNC plug to its individual line that can be plugged into the proto shield.
+
+    [![BNC connectors](../images/bnc_connections_small.jpeg)](../images/bnc_connections.jpeg)
+
+11. Solder pins 1 through 8 of the DB-9 connector to the individual lines that can be plugged into the proto shield.
+
     [![DB-9 connector](../images/db9_connections_small.jpeg)](../images/db9_connections.jpeg)
 
 Now you are ready to connect all your components to the proto shield and assemble the box.
@@ -125,7 +145,9 @@ Here, `xlsx` files provide pin outs for various serial number numbers.
 Each file goes with its respective `.h` file, which contains the configuration for the firmware
 (discussed below).
 
-Your finished box should look inside something like this:
+Your finished box should look inside something like this
+(however, here the reset pin ground connection via a capacitor is missing):
+
 [![Finished box](../images/gfl002_inside_small.jpeg)](../images/gfl002_inside.jpeg)
 
 *Tip*: If you bought the male-male wires from the recommended link,
@@ -137,3 +159,12 @@ The same is the case for the wires of the BNC and DB-9 connectors,
 see also the photo of our overall assemble [here](../README.md).
 
 Once everything is plugged in, move on to the section on [firmware](../firmware/README.md).
+
+## Jumper settings
+
+The jumper serves to connect the reset pin of the Arduino via a capacitor to ground.
+Firmware can only be flashed when this connection is open (jumper removed).
+However, if you want to control your DigOutBox from the computer with the provided software,
+you should close this jumper (jumper inserted).
+Otherwise, the Arduino will restart whenever you (re-)establish the serial connection.
+This means that all digital outputs will go to their off state and all LEDs will turn off.
