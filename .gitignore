@@ -135,3 +135,6 @@ dmypy.json
 # PyCharm
 .idea
 .theia
+
+# fbs
+!controller/src/build
