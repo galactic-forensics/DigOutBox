@@ -7,14 +7,14 @@ from qtpy import QtWidgets
 from utils import check_channels
 
 
-class ChannelSetup(QtWidgets.QMainWindow):
+class ChannelSetup(QtWidgets.QDialog):
     """Channel setup.
 
     This window is used to set up channels for the DigOutBox Controller.
     It will also pre-populate already configured channels for editing.
 
     The window consists of a tab widget with a tab for each channel.
-    Each tab has a name, a hardware channel, and an inverted state.
+    Each tab has a name, a hardware channel, and an display section.
 
     If cancel is hit, the window is simply closed and nothing is returned.
     If save is hit, the dictionary of all channels is checked for consistency and
@@ -45,10 +45,6 @@ class ChannelSetup(QtWidgets.QMainWindow):
         self._check_channels()
 
         self.kwargs = kwargs
-
-        # central widget
-        self.central_widdget = QtWidgets.QWidget()
-        self.setCentralWidget(self.central_widdget)
 
         # layout for central widget
         central_layout = QtWidgets.QVBoxLayout()
@@ -81,7 +77,7 @@ class ChannelSetup(QtWidgets.QMainWindow):
 
         central_layout.addLayout(bottom_layout)
 
-        self.central_widdget.setLayout(central_layout)
+        self.setLayout(central_layout)
 
         if self.channels == {}:
             self.add_tab()
@@ -128,7 +124,6 @@ class ChannelSetup(QtWidgets.QMainWindow):
         {
             "channel_name": {
                 "hw_channel": "A",
-                "inverted": False
                 "section": "individual"
             }
         }
@@ -167,7 +162,6 @@ class ChannelSetup(QtWidgets.QMainWindow):
 
             channel_dict[channel_name] = {
                 "hw_channel": channel_hw_channel,
-                "inverted": channel_data["inverted"],
             }
 
             channel_dict[channel_name]["section"] = channel_section
@@ -186,7 +180,7 @@ class ChannelSetup(QtWidgets.QMainWindow):
         channel_dict = dict(sorted(channel_dict.items()))
 
         self.channels = channel_dict
-        self.close()
+        super().accept()
 
     def _change_tab_name(self, name: str = None) -> None:
         """Change the name of the current tab to the given name."""
@@ -253,19 +247,6 @@ class ChannelWidget(QtWidgets.QWidget):
         hw_channel_layout.addWidget(self.hw_channel_combo_box)
         central_layout.addLayout(hw_channel_layout)
 
-        # Add true/false for "Inverted" state and set to false by default.
-        inverted_layout = QtWidgets.QHBoxLayout()
-        inverted_label = QtWidgets.QLabel("Inverted")
-        self.inverted_checkbox = QtWidgets.QCheckBox()
-        self.inverted_checkbox.setChecked(False)
-        self.inverted_checkbox.setToolTip(
-            "Do you want to invert this channel? False/unchecked by default."
-        )
-        inverted_layout.addWidget(inverted_label)
-        inverted_layout.addStretch()
-        inverted_layout.addWidget(self.inverted_checkbox)
-        central_layout.addLayout(inverted_layout)
-
         # Radio button group for Display Section with entries "individual" and "grouped"
         display_section_layout = QtWidgets.QHBoxLayout()
         display_section_label = QtWidgets.QLabel("Display Section")
@@ -315,7 +296,6 @@ class ChannelWidget(QtWidgets.QWidget):
         return {
             "name": self.name,
             "hw_channel": self.hw_channel,
-            "inverted": self.inverted,
             "section": self.section,
         }
 
@@ -362,16 +342,6 @@ class ChannelWidget(QtWidgets.QWidget):
         self.hw_channel_combo_box.setCurrentText(value)
 
     @property
-    def inverted(self) -> bool:
-        """Get the inverted state of the channel."""
-        return self.inverted_checkbox.isChecked()
-
-    @inverted.setter
-    def inverted(self, value):
-        """Set the inverted state of the channel."""
-        self.inverted_checkbox.setChecked(value)
-
-    @property
     def section(self) -> str:
         """Get the display section of the channel."""
         return (
@@ -399,7 +369,6 @@ class ChannelWidget(QtWidgets.QWidget):
         """
         hw_channel = values["hw_channel"]
         self.hw_channel = values["hw_channel"]
-        self.inverted = values["inverted"]
         self.section = values["section"]
 
         if hw_channel not in self.possible_hw_channels:
@@ -414,8 +383,8 @@ class ChannelWidget(QtWidgets.QWidget):
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])  # 1. Instantiate ApplicationContext
     channel_dict = {
-        "Alfred": {"hw_channel": "A", "inverted": False, "section": "individual"},
-        "Bob": {"hw_channel": "B", "inverted": True, "section": "grouped"},
+        "Alfred": {"hw_channel": "A", "section": "individual"},
+        "Bob": {"hw_channel": "B", "section": "grouped"},
     }
     window = ChannelSetup(channels=channel_dict)
     window.show()

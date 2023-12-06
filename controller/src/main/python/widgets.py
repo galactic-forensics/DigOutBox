@@ -14,19 +14,14 @@ class ChannelAndGroupWidget(QtWidgets.QWidget):
         cmd_on: str,
         cmd_off: str,
         parent=None,
-        inverted: bool = False,
         is_on: bool = None,
     ):
         """Initialize the channel widget.
-
-        If the channel is inverted, the `cmd_off` will be sent for in the turn on button
-        and vice versa.
 
         :param channel: Channel name.
         :param cmd_on: Command to turn the channel on.
         :param cmd_off: Command to turn the channel off.
         :param parent: Parent widget.
-        :param inverted: Whether the channel is inverted.
         :param is_on: Whether the channel is currently on.
         """
         super().__init__(parent=parent)
@@ -34,7 +29,6 @@ class ChannelAndGroupWidget(QtWidgets.QWidget):
         self.channel = channel
         self.cmd_on = cmd_on
         self.cmd_off = cmd_off
-        self.inverted = inverted
 
         self.init_ui()
 
@@ -98,9 +92,9 @@ class ChannelAndGroupWidget(QtWidgets.QWidget):
         :param state: Whether to turn the channel on or off.
         """
         if state:  # turn on
-            cmd = self.cmd_on if not self.inverted else self.cmd_off
+            cmd = self.cmd_on
         else:  # turn off
-            cmd = self.cmd_off if not self.inverted else self.cmd_on
+            cmd = self.cmd_off
 
         # todo send command to parent
         print(cmd)

@@ -11,7 +11,7 @@ def check_channels(channels: dict) -> bool:
                 return False
             if not isinstance(channels[channel]["hw_channel"], str):
                 return False
-            if not isinstance(channels[channel]["inverted"], bool):
+            if not isinstance(channels[channel]["section"], str):
                 return False
     except KeyError or IndexError:
         return False
