@@ -14,6 +14,7 @@ class ChannelAndGroupWidget(QtWidgets.QWidget):
         cmd_on: str,
         cmd_off: str,
         parent=None,
+        controller=None,
         is_on: bool = None,
     ):
         """Initialize the channel widget.
@@ -29,6 +30,7 @@ class ChannelAndGroupWidget(QtWidgets.QWidget):
         self.channel = channel
         self.cmd_on = cmd_on
         self.cmd_off = cmd_off
+        self.controller = controller
 
         self.init_ui()
 
@@ -68,9 +70,8 @@ class ChannelAndGroupWidget(QtWidgets.QWidget):
         self.off_button.clicked.connect(self.off_button_clicked)
 
         layout = QtWidgets.QHBoxLayout()
-        layout.addWidget(self.name_label)
-        layout.addStretch()
         layout.addWidget(self.status_indicator)
+        layout.addWidget(self.name_label)
         layout.addStretch()
         layout.addWidget(self.on_button)
         layout.addWidget(self.off_button)
@@ -96,8 +97,7 @@ class ChannelAndGroupWidget(QtWidgets.QWidget):
         else:  # turn off
             cmd = self.cmd_off
 
-        # todo send command to parent
-        print(cmd)
+        self.controller.send_command(cmd)
 
     def set_status(self):
         """Set the font color depending on the channel status."""

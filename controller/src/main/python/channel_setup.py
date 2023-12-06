@@ -301,7 +301,10 @@ class ChannelWidget(QtWidgets.QWidget):
 
     @property
     def hardcoded_channels(self) -> list:
-        """Return a list of hardcoded hardware channels."""
+        """Return a list of hardcoded hardware channels.
+
+        These are channels that are numbered from 0 to 15 in the hardware.
+        """
         return [
             "A",
             "B",

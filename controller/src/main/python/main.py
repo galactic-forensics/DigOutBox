@@ -21,11 +21,12 @@ except ImportError:
     ApplicationContext = None
     fbsrt_platform = None
 
+import json
 from pathlib import Path
 import sys
 import warnings
 
-from qtpy import QtGui, QtWidgets
+from qtpy import QtGui, QtWidgets, QtCore
 
 from channel_setup import ChannelSetup
 from widgets import ChannelAndGroupWidget
@@ -49,17 +50,14 @@ class DigOutBoxController(QtWidgets.QMainWindow):
 
         # statusbar
         self.statusbar = self.statusBar()
-        self.statusbartime = 1000  # time in ms to display messages
+        self.statusbartime = 3000  # time in ms to display messages
         self.setStatusBar(self.statusbar)
 
         # init GUI
         self.init_menubar()
 
         # load config and settings
-        self._channels = {
-            "Alfred": {"hw_channel": "A", "section": "individual"},
-            "Bob": {"hw_channel": "B", "section": "grouped"},
-        }
+        self._channels = {}
         self.channel_widgets_individual = None
         self.channel_widgets_grouped = None
         self.load_file()
@@ -170,11 +168,11 @@ class DigOutBoxController(QtWidgets.QMainWindow):
 
         all_on_button = QtWidgets.QPushButton("All On")
         all_on_button.setToolTip("Turn all channels on")
-        all_on_button.clicked.connect(lambda: self.set_all_channels(on=True))
+        all_on_button.clicked.connect(lambda: self.set_all_channels(state=True))
 
         all_off_button = QtWidgets.QPushButton("All Off")
         all_off_button.setToolTip("Turn all channels off")
-        all_off_button.clicked.connect(lambda: self.set_all_channels(on=False))
+        all_off_button.clicked.connect(lambda: self.set_all_channels(state=False))
 
         all_on_off_layout.addWidget(all_on_button)
         all_on_off_layout.addWidget(all_off_button)
@@ -192,7 +190,9 @@ class DigOutBoxController(QtWidgets.QMainWindow):
             self,
             "About DigOutBoxController",
             "DigOutBoxController is a GUI for the DigOutBox.\n\n"
-            "It is written in Python and uses PyQt6.\n\n",
+            "Help can be found on GitHub:\n"
+            "https://github.com/galactic-forensics/DigOutBox\n\n"
+            "If you have issues, please report them on GitHub.\n",
         )
 
     def config_channels(self):
@@ -201,6 +201,7 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         if dialog.exec():
             self._channels = dialog.channels
             self.load_channels()
+            self.save()
         else:
             print("None")
 
@@ -218,8 +219,9 @@ class DigOutBoxController(QtWidgets.QMainWindow):
                 self.channel_widgets_individual.append(
                     ChannelAndGroupWidget(
                         channel=key,
-                        cmd_on="on",
-                        cmd_off="off",
+                        cmd_on="on",  # fixme
+                        cmd_off="off",  # fixme
+                        controller=self,
                         is_on=None,
                     )
                 )
@@ -227,8 +229,9 @@ class DigOutBoxController(QtWidgets.QMainWindow):
                 self.channel_widgets_grouped.append(
                     ChannelAndGroupWidget(
                         channel=key,
-                        cmd_on="on",
-                        cmd_off="off",
+                        cmd_on="on",  # fixme
+                        cmd_off="off",  # fixme
+                        controller=self,
                         is_on=None,
                     )
                 )
@@ -239,28 +242,55 @@ class DigOutBoxController(QtWidgets.QMainWindow):
 
         :param ask_fname: Whether to ask for a filename or not.
         """
+        if ask_fname:
+            # todo
+            pass
+        else:  # load default configuration file
+            fin = self.app_local_path.joinpath("config.json")
+            if fin.exists():
+                with open(fin) as f:
+                    self._channels = json.load(f)
+            else:
+                self.statusbar.showMessage(
+                    f"Could not find {fin}. Starting with empty configuration.",
+                    self.statusbartime,
+                )
         self.load_channels()
 
     def save(self, ask_fname: bool = False):
-        """Save the current settings and configuration to default json file.
+        """Save the current configuration to default json file.
 
         :param ask_fname: Whether to ask for a filename or not.
         """
-        print("save")
+        fout = self.app_local_path.joinpath("config.json")
 
-    def set_all_channels(self, on: bool = True):
-        """Set all channels to the same state.
+        with open(fout, "w") as f:
+            json.dump(self._channels, f, indent=4)
 
-        :param on: Whether to turn the channels on or off.
+        self.statusbar.showMessage(f"Saved configuration to {fout}", self.statusbartime)
+
+    def send_command(self, cmd: str):
+        """Send a command to the DigOutBox.
+
+        Command will automatically be terminated with `\n` if not already present.
+
+        :param cmd: Command to send.
         """
-        for ch in self.channel_widgets_individual:
-            ch.is_on = on
-        for ch in self.channel_widgets_grouped:
-            ch.is_on = on
+        # todo
+        print(cmd)
 
     def settings(self):
         """Configure the settings."""
+        # todo
         pass
+
+    def set_all_channels(self, state: bool):
+        """Turn all channels on or off."""
+        for ch in self.channel_widgets_individual:
+            ch.is_on = state
+        for ch in self.channel_widgets_grouped:
+            ch.is_on = state
+        # todo: send command
 
 
 if __name__ == "__main__":
