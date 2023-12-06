@@ -207,6 +207,7 @@ class DigOutBoxController(QtWidgets.QMainWindow):
 
     def config_groups(self):
         """Configure the groups."""
+        # todo
         pass
 
     def load_channels(self):
@@ -219,20 +220,18 @@ class DigOutBoxController(QtWidgets.QMainWindow):
                 self.channel_widgets_individual.append(
                     ChannelAndGroupWidget(
                         channel=key,
-                        cmd_on="on",  # fixme
-                        cmd_off="off",  # fixme
+                        cmd_on=f"{key} on",  # fixme
+                        cmd_off=f"{key} off",  # fixme
                         controller=self,
-                        is_on=None,
                     )
                 )
             elif self._channels[key]["section"] == "grouped":
                 self.channel_widgets_grouped.append(
                     ChannelAndGroupWidget(
                         channel=key,
-                        cmd_on="on",  # fixme
-                        cmd_off="off",  # fixme
+                        cmd_on=f"{key} on",  # fixme
+                        cmd_off=f"{key} off",  # fixme
                         controller=self,
-                        is_on=None,
                     )
                 )
         self.build_ui()
