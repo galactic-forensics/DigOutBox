@@ -129,6 +129,7 @@ class ChannelSetup(QtWidgets.QMainWindow):
             "channel_name": {
                 "hw_channel": "A",
                 "inverted": False
+                "section": "individual"
             }
         }
 
@@ -144,6 +145,7 @@ class ChannelSetup(QtWidgets.QMainWindow):
             channel_data = self.tab_widget.widget(i).data
             channel_name = channel_data["name"]
             channel_hw_channel = channel_data["hw_channel"]
+            channel_section = channel_data["section"]
 
             # check if channel name is empty
             if channel_name == "":
@@ -168,6 +170,8 @@ class ChannelSetup(QtWidgets.QMainWindow):
                 "inverted": channel_data["inverted"],
             }
 
+            channel_dict[channel_name]["section"] = channel_section
+
         # check if hardware channel is duplicated
         hw_channels = [channel_dict[channel]["hw_channel"] for channel in channel_dict]
         if len(hw_channels) != len(set(hw_channels)):
@@ -177,6 +181,9 @@ class ChannelSetup(QtWidgets.QMainWindow):
                 f"Two or more channels have the same hardware channel.",
             )
             return None
+
+        # sort the dictionary alphabetically by key
+        channel_dict = dict(sorted(channel_dict.items()))
 
         self.channels = channel_dict
         self.close()
@@ -259,6 +266,44 @@ class ChannelWidget(QtWidgets.QWidget):
         inverted_layout.addWidget(self.inverted_checkbox)
         central_layout.addLayout(inverted_layout)
 
+        # Radio button group for Display Section with entries "individual" and "grouped"
+        display_section_layout = QtWidgets.QHBoxLayout()
+        display_section_label = QtWidgets.QLabel("Display Section")
+        display_section_label.setToolTip(
+            "Which section of the GUI should this channel be displayed in?\n"
+            "Individual: Display channel on the left\n"
+            "Grouped: Display channel on the right"
+        )
+        self.display_section_radio_button_group = QtWidgets.QButtonGroup()
+        self.display_section_radio_button_individual = QtWidgets.QRadioButton(
+            "individual"
+        )
+        self.display_section_radio_button_individual.setToolTip(
+            "Display channel on the left"
+        )
+        self.display_section_radio_button_grouped = QtWidgets.QRadioButton("grouped")
+        self.display_section_radio_button_grouped.setToolTip(
+            "Display channel on the right"
+        )
+        self.display_section_radio_button_group.addButton(
+            self.display_section_radio_button_individual
+        )
+        self.display_section_radio_button_individual.setChecked(True)
+        self.display_section_radio_button_group.setId(
+            self.display_section_radio_button_individual, 0
+        )
+        self.display_section_radio_button_group.addButton(
+            self.display_section_radio_button_grouped
+        )
+        self.display_section_radio_button_group.setId(
+            self.display_section_radio_button_grouped, 1
+        )
+        display_section_layout.addWidget(display_section_label)
+        display_section_layout.addStretch()
+        display_section_layout.addWidget(self.display_section_radio_button_individual)
+        display_section_layout.addWidget(self.display_section_radio_button_grouped)
+        central_layout.addLayout(display_section_layout)
+
         self.setLayout(central_layout)
 
         if values is not None:
@@ -268,9 +313,10 @@ class ChannelWidget(QtWidgets.QWidget):
     def data(self) -> dict:
         """Return the data of the channel."""
         return {
-            "name": self.name_line_edit.text(),
-            "hw_channel": self.hw_channel_combo_box.currentText(),
-            "inverted": self.inverted_checkbox.isChecked(),
+            "name": self.name,
+            "hw_channel": self.hw_channel,
+            "inverted": self.inverted,
+            "section": self.section,
         }
 
     @property
@@ -325,6 +371,22 @@ class ChannelWidget(QtWidgets.QWidget):
         """Set the inverted state of the channel."""
         self.inverted_checkbox.setChecked(value)
 
+    @property
+    def section(self) -> str:
+        """Get the display section of the channel."""
+        return (
+            "individual"
+            if self.display_section_radio_button_individual.isChecked()
+            else "grouped"
+        )
+
+    @section.setter
+    def section(self, value):
+        if value == "grouped":
+            self.display_section_radio_button_grouped.setChecked(True)
+        else:
+            self.display_section_radio_button_individual.setChecked(True)
+
     def name_edited(self):
         """Update the name of the channel and send out a signal to update tab name."""
         name = self.name_line_edit.text()
@@ -338,6 +400,7 @@ class ChannelWidget(QtWidgets.QWidget):
         hw_channel = values["hw_channel"]
         self.hw_channel = values["hw_channel"]
         self.inverted = values["inverted"]
+        self.section = values["section"]
 
         if hw_channel not in self.possible_hw_channels:
             QtWidgets.QMessageBox.warning(
@@ -351,8 +414,8 @@ class ChannelWidget(QtWidgets.QWidget):
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])  # 1. Instantiate ApplicationContext
     channel_dict = {
-        "Alfred": {"hw_channel": "A", "inverted": False},
-        "Bob": {"hw_channel": "B", "inverted": True},
+        "Alfred": {"hw_channel": "A", "inverted": False, "section": "individual"},
+        "Bob": {"hw_channel": "B", "inverted": True, "section": "grouped"},
     }
     window = ChannelSetup(channels=channel_dict)
     window.show()
