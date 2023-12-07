@@ -52,16 +52,20 @@ class DigIOBoxComm(DevComm):
         def state(self, value: bool) -> None:
             self._parent.sendcmd(f"DO{self._idx} {int(value)}")
 
-    def __init__(self, port: str, baudrate: int = 9600, timeout: int = 3):
+    def __init__(
+        self, port: str, baudrate: int = 9600, timeout: int = 3, dummy: bool = False
+    ):
         """Initialize the class.
 
         :param port: Port to find device on.
         :param baudrate: Baud rate to connect with.
         :param timeout: Timeout in seconds.
+        :param dummy: Do not communicate over serial but print send and use dummy values for receive.
         """
+        self.dummy = dummy
         self._num_channels = 16
 
-        super().__init__(port, baudrate=baudrate, timeout=timeout)
+        super().__init__(port, baudrate=baudrate, timeout=timeout, dummy=dummy)
 
     # PROPERTIES #
 
@@ -80,6 +84,8 @@ class DigIOBoxComm(DevComm):
     @property
     def identify(self):
         """Get firmware version of box."""
+        if self.dummy:
+            return "Dummy"
         return self.query("*IDN?")
 
     @property

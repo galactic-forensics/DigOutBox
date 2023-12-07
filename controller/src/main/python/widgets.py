@@ -4,6 +4,8 @@ from typing import Union
 
 from qtpy import QtCore, QtGui, QtWidgets
 
+from controller_cli import DigIOBoxComm
+
 
 class ChannelAndGroupWidget(QtWidgets.QWidget):
     """Channel and group widget that allows to turn an individual channel on or off."""
@@ -11,8 +13,8 @@ class ChannelAndGroupWidget(QtWidgets.QWidget):
     def __init__(
         self,
         channel: str,
-        cmd_on: str,
-        cmd_off: str,
+        hw_channel: list[str],
+        comm: DigIOBoxComm,
         parent=None,
         controller=None,
         is_on: bool = None,
@@ -20,16 +22,16 @@ class ChannelAndGroupWidget(QtWidgets.QWidget):
         """Initialize the channel widget.
 
         :param channel: Channel name.
-        :param cmd_on: Command to turn the channel on.
-        :param cmd_off: Command to turn the channel off.
+        :param hw_channel: List of hardware channels, e.g. ["7", "10"] or ["3"] for a singel channel.
+        :param comm: Communication object.
         :param parent: Parent widget.
         :param is_on: Whether the channel is currently on.
         """
         super().__init__(parent=parent)
 
         self.channel = channel
-        self.cmd_on = cmd_on
-        self.cmd_off = cmd_off
+        self.hw_channel = hw_channel
+        self.comm = comm
         self.controller = controller
 
         self.init_ui()
@@ -79,29 +81,26 @@ class ChannelAndGroupWidget(QtWidgets.QWidget):
 
     def on_button_clicked(self):
         """Handle the on button click."""
-        self.send_cmd(True)
         self.is_on = True
 
     def off_button_clicked(self):
         """Handle the off button click."""
-        self.send_cmd(False)
         self.is_on = False
-
-    def send_cmd(self, state: bool):
-        """Send the command to the controller.
-
-        :param state: Whether to turn the channel on or off.
-        """
-        if state:  # turn on
-            cmd = self.cmd_on
-        else:  # turn off
-            cmd = self.cmd_off
-
-        self.controller.send_command(cmd)
 
     def set_status(self):
         """Set the font color depending on the channel status."""
         self.status_indicator.set_status(self.is_on)
+
+        # send command
+        if self.is_on is not None:
+            for it in self.hw_channel:
+                ch = self.comm.channel[it]
+                ch.state = self.is_on
+
+    def set_status_custom(self, state: bool):
+        """Set the status light without sending any commands."""
+        self.status_indicator.set_status(state)
+        self._is_on = state
 
 
 class StatusIndicator(QtWidgets.QWidget):

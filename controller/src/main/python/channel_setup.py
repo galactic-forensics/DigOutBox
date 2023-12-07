@@ -14,7 +14,7 @@ class ChannelSetup(QtWidgets.QDialog):
     It will also pre-populate already configured channels for editing.
 
     The window consists of a tab widget with a tab for each channel.
-    Each tab has a name, a hardware channel, and an display section.
+    Each tab has a name, a hardware channel, and a display section.
 
     If cancel is hit, the window is simply closed and nothing is returned.
     If save is hit, the dictionary of all channels is checked for consistency and
@@ -123,7 +123,7 @@ class ChannelSetup(QtWidgets.QDialog):
         Loop through all the tabs, get the data, and create a dictionary in the style:
         {
             "channel_name": {
-                "hw_channel": "A",
+                "hw_channel": 0,
                 "section": "individual"
             }
         }
@@ -295,7 +295,7 @@ class ChannelWidget(QtWidgets.QWidget):
         """Return the data of the channel."""
         return {
             "name": self.name,
-            "hw_channel": self.hw_channel,
+            "hw_channel": self.possible_hw_channels.index(self.hw_channel),
             "section": self.section,
         }
 
@@ -303,7 +303,8 @@ class ChannelWidget(QtWidgets.QWidget):
     def hardcoded_channels(self) -> list:
         """Return a list of hardcoded hardware channels.
 
-        These are channels that are numbered from 0 to 15 in the hardware.
+        These are channels that are numbered from 0 to 15 in the hardware and must appear in order.
+        Furthermore, the hardcoded channels work for the first two boxes, but should not be used in production.
         """
         return [
             "A",
@@ -340,7 +341,7 @@ class ChannelWidget(QtWidgets.QWidget):
         return self.hw_channel_combo_box.currentText()
 
     @hw_channel.setter
-    def hw_channel(self, value):
+    def hw_channel(self, value: str):
         """Set the hardware channel of the channel."""
         self.hw_channel_combo_box.setCurrentText(value)
 
@@ -370,8 +371,8 @@ class ChannelWidget(QtWidgets.QWidget):
 
         A warning is emitted if the hardware channel is not in the list of hw channels.
         """
-        hw_channel = values["hw_channel"]
-        self.hw_channel = values["hw_channel"]
+        hw_channel = self.possible_hw_channels[values["hw_channel"]]
+        self.hw_channel = hw_channel
         self.section = values["section"]
 
         if hw_channel not in self.possible_hw_channels:
@@ -386,8 +387,8 @@ class ChannelWidget(QtWidgets.QWidget):
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])  # 1. Instantiate ApplicationContext
     channel_dict = {
-        "Alfred": {"hw_channel": "A", "section": "individual"},
-        "Bob": {"hw_channel": "B", "section": "grouped"},
+        "Alfred": {"hw_channel": 0, "section": "individual"},
+        "Bob": {"hw_channel": 1, "section": "grouped"},
     }
     window = ChannelSetup(channels=channel_dict)
     window.show()

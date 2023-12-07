@@ -9,7 +9,7 @@ def check_channels(channels: dict) -> bool:
         for channel in channels:
             if not isinstance(channel, str):
                 return False
-            if not isinstance(channels[channel]["hw_channel"], str):
+            if not isinstance(channels[channel]["hw_channel"], int):
                 return False
             if not isinstance(channels[channel]["section"], str):
                 return False

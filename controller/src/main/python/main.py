@@ -28,6 +28,7 @@ import warnings
 
 from qtpy import QtGui, QtWidgets, QtCore
 
+from controller_cli import DigIOBoxComm
 from channel_setup import ChannelSetup
 from widgets import ChannelAndGroupWidget
 
@@ -38,15 +39,21 @@ class DigOutBoxController(QtWidgets.QMainWindow):
 
         :param is_windows: Whether the current platform is windows.
         """
+        # communicate with a dummy device (i.e., no device) -> set to true
+        self.dummy = True  # todo set to False
+
         super().__init__(parent=None)
 
-        self.setWindowTitle("DigOutBoxController")
+        self.setWindowTitle("DigOutBox Controller")
         self.resize(250, 150)
 
         self.is_windows = is_windows
 
         self.app_local_path = None
         self.init_local_profile()
+
+        # communication handler
+        self.comm = None
 
         # statusbar
         self.statusbar = self.statusBar()
@@ -56,11 +63,19 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         # init GUI
         self.init_menubar()
 
+        # init communication
+        self.init_comm()
+
         # load config and settings
         self._channels = {}
         self.channel_widgets_individual = None
         self.channel_widgets_grouped = None
         self.load_file()
+
+    def init_comm(self):
+        """Initiate communication with the DigOutBox."""
+        # fixme
+        self.comm = DigIOBoxComm("/dev/ttyACM1", dummy=self.dummy)
 
     def init_local_profile(self):
         """Initialize a user's local profile, platform dependent."""
@@ -188,11 +203,12 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         """Show the about dialog."""
         QtWidgets.QMessageBox.about(
             self,
-            "About DigOutBoxController",
-            "DigOutBoxController is a GUI for the DigOutBox.\n\n"
-            "Help can be found on GitHub:\n"
-            "https://github.com/galactic-forensics/DigOutBox\n\n"
-            "If you have issues, please report them on GitHub.\n",
+            f"About DigOutBoxController",
+            f"DigOutBoxController is a GUI for the DigOutBox.\n\n"
+            f"Help can be found on GitHub:\n"
+            f"https://github.com/galactic-forensics/DigOutBox\n\n"
+            f"If you have issues, please report them on GitHub.\n\n"
+            f"{self.comm.identify}",
         )
 
     def config_channels(self):
@@ -220,8 +236,8 @@ class DigOutBoxController(QtWidgets.QMainWindow):
                 self.channel_widgets_individual.append(
                     ChannelAndGroupWidget(
                         channel=key,
-                        cmd_on=f"{key} on",  # fixme
-                        cmd_off=f"{key} off",  # fixme
+                        hw_channel=[self._channels[key]["hw_channel"]],
+                        comm=self.comm,
                         controller=self,
                     )
                 )
@@ -229,11 +245,12 @@ class DigOutBoxController(QtWidgets.QMainWindow):
                 self.channel_widgets_grouped.append(
                     ChannelAndGroupWidget(
                         channel=key,
-                        cmd_on=f"{key} on",  # fixme
-                        cmd_off=f"{key} off",  # fixme
+                        hw_channel=[self._channels[key]["hw_channel"]],
+                        comm=self.comm,
                         controller=self,
                     )
                 )
+            # todo: routine to define groups of channels
         self.build_ui()
 
     def load_file(self, ask_fname: bool = False):
@@ -268,16 +285,6 @@ class DigOutBoxController(QtWidgets.QMainWindow):
 
         self.statusbar.showMessage(f"Saved configuration to {fout}", self.statusbartime)
 
-    def send_command(self, cmd: str):
-        """Send a command to the DigOutBox.
-
-        Command will automatically be terminated with `\n` if not already present.
-
-        :param cmd: Command to send.
-        """
-        # todo
-        print(cmd)
-
     def settings(self):
         """Configure the settings."""
         # todo
@@ -285,11 +292,17 @@ class DigOutBoxController(QtWidgets.QMainWindow):
 
     def set_all_channels(self, state: bool):
         """Turn all channels on or off."""
-        for ch in self.channel_widgets_individual:
-            ch.is_on = state
-        for ch in self.channel_widgets_grouped:
-            ch.is_on = state
-        # todo: send command
+        if state:
+            for ch in self.channel_widgets_individual:
+                ch.is_on = state
+            for ch in self.channel_widgets_grouped:
+                ch.is_on = state
+        else:
+            self.comm.all_off()
+            for ch in self.channel_widgets_individual:
+                ch.set_status_custom(False)
+            for ch in self.channel_widgets_grouped:
+                ch.set_status_custom(False)
 
 
 if __name__ == "__main__":

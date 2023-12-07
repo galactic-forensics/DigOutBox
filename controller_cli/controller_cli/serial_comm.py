@@ -8,15 +8,22 @@ import serial
 class DevComm:
     """Class to communicate with the Arduino."""
 
-    def __init__(self, port: str, baudrate: int = 9600, timeout: int = 3) -> None:
+    def __init__(
+        self, port: str, baudrate: int = 9600, timeout: int = 3, dummy: bool = False
+    ) -> None:
         """Initialize communication with the device.
 
         :param port: Port to communicate over.
         :param baudrate: Baud rate to communicate at.
         :param timeout: Timeout in seconds.
+        :param dummy: Do not communicate over serial but print send and use dummy values for receive.
         """
-        self.dev = serial.Serial(port=port, baudrate=baudrate, timeout=timeout)
         self.terminator = "\n"
+        self.dummy = dummy
+
+        if not dummy:
+            self.dev = serial.Serial(port=port, baudrate=baudrate, timeout=timeout)
+
         time.sleep(1)
 
     def query(self, cmd: str) -> str:
@@ -27,11 +34,17 @@ class DevComm:
         :return: Decoded answer.
         """
         self.sendcmd(cmd)
-        return self.dev.readline().decode("utf-8").rstrip()
+        if self.dummy:
+            return "0"
+        else:
+            return self.dev.readline().decode("utf-8").rstrip()
 
     def sendcmd(self, cmd: str) -> None:
         """Send a command string to the device.
 
         :param cmd: Command to send.
         """
-        self.dev.write(f"{cmd}{self.terminator}".encode())
+        if self.dummy:
+            print(f"Sending: {cmd}")
+        else:
+            self.dev.write(f"{cmd}{self.terminator}".encode())
