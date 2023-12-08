@@ -31,6 +31,7 @@ from qtpy import QtGui, QtWidgets, QtCore
 
 from controller_cli import DigIOBoxComm
 from channel_setup import ChannelSetup
+import dialogs
 from widgets import ChannelAndGroupWidget, TimerSpinBox
 
 
@@ -40,12 +41,12 @@ class DigOutBoxController(QtWidgets.QMainWindow):
 
         :param is_windows: Whether the current platform is windows.
         """
-        # communicate with a dummy device (i.e., no device) -> set to true
-        self.dummy = True  # todo set to False
-        self.dummy = False
-
         super().__init__(parent=None)
 
+        self.dummy = False
+
+        # set window properties
+        self.window_title = "DigOutBox Controller"
         self.setWindowTitle("DigOutBox Controller")
         self.resize(250, 150)
 
@@ -87,8 +88,41 @@ class DigOutBoxController(QtWidgets.QMainWindow):
 
         When the software is opened, a dialog will be shown in order to
         """
-        # fixme
-        self.comm = DigIOBoxComm("/dev/ttyACM1", dummy=self.dummy)
+        if self.settings.get("Port") is None:
+            diag = dialogs.PortDialog(self)
+            if not diag.exec():  # Cancel pressed
+                QtWidgets.QMessageBox.warning(
+                    self,
+                    "No device selected",
+                    "No device selected. Using a dummy device for demo purposes.",
+                )
+                self.dummy = True
+                self.comm = DigIOBoxComm("dummy", dummy=True)
+                self.setWindowTitle(self.window_title + " (DEMO MODE)")
+                return
+
+        # open connection and check for correct device
+        try:
+            self.comm = DigIOBoxComm(self.settings.get("Port"), dummy=self.dummy)
+            id = self.comm.identify
+            if "DigIOBox" not in id:
+                raise OSError
+        except:
+            QtWidgets.QMessageBox.warning(
+                self,
+                "Device not responding",
+                f"The device on port {self.settings.get('Port')} is not responding correctly. "
+                f"Please check that you selected the correct port and try again.",
+            )
+            self.settings.set("Port", None)
+            self.settings.save()
+            self.init_comm()
+
+        # save the port
+        self.settings.save()
+
+        # set window title
+        self.setWindowTitle(self.window_title)
 
     def init_settings_manager(self):
         """Initialize the configuration manager and load the default configuration."""
@@ -283,8 +317,7 @@ class DigOutBoxController(QtWidgets.QMainWindow):
             self._channels = dialog.channels
             self.load_channels()
             self.save()
-        else:
-            print("None")
+            self.automatic_read()
 
     def config_groups(self):
         """Configure the groups."""
@@ -324,19 +357,32 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         :param ask_fname: Whether to ask for a filename or not.
         """
         if ask_fname:
-            # todo
-            pass
+            query = QtWidgets.QFileDialog.getOpenFileName(
+                self,
+                "Open Configuration File",
+                str(self.user_folder),
+                "JSON Files (*.json)",
+            )[0]
+            if query == "":
+                return
+            fin = Path(query)
         else:  # load default configuration file
             fin = self.app_local_path.joinpath("config.json")
-            if fin.exists():
-                with open(fin) as f:
-                    self._channels = json.load(f)
-            else:
-                self.statusbar.showMessage(
-                    f"Could not find {fin}. Starting with empty configuration.",
-                    self.statusbartime,
-                )
+
+        # load the file
+        if fin.exists():
+            with open(fin) as f:
+                self._channels = json.load(f)
+        else:
+            self.statusbar.showMessage(
+                f"Could not find {fin}. Starting with empty configuration.",
+                self.statusbartime,
+            )
         self.load_channels()
+
+        if ask_fname:
+            self.automatic_read()
+            self.save()
 
     def read_all(self):
         """Read the status of all channels and set the status indicators accordingly."""
@@ -356,7 +402,19 @@ class DigOutBoxController(QtWidgets.QMainWindow):
 
         :param ask_fname: Whether to ask for a filename or not.
         """
-        fout = self.app_local_path.joinpath("config.json")
+        if ask_fname:
+            query = QtWidgets.QFileDialog.getSaveFileName(
+                self,
+                caption="Save configuration file as",
+                directory=str(self.user_folder),
+                filter="JSON Files (*.json)",
+            )
+            if query[0]:
+                fout = Path(query[0]).with_suffix(".json")
+        else:
+            fout = self.app_local_path.joinpath("config.json")
+
+        # now save the file
 
         with open(fout, "w") as f:
             json.dump(self._channels, f, indent=4)

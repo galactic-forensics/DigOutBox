@@ -60,7 +60,8 @@ class DigIOBoxComm(DevComm):
         :param port: Port to find device on.
         :param baudrate: Baud rate to connect with.
         :param timeout: Timeout in seconds.
-        :param dummy: Do not communicate over serial but print send and use dummy values for receive.
+        :param dummy: Do not communicate over serial but print send and use dummy
+            values for receive.
         """
         self.dummy = dummy
         self._num_channels = 16

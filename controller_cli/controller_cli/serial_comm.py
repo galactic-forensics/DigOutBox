@@ -16,7 +16,8 @@ class DevComm:
         :param port: Port to communicate over.
         :param baudrate: Baud rate to communicate at.
         :param timeout: Timeout in seconds.
-        :param dummy: Do not communicate over serial but print send and use dummy values for receive.
+        :param dummy: Do not communicate over serial but print send and use dummy values
+            for receive.
         """
         self.terminator = "\n"
         self.dummy = dummy
