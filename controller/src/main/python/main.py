@@ -47,7 +47,7 @@ class DigOutBoxController(QtWidgets.QMainWindow):
 
         # set window properties
         self.window_title = "DigOutBox Controller"
-        self.setWindowTitle("DigOutBox Controller")
+        self.setWindowTitle(self.window_title)
         self.resize(250, 150)
 
         self.is_windows = is_windows
@@ -87,6 +87,8 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         """Initiate communication with the DigOutBox.
 
         When the software is opened, a dialog will be shown in order to
+
+        :param reset_port: Whether to reset the port or not.
         """
         if self.settings.get("Port") is None:
             diag = dialogs.PortDialog(self)
@@ -128,7 +130,7 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         """Initialize the configuration manager and load the default configuration."""
         default_values = {
             "Activate automatic read": True,
-            "Time between reads (s)": 10,
+            "Time between reads (s)": 1,
             "Port": None,
             "User folder": str(Path.home()),
         }

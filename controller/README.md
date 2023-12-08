@@ -12,6 +12,26 @@ If you want to compile the GUI to a standalone executable,
 you must have `fbs-pro` installed,
 see [here](https://build-system.fman.io/).
 
+### Arduino on Windows
+
+If you are using Windows,
+you need to install the Arduino IDE from
+[here](https://www.arduino.cc/en/software).
+Unplug and replug the Arduino after installation.
+
+If it still does not work,
+open the device manager,
+look for the COM port of the Arduino.
+The properties of the device, in extras,
+will mention that the device needs further installation.
+Update the driver by searching the local computer for drivers
+where you installed the Arduino IDE.
+This path is most likely:
+```bash
+C:\Users\<USERNAME>\AppData\Local\Arduino15\packages\arduino\hardware\avr\1.8.3\drivers
+```
+
+
 ## Usage
 
 The easiest usage is to download an installer.
