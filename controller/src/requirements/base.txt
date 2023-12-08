@@ -1,2 +1,3 @@
 git+https://github.com/galactic-forensics/DigOutBox.git#subdirectory=controller_cli
+pyqtconfig
 qtpy

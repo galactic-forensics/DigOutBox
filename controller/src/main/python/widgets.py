@@ -102,11 +102,34 @@ class ChannelAndGroupWidget(QtWidgets.QWidget):
         self.status_indicator.set_status(state)
         self._is_on = state
 
+    def set_status_from_read(self, all_states: list[int]):
+        """Set the status from the read all list of values.
+
+        :param all_states: List of the states of all channels as integers.
+        """
+        # fixme: group handling for multiple lasers
+        try:
+            state = bool(all_states[int(self.hw_channel[0])])
+        except IndexError:
+            return
+
+        self.set_status_custom(state)
+
+
+class TimerSpinBox(QtWidgets.QSpinBox):
+    """QSpinBox for timer with min 1, max of 999."""
+
+    def __init__(self, parent=None):
+        """Initialize the spin box with new settings."""
+        super().__init__(parent)
+        self.setMinimum(1)
+        self.setMaximum(999)
+
 
 class StatusIndicator(QtWidgets.QWidget):
     def __init__(self, parent=None, size=20, margin=5):
         super().__init__(parent=parent)
-        # for statuses: on (green), busy (yellow), off (dark gray), error (red)
+        # for statuses: True (green), "mixed" (yellow), None (gray), False (red)
         self.status = None
 
         # dictionary for the status color, status call
@@ -114,6 +137,7 @@ class StatusIndicator(QtWidgets.QWidget):
             None: QtCore.Qt.GlobalColor.gray,
             True: QtCore.Qt.GlobalColor.green,
             False: QtCore.Qt.GlobalColor.red,
+            "mixed": QtCore.Qt.GlobalColor.yellow,
         }
 
         # color

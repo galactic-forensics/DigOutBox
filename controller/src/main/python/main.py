@@ -26,11 +26,12 @@ from pathlib import Path
 import sys
 import warnings
 
+from pyqtconfig import ConfigDialog, ConfigManager
 from qtpy import QtGui, QtWidgets, QtCore
 
 from controller_cli import DigIOBoxComm
 from channel_setup import ChannelSetup
-from widgets import ChannelAndGroupWidget
+from widgets import ChannelAndGroupWidget, TimerSpinBox
 
 
 class DigOutBoxController(QtWidgets.QMainWindow):
@@ -41,6 +42,7 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         """
         # communicate with a dummy device (i.e., no device) -> set to true
         self.dummy = True  # todo set to False
+        self.dummy = False
 
         super().__init__(parent=None)
 
@@ -50,6 +52,7 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         self.is_windows = is_windows
 
         self.app_local_path = None
+        self.settings = None
         self.init_local_profile()
 
         # communication handler
@@ -63,6 +66,9 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         # init GUI
         self.init_menubar()
 
+        # init settings manager
+        self.init_settings_manager()
+
         # init communication
         self.init_comm()
 
@@ -72,10 +78,55 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         self.channel_widgets_grouped = None
         self.load_file()
 
+        # automatic read
+        self.read_timer = QtCore.QTimer(self)
+        self.automatic_read()
+
     def init_comm(self):
-        """Initiate communication with the DigOutBox."""
+        """Initiate communication with the DigOutBox.
+
+        When the software is opened, a dialog will be shown in order to
+        """
         # fixme
         self.comm = DigIOBoxComm("/dev/ttyACM1", dummy=self.dummy)
+
+    def init_settings_manager(self):
+        """Initialize the configuration manager and load the default configuration."""
+        default_values = {
+            "Activate automatic read": True,
+            "Time between reads (s)": 10,
+            "Port": None,
+            "User folder": str(Path.home()),
+        }
+
+        default_settings_metadata = {
+            "Time between reads (s)": {
+                "preferred_handler": TimerSpinBox,
+            },
+            "Port": {"prefer_hidden": True},
+            "User folder": {"prefer_hidden": True},
+        }
+
+        try:
+            self.settings = ConfigManager(
+                default_values, filename=self.app_local_path.joinpath("settings.json")
+            )
+        except json.decoder.JSONDecodeError as err:
+            QtWidgets.QMessageBox.warning(
+                self,
+                "Settings error",
+                f"Your settings file seems to be corrupt. "
+                f"Deleting it and starting with the default config. "
+                f"Plese check your settings for correctness."
+                f"\n\n{err.args[0]}",
+            )
+            self.app_local_path.joinpath("settings.json").unlink()
+            self.settings = ConfigManager(
+                default_values, filename=self.app_local_path.joinpath("settings.json")
+            )
+
+        self.settings.set_many_metadata(default_settings_metadata)
+        self.user_folder = Path(self.settings.get("User folder"))
 
     def init_local_profile(self):
         """Initialize a user's local profile, platform dependent."""
@@ -129,7 +180,7 @@ class DigOutBoxController(QtWidgets.QMainWindow):
 
         settings_action = QtWidgets.QAction(QtGui.QIcon(None), "&Settings", self)
         settings_action.setStatusTip("Configure settings")
-        settings_action.triggered.connect(self.settings)
+        settings_action.triggered.connect(self.settings_window)
 
         file_menu.addAction(channel_config_action)
         file_menu.addAction(group_config_action)
@@ -181,6 +232,10 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         all_on_off_layout = QtWidgets.QHBoxLayout()
         all_on_off_layout.addStretch()
 
+        all_read_button = QtWidgets.QPushButton("Read All")
+        all_read_button.setToolTip("Read the status of all channels")
+        all_read_button.clicked.connect(self.read_all)
+
         all_on_button = QtWidgets.QPushButton("All On")
         all_on_button.setToolTip("Turn all channels on")
         all_on_button.clicked.connect(lambda: self.set_all_channels(state=True))
@@ -189,6 +244,7 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         all_off_button.setToolTip("Turn all channels off")
         all_off_button.clicked.connect(lambda: self.set_all_channels(state=False))
 
+        all_on_off_layout.addWidget(all_read_button)
         all_on_off_layout.addWidget(all_on_button)
         all_on_off_layout.addWidget(all_off_button)
 
@@ -210,6 +266,15 @@ class DigOutBoxController(QtWidgets.QMainWindow):
             f"If you have issues, please report them on GitHub.\n\n"
             f"{self.comm.identify}",
         )
+
+    def automatic_read(self):
+        """Thread out a timer to automatically read the status of all channels and set statuses."""
+        self.read_all()
+        if self.settings.get("Activate automatic read"):
+            self.read_timer.timeout.connect(self.read_all)
+            self.read_timer.start(self.settings.get("Time between reads (s)") * 1000)
+        else:
+            self.read_timer.stop()
 
     def config_channels(self):
         """Configure the channels."""
@@ -273,6 +338,19 @@ class DigOutBoxController(QtWidgets.QMainWindow):
                 )
         self.load_channels()
 
+    def read_all(self):
+        """Read the status of all channels and set the status indicators accordingly."""
+        if self.dummy:
+            read = [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1]
+        else:
+            read = self.comm.states
+
+        # now set the status indicators for each channel
+        for ch in self.channel_widgets_individual:
+            ch.set_status_from_read(read)
+        for ch in self.channel_widgets_grouped:
+            ch.set_status_from_read(read)
+
     def save(self, ask_fname: bool = False):
         """Save the current configuration to default json file.
 
@@ -285,10 +363,20 @@ class DigOutBoxController(QtWidgets.QMainWindow):
 
         self.statusbar.showMessage(f"Saved configuration to {fout}", self.statusbartime)
 
-    def settings(self):
-        """Configure the settings."""
-        # todo
-        pass
+    def settings_update(self, update):
+        """Update the settings."""
+        self.settings.set_many(update.as_dict())
+        self.settings.save()
+        self.automatic_read()
+
+    def settings_window(self):
+        """Bring up dialog with the settings window."""
+        settings_dialog = ConfigDialog(self.settings, self, cols=1)
+        settings_dialog.setWindowTitle("Settings")
+        settings_dialog.accepted.connect(
+            lambda: self.settings_update(settings_dialog.config)
+        )
+        settings_dialog.exec()
 
     def set_all_channels(self, state: bool):
         """Turn all channels on or off."""
