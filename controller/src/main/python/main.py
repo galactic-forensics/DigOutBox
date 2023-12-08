@@ -31,6 +31,7 @@ from qtpy import QtGui, QtWidgets, QtCore
 
 from controller_cli import DigIOBoxComm
 from channel_setup import ChannelSetup
+from group_setup import GroupSetup
 import dialogs
 from widgets import ChannelAndGroupWidget, TimerSpinBox
 
@@ -43,7 +44,7 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         """
         super().__init__(parent=None)
 
-        self.dummy = False
+        self.dummy = True  # remove
 
         # set window properties
         self.window_title = "DigOutBox Controller"
@@ -77,6 +78,7 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         self._channels = {}
         self.channel_widgets_individual = None
         self.channel_widgets_grouped = None
+        self.channel_groups = {}
         self.load_file()
 
         # automatic read
@@ -90,7 +92,7 @@ class DigOutBoxController(QtWidgets.QMainWindow):
 
         :param reset_port: Whether to reset the port or not.
         """
-        if self.settings.get("Port") is None:
+        if self.settings.get("Port") is None and self.dummy is not True:
             diag = dialogs.PortDialog(self)
             if not diag.exec():  # Cancel pressed
                 QtWidgets.QMessageBox.warning(
@@ -323,8 +325,11 @@ class DigOutBoxController(QtWidgets.QMainWindow):
 
     def config_groups(self):
         """Configure the groups."""
-        # todo
-        pass
+        dialog = GroupSetup(self, channels=self._channels, groups=self.channel_groups)
+        if dialog.exec():
+            print(self.channel_groups)
+            self.save()
+            self.automatic_read()
 
     def load_channels(self):
         """Load the channels into the GUI."""
@@ -374,12 +379,22 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         # load the file
         if fin.exists():
             with open(fin) as f:
-                self._channels = json.load(f)
+                in_dict = json.load(f)
+
+                try:
+                    self._channels = in_dict["channels"]
+                except KeyError:
+                    pass
+                try:
+                    self.channel_groups = in_dict["groups"]
+                except KeyError:
+                    pass
         else:
             self.statusbar.showMessage(
                 f"Could not find {fin}. Starting with empty configuration.",
                 self.statusbartime,
             )
+
         self.load_channels()
 
         if ask_fname:
@@ -416,10 +431,12 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         else:
             fout = self.app_local_path.joinpath("config.json")
 
-        # now save the file
+        # create compound dictionary
+        out_dict = {"channels": self._channels, "groups": self.channel_groups}
 
+        # now save the file
         with open(fout, "w") as f:
-            json.dump(self._channels, f, indent=4)
+            json.dump(out_dict, f, indent=4)
 
         self.statusbar.showMessage(f"Saved configuration to {fout}", self.statusbartime)
 

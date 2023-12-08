@@ -86,7 +86,7 @@ class DigIOBoxComm(DevComm):
     def identify(self):
         """Get firmware version of box."""
         if self.dummy:
-            return "Dummy"
+            return "DigIOBox Dummy"
         return self.query("*IDN?")
 
     @property
