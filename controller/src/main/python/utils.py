@@ -1,5 +1,25 @@
 """Utilities and checks."""
 
+# Initial hardcoded hardware configuration to write out.
+hw_config = [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+]
+
 
 def check_channels(channels: dict) -> bool:
     """Check if channels dictionary is valid."""

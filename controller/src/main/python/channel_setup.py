@@ -4,7 +4,7 @@ import sys
 
 from qtpy import QtWidgets
 
-from utils import check_channels
+import utils
 
 
 class ChannelSetup(QtWidgets.QDialog):
@@ -105,7 +105,10 @@ class ChannelSetup(QtWidgets.QDialog):
 
         self.tab_widget.addTab(
             ChannelWidget(
-                self, name=name, values=values, possible_hw_channel=possible_hw_channels
+                self,
+                name=name,
+                values=values,
+                possible_hw_channels=possible_hw_channels,
             ),
             "",
         )
@@ -189,7 +192,7 @@ class ChannelSetup(QtWidgets.QDialog):
 
     def _check_channels(self):
         """Check if channels are valid, if not raise a warning."""
-        if not check_channels(self.channels):
+        if not utils.check_channels(self.channels):
             QtWidgets.QMessageBox.warning(
                 self,
                 "Invalid Channels",
@@ -217,9 +220,7 @@ class ChannelWidget(QtWidgets.QWidget):
         """
         super().__init__(parent=parent)
         self.parent = parent
-        self.possible_hw_channels = kwargs.get(
-            "possible_hw_channels", self.hardcoded_channels
-        )
+        self.possible_hw_channels = kwargs.get("possible_hw_channels", utils.hw_config)
 
         # layout for central widget
         central_layout = QtWidgets.QVBoxLayout()
@@ -298,32 +299,6 @@ class ChannelWidget(QtWidgets.QWidget):
             "hw_channel": self.possible_hw_channels.index(self.hw_channel),
             "section": self.section,
         }
-
-    @property
-    def hardcoded_channels(self) -> list:
-        """Return a list of hardcoded hardware channels.
-
-        These are channels that are numbered from 0 to 15 in the hardware and must appear in order.
-        Furthermore, the hardcoded channels work for the first two boxes, but should not be used in production.
-        """
-        return [
-            "A",
-            "B",
-            "C",
-            "D",
-            "E",
-            "F",
-            "G",
-            "H",
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-        ]
 
     @property
     def name(self) -> str:

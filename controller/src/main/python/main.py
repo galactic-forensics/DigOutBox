@@ -32,8 +32,9 @@ from qtpy import QtGui, QtWidgets, QtCore
 
 from controller_cli import DigIOBoxComm
 from channel_setup import ChannelSetup
-from group_setup import GroupSetup
 import dialogs
+from group_setup import GroupSetup
+import utils
 from widgets import ChannelWidget, TimerSpinBox
 
 
@@ -46,7 +47,7 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         super().__init__(parent=None)
 
         self.debug = True  # debug mode - additional functionality and a debug button
-        self.dummy = False  # remove
+        self.dummy = True  # remove
 
         # set window properties
         self.window_title = "DigOutBox Controller"
@@ -66,6 +67,10 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         self.statusbar = self.statusBar()
         self.statusbartime = 3000  # time in ms to display messages
         self.setStatusBar(self.statusbar)
+
+        # read hardware configuration
+        self.hw_config = None
+        self.init_hw_config()
 
         # init GUI
         self.init_menubar()
@@ -115,6 +120,7 @@ class DigOutBoxController(QtWidgets.QMainWindow):
             id = self.comm.identify
             if "DigIOBox" not in id:
                 raise OSError
+            self.comm.num_channels = len(self.hw_config)
         except:
             QtWidgets.QMessageBox.warning(
                 self,
@@ -131,6 +137,26 @@ class DigOutBoxController(QtWidgets.QMainWindow):
 
         # set window title
         self.setWindowTitle(self.window_title)
+
+    def init_hw_config(self):
+        """Initialize the hardware configuration from file.
+
+        If no file available, read the standard configuration and save it out.
+        """
+        fname = self.app_local_path.joinpath("hw_config.json")
+        terminator = "\r\n" if self.is_windows else "\n"
+
+        if fname.exists():
+            hw_config = []
+            with open(fname) as f:
+                for line in f:
+                    hw_config.append(line.strip())
+            self.hw_config = hw_config
+        else:
+            self.hw_config = utils.hw_config
+            with open(fname, "w") as f:
+                for line in self.hw_config:
+                    f.write(f"{line}{terminator}")
 
     def init_settings_manager(self):
         """Initialize the configuration manager and load the default configuration."""
@@ -349,7 +375,9 @@ class DigOutBoxController(QtWidgets.QMainWindow):
 
     def config_channels(self):
         """Configure the channels."""
-        dialog = ChannelSetup(self, channels=self.channels)
+        dialog = ChannelSetup(
+            self, channels=self.channels, possible_hw_channels=self.hw_config
+        )
         if dialog.exec():
             self.channels = dialog.channels
             self.clean_up_groups()
@@ -371,8 +399,7 @@ class DigOutBoxController(QtWidgets.QMainWindow):
 
         Connected to the debug button, when debug mode is activated.
         """
-        print(self.channels)
-        print(self.channel_groups)
+        print(self.hw_config)
 
     def load_channels(self):
         """Load the channels into the GUI."""
