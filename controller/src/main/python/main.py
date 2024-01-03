@@ -46,8 +46,10 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         """
         super().__init__(parent=None)
 
-        self.debug = True  # debug mode - additional functionality and a debug button
-        self.dummy = True  # remove
+        self.debug = False  # debug mode - additional functionality and a debug button
+        self.dummy = (
+            False  # dummy mode - do not communicate over serial and "simulate" a device
+        )
 
         # set window properties
         self.window_title = "DigOutBox Controller"
