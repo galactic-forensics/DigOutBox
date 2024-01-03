@@ -1,5 +1,6 @@
 """Provide some home-made Qt widgets."""
 
+import itertools
 from typing import Union
 
 from qtpy import QtCore, QtGui, QtWidgets
@@ -7,7 +8,7 @@ from qtpy import QtCore, QtGui, QtWidgets
 from controller_cli import DigIOBoxComm
 
 
-class ChannelAndGroupWidget(QtWidgets.QWidget):
+class ChannelWidget(QtWidgets.QWidget):
     """Channel and group widget that allows to turn an individual channel on or off."""
 
     def __init__(
@@ -18,18 +19,32 @@ class ChannelAndGroupWidget(QtWidgets.QWidget):
         parent=None,
         controller=None,
         is_on: bool = None,
+        channel_names: list[str] = None,
     ):
         """Initialize the channel widget.
 
         :param channel: Channel name.
-        :param hw_channel: List of hardware channels, e.g. ["7", "10"] or ["3"] for a singel channel.
+        :param hw_channel: List of hardware channels, e.g. ["7", "10"] or ["3"] for a
+            single channel.
         :param comm: Communication object.
         :param parent: Parent widget.
+        :param controller: Controller object.
         :param is_on: Whether the channel is currently on.
+        :channel_names: List of channel names, e.g. ["laser1", "laser2"]. Must be
+            provided if hw_channel is a list of length > 1.
         """
         super().__init__(parent=parent)
 
         self.channel = channel
+
+        if len(hw_channel) > 1:
+            assert (
+                channel_names is not None
+            ), "Must provide channel names if hw_channel is a list of length > 1."
+            self.channel_names = channel_names
+        else:
+            self.channel_names = [channel]
+
         self.hw_channel = hw_channel
         self.comm = comm
         self.controller = controller
@@ -53,8 +68,6 @@ class ChannelAndGroupWidget(QtWidgets.QWidget):
 
     def init_ui(self):
         """Initialize the UI."""
-        self.setWindowTitle(self.channel)
-
         # name label
         self.name_label = QtWidgets.QLabel(self.channel)
         # make label bold
@@ -97,23 +110,69 @@ class ChannelAndGroupWidget(QtWidgets.QWidget):
                 ch = self.comm.channel[it]
                 ch.state = self.is_on
 
-    def set_status_custom(self, state: bool):
-        """Set the status light without sending any commands."""
+        # update the status of the channels if a group of lasers was changed in state
+        if len(self.hw_channel) > 1:
+            for other_channel in itertools.chain(
+                self.controller.channel_widgets_individual,
+                self.controller.channel_widgets_grouped,
+            ):
+                other_channel.set_status_custom(self.is_on, self.channel_names)
+
+        # update grouped channels
+        for other_channel in self.controller.group_widgets:
+            other_channel.set_status_group()
+
+    def set_status_custom(self, state: Union[bool, str], ch_check: list[str] = None):
+        """Set the status light without sending any commands.
+
+        :param state: State to set the status to. Can be True, False, None, or "mixed".
+        :param ch_check: If set, only sets the indicator if the ch_check list contains
+            this channel's name.
+        """
+        if ch_check is not None:
+            if self.channel not in ch_check:
+                return
         self.status_indicator.set_status(state)
         self._is_on = state
+
+    def set_status_group(self):
+        """Automatically check group status in comparison with individual channels."""
+        if len(self.hw_channel) > 1:
+            states = []
+            for other_ch in itertools.chain(
+                self.controller.channel_widgets_individual,
+                self.controller.channel_widgets_grouped,
+            ):
+                if other_ch.channel in self.channel_names:
+                    states.append(other_ch.is_on)
+
+            if all(states):
+                state = True
+            elif not any(states):
+                state = False
+            else:
+                state = "mixed"
+
+            self.set_status_custom(state)
 
     def set_status_from_read(self, all_states: list[int]):
         """Set the status from the read all list of values.
 
         :param all_states: List of the states of all channels as integers.
         """
-        # fixme: group handling for multiple lasers
         try:
-            state = bool(all_states[int(self.hw_channel[0])])
+            states = [bool(all_states[int(it)]) for it in self.hw_channel]
+            if all(states):
+                state = True
+            elif not any(states):
+                state = False
+            else:
+                state = "mixed"
         except IndexError:
             return
 
         self.set_status_custom(state)
+        pass
 
 
 class TimerSpinBox(QtWidgets.QSpinBox):
@@ -137,7 +196,7 @@ class StatusIndicator(QtWidgets.QWidget):
             None: QtCore.Qt.GlobalColor.gray,
             True: QtCore.Qt.GlobalColor.green,
             False: QtCore.Qt.GlobalColor.red,
-            "mixed": QtCore.Qt.GlobalColor.yellow,
+            "mixed": QtGui.QColor(255, 128, 0),  # orange
         }
 
         # color
@@ -207,6 +266,6 @@ if __name__ == "__main__":
     import sys
 
     app = QtWidgets.QApplication(sys.argv)
-    window = ChannelAndGroupWidget("test", "cmd_on", "cmd_off", is_on=True)
+    window = ChannelWidget("test", "cmd_on", "cmd_off", is_on=True)
     window.show()
     sys.exit(app.exec())

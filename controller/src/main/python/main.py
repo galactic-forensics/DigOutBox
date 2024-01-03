@@ -21,6 +21,7 @@ except ImportError:
     ApplicationContext = None
     fbsrt_platform = None
 
+import itertools
 import json
 from pathlib import Path
 import sys
@@ -33,7 +34,7 @@ from controller_cli import DigIOBoxComm
 from channel_setup import ChannelSetup
 from group_setup import GroupSetup
 import dialogs
-from widgets import ChannelAndGroupWidget, TimerSpinBox
+from widgets import ChannelWidget, TimerSpinBox
 
 
 class DigOutBoxController(QtWidgets.QMainWindow):
@@ -44,7 +45,8 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         """
         super().__init__(parent=None)
 
-        self.dummy = True  # remove
+        self.debug = True  # debug mode - additional functionality and a debug button
+        self.dummy = False  # remove
 
         # set window properties
         self.window_title = "DigOutBox Controller"
@@ -75,10 +77,12 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         self.init_comm()
 
         # load config and settings
-        self._channels = {}
-        self.channel_widgets_individual = None
-        self.channel_widgets_grouped = None
+        self.channels = {}
         self.channel_groups = {}
+
+        self.channel_widgets_individual = []
+        self.channel_widgets_grouped = []
+        self.group_widgets = []
         self.load_file()
 
         # automatic read
@@ -251,17 +255,24 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         grouped_channels_layout = QtWidgets.QVBoxLayout()
         for channel_widget in self.channel_widgets_grouped:
             grouped_channels_layout.addWidget(channel_widget)
-        grouped_channels_layout.addStretch()
+
+        if len(self.channel_widgets_grouped) > 0:
+            grouped_channels_layout.addStretch()
+
+        for channel_widget in self.group_widgets:
+            grouped_channels_layout.addWidget(channel_widget)
+        if len(self.channel_widgets_grouped) == 0:
+            grouped_channels_layout.addStretch()
 
         channels_layout = QtWidgets.QHBoxLayout()
         if len(self.channel_widgets_individual) > 0:
             channels_layout.addLayout(individual_channels_layout)
         if (
             len(self.channel_widgets_individual) > 0
-            and len(self.channel_widgets_grouped) > 0
+            and len(self.channel_widgets_grouped) + len(self.channel_groups) > 0
         ):
             channels_layout.addStretch()
-        if len(self.channel_widgets_grouped) > 0:
+        if len(self.channel_widgets_grouped) + len(self.group_widgets) > 0:
             channels_layout.addLayout(grouped_channels_layout)
 
         outer_layout.addLayout(channels_layout)
@@ -269,6 +280,11 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         # "All On" and "All Off" buttons at the bottom of the window
         all_on_off_layout = QtWidgets.QHBoxLayout()
         all_on_off_layout.addStretch()
+
+        # debug button
+        if self.debug:
+            debug_button = QtWidgets.QPushButton("Debug")
+            debug_button.clicked.connect(self.debug_function)
 
         all_read_button = QtWidgets.QPushButton("Read All")
         all_read_button.setToolTip("Read the status of all channels")
@@ -282,6 +298,8 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         all_off_button.setToolTip("Turn all channels off")
         all_off_button.clicked.connect(lambda: self.set_all_channels(state=False))
 
+        if self.debug:
+            all_on_off_layout.addWidget(debug_button)
         all_on_off_layout.addWidget(all_read_button)
         all_on_off_layout.addWidget(all_on_button)
         all_on_off_layout.addWidget(all_off_button)
@@ -314,48 +332,88 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         else:
             self.read_timer.stop()
 
+    def clean_up_groups(self):
+        """Clean up groups to make sure that all channels that are in groups actually exist.
+
+        Groups that have undefined/dangling channels will be deleted. Note that the UI will not be updated and an
+        update must be triggered manually!
+        """
+        to_del = []
+        for group in self.channel_groups:
+            for channel in self.channel_groups[group]:
+                if channel not in self.channels:
+                    to_del.append(group)
+
+        for group in to_del:
+            del self.channel_groups[group]
+
     def config_channels(self):
         """Configure the channels."""
-        dialog = ChannelSetup(self, channels=self._channels)
+        dialog = ChannelSetup(self, channels=self.channels)
         if dialog.exec():
-            self._channels = dialog.channels
+            self.channels = dialog.channels
+            self.clean_up_groups()
             self.load_channels()
             self.save()
             self.automatic_read()
 
     def config_groups(self):
         """Configure the groups."""
-        dialog = GroupSetup(self, channels=self._channels, groups=self.channel_groups)
+        dialog = GroupSetup(self, channels=self.channels, groups=self.channel_groups)
         if dialog.exec():
             print(self.channel_groups)
+            self.load_channels()
             self.save()
             self.automatic_read()
+
+    def debug_function(self):
+        """Debug function.
+
+        Connected to the debug button, when debug mode is activated.
+        """
+        print(self.channels)
+        print(self.channel_groups)
 
     def load_channels(self):
         """Load the channels into the GUI."""
         # fill channel widgets
         self.channel_widgets_individual = []
         self.channel_widgets_grouped = []
-        for key in self._channels.keys():
-            if self._channels[key]["section"] == "individual":
+        for key in self.channels.keys():
+            if self.channels[key]["section"] == "individual":
                 self.channel_widgets_individual.append(
-                    ChannelAndGroupWidget(
+                    ChannelWidget(
                         channel=key,
-                        hw_channel=[self._channels[key]["hw_channel"]],
+                        hw_channel=[self.channels[key]["hw_channel"]],
                         comm=self.comm,
                         controller=self,
                     )
                 )
-            elif self._channels[key]["section"] == "grouped":
+            elif self.channels[key]["section"] == "grouped":
                 self.channel_widgets_grouped.append(
-                    ChannelAndGroupWidget(
+                    ChannelWidget(
                         channel=key,
-                        hw_channel=[self._channels[key]["hw_channel"]],
+                        hw_channel=[self.channels[key]["hw_channel"]],
                         comm=self.comm,
                         controller=self,
                     )
                 )
-            # todo: routine to define groups of channels
+
+        self.group_widgets = []
+        for key in self.channel_groups.keys():
+            hw_channel = [
+                self.channels[ch]["hw_channel"] for ch in self.channel_groups[key]
+            ]
+
+            self.group_widgets.append(
+                ChannelWidget(
+                    channel=key,
+                    hw_channel=hw_channel,
+                    comm=self.comm,
+                    controller=self,
+                    channel_names=self.channel_groups[key],
+                )
+            )
         self.build_ui()
 
     def load_file(self, ask_fname: bool = False):
@@ -382,7 +440,7 @@ class DigOutBoxController(QtWidgets.QMainWindow):
                 in_dict = json.load(f)
 
                 try:
-                    self._channels = in_dict["channels"]
+                    self.channels = in_dict["channels"]
                 except KeyError:
                     pass
                 try:
@@ -409,9 +467,11 @@ class DigOutBoxController(QtWidgets.QMainWindow):
             read = self.comm.states
 
         # now set the status indicators for each channel
-        for ch in self.channel_widgets_individual:
-            ch.set_status_from_read(read)
-        for ch in self.channel_widgets_grouped:
+        for ch in itertools.chain(
+            self.channel_widgets_individual,
+            self.channel_widgets_grouped,
+            self.group_widgets,
+        ):
             ch.set_status_from_read(read)
 
     def save(self, ask_fname: bool = False):
@@ -432,7 +492,7 @@ class DigOutBoxController(QtWidgets.QMainWindow):
             fout = self.app_local_path.joinpath("config.json")
 
         # create compound dictionary
-        out_dict = {"channels": self._channels, "groups": self.channel_groups}
+        out_dict = {"channels": self.channels, "groups": self.channel_groups}
 
         # now save the file
         with open(fout, "w") as f:

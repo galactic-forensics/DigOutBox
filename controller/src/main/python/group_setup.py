@@ -79,6 +79,7 @@ class GroupSetup(QtWidgets.QDialog):
 
     def accept(self):
         """Set the groups to the parent and close the dialog."""
+        self.groups = dict(sorted(self.groups.items()))
         self.parent.channel_groups = self.groups
         super().accept()
 
