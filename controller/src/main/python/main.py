@@ -391,7 +391,6 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         """Configure the groups."""
         dialog = GroupSetup(self, channels=self.channels, groups=self.channel_groups)
         if dialog.exec():
-            print(self.channel_groups)
             self.load_channels()
             self.save()
             self.automatic_read()
@@ -401,7 +400,7 @@ class DigOutBoxController(QtWidgets.QMainWindow):
 
         Connected to the debug button, when debug mode is activated.
         """
-        print(self.hw_config)
+        pass
 
     def load_channels(self):
         """Load the channels into the GUI."""
