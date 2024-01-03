@@ -145,7 +145,7 @@ class DigOutBoxController(QtWidgets.QMainWindow):
 
         If no file available, read the standard configuration and save it out.
         """
-        fname = self.app_local_path.joinpath("hw_config.json")
+        fname = self.app_local_path.joinpath("hw_config.txt")
         terminator = "\r\n" if self.is_windows else "\n"
 
         if fname.exists():
