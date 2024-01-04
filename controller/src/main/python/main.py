@@ -1,33 +1,37 @@
 """Main interface for DigOutBoxController."""
 
-# Detect if PyQt6 or PySide6 are installed
-try:
-    from PyQt6.QtWidgets import QMainWindow
-    from fbs_runtime.application_context.PyQt6 import ApplicationContext
-except ImportError:
-    try:
-        from PySide6.QtWidgets import QMainWindow
-        from fbs_runtime.application_context.PySide6 import ApplicationContext
-    except ImportError as e:
-        raise ImportError("Please install either PyQt6 or PySide6.") from e
-
-# Detect if fbs is installed
-try:
-    from fbs_runtime import PUBLIC_SETTINGS as FBSRT_PUBLIC_SETTINGS
-    import fbs_runtime.platform as fbsrt_platform
-except ImportError:
-    FBSRT_PUBLIC_SETTINGS = {"version": "Unknown"}
-    ApplicationContext = None
-    fbsrt_platform = None
-
+import importlib.util
 import itertools
 import json
+import os
 from pathlib import Path
 import sys
 import warnings
 
-from pyqtconfig import ConfigDialog, ConfigManager
+if importlib.util.find_spec("PyQt6") is not None:
+    os.environ["QT_API"] = "pyqt6"
+elif importlib.util.find_spec("PySide6") is not None:
+    os.environ["QT_API"] = "pyside6"
+else:
+    raise ImportError("Neither PyQt6 nor PySide6 are installed.")
+
+# Detect if fbs is installed
+if importlib.util.find_spec("fbs") is not None:
+    from fbs_runtime import PUBLIC_SETTINGS as FBSRT_PUBLIC_SETTINGS
+    import fbs_runtime.platform as fbsrt_platform
+
+    if os.environ["QT_API"] == "pyqt6":
+        from fbs_runtime.application_context.PyQt6 import ApplicationContext
+    else:
+        from fbs_runtime.application_context.PySide6 import ApplicationContext
+else:
+    FBSRT_PUBLIC_SETTINGS = {"version": "Unknown"}
+    ApplicationContext = None
+    fbsrt_platform = None
+
+
 from qtpy import QtGui, QtWidgets, QtCore
+from pyqtconfig import ConfigDialog, ConfigManager
 
 from controller_cli import DigIOBoxComm
 from channel_setup import ChannelSetup
@@ -76,7 +80,7 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         self.init_hw_config()
 
         # init GUI
-        self.main_widget = QtWidgets.QWidget()
+        self.main_widget = None
         self.init_menubar()
 
         # init settings manager
@@ -332,6 +336,7 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         outer_layout.addLayout(all_on_off_layout)
 
         # create a new main widget and set it as the central widget
+        self.main_widget = QtWidgets.QWidget()
         self.main_widget.setLayout(outer_layout)
         self.setCentralWidget(self.main_widget)
 
@@ -339,7 +344,7 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         """Show the about dialog."""
         QtWidgets.QMessageBox.about(
             self,
-            f"About DigOutBoxController",
+            "About DigOutBoxController",
             f"DigOutBoxController is a GUI for the DigOutBox.\n\n"
             f"Help can be found on GitHub:\n"
             f"https://github.com/galactic-forensics/DigOutBox\n\n"

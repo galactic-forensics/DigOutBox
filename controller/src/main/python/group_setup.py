@@ -32,9 +32,7 @@ class GroupSetup(QtWidgets.QDialog):
             self.close()
 
         # UI
-        self.group_list = QtWidgets.QListWidget()
-        self.group_name_entry = QtWidgets.QLineEdit()
-        self.channel_list = QtWidgets.QListWidget()
+        self.group_list = QtWidgets.QListWidget(self)
         self.init_ui()
 
     def init_ui(self):
@@ -103,10 +101,11 @@ class GroupSetup(QtWidgets.QDialog):
     def remove_group(self):
         """Remove the selected group."""
         # get the selected group name
-        group_name = self.group_list.currentItem().text()
+        group_name = self.group_list.currentItem()
 
         # remove the group from the list
-        del self.groups[group_name]
+        if group_name is not None:
+            del self.groups[group_name.text()]
         self.group_list.takeItem(self.group_list.currentRow())
 
 
@@ -123,6 +122,8 @@ class GroupSetupIndividual(QtWidgets.QDialog):
         self.parent = parent
         self.channels = self.parent.channels
 
+        self.channel_list = QtWidgets.QListWidget()
+        self.group_name_entry = QtWidgets.QLineEdit()
         self.init_ui()
 
     def init_ui(self):

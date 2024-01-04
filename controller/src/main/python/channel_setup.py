@@ -175,7 +175,7 @@ class ChannelSetup(QtWidgets.QDialog):
             QtWidgets.QMessageBox.warning(
                 self,
                 "Duplicated Hardware Channel",
-                f"Two or more channels have the same hardware channel.",
+                "Two or more channels have the same hardware channel.",
             )
             return None
 
