@@ -34,7 +34,6 @@ jobs:
           cd controller
           fbs freeze
           fbs installer
-          echo ${{ env.RELEASE_VERSION }}
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
