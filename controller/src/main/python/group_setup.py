@@ -165,11 +165,11 @@ class GroupSetupIndividual(QtWidgets.QDialog):
                 "Please enter a group name.",
             )
             return
-        if len(self.channel_list.selectedItems()) == 0:
+        if len(self.channel_list.selectedItems()) < 2:
             QtWidgets.QMessageBox.warning(
                 self,
-                "No channels selected",
-                "Please select at least one channel.",
+                "Channel selection error",
+                "A group must contain at least two channels.",
             )
             return
 
