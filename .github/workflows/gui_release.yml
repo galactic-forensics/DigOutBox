@@ -16,6 +16,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Setup env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
@@ -32,6 +34,7 @@ jobs:
           cd controller
           fbs freeze
           fbs installer
+          echo ${{ env.RELEASE_VERSION }}
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -52,5 +55,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing its ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
           asset_path: "controller/target/DigOutBox ControllerSetup.exe"
-          asset_name: DigOutBox_Controller_Setup_${{ github.ref }}.exe
+          asset_name: DigOutBox_Controller_Setup_${{ env.RELEASE_VERSION }}.exe
           asset_content_type: application/exe
