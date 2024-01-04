@@ -15,4 +15,4 @@ __author__ = "Reto Trappitsch"
 __email__ = "reto@galactic-forensics.space"
 
 __license__ = "MIT"
-__copyright__ = "Copyright (c) 2021-2023, Reto Trappitsch"
+__copyright__ = "Copyright (c) 2021-2024, Reto Trappitsch"

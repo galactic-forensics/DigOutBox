@@ -72,7 +72,7 @@ that you would like to contribute.
 ## License
 
 This project is licensed under [MIT](LICENSE).
-Copyright: 2021-2023, Galactic Forensics Laboratory.
+Copyright: 2021-2024, Galactic Forensics Laboratory.
 
 ## Images of assembled boxes
 
