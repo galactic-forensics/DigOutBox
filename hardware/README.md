@@ -115,7 +115,7 @@ after the components have been installed and tested!
 
    Note that the blue (data) and red (5V) boxes show connections made on the bottom of the proto shield.
    The ground connection (leftmost) is directly connected to the ground line on the proto shield.
-5. Solder the capacitor and a jumper via between the reset pin and ground.
+5. Solder the capacitor and a jumper wire between the reset pin and ground.
 
    [![Reset connection](../images/reset_pin_connection_small.jpeg)](../images/reset_pin_connection.jpeg)
 
