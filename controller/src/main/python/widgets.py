@@ -49,6 +49,9 @@ class ChannelWidget(QtWidgets.QWidget):
         self.comm = comm
         self.controller = controller
 
+        # status indicator
+        self.status_indicator = StatusIndicator()
+
         self.init_ui()
 
         self.is_on = is_on
@@ -69,27 +72,24 @@ class ChannelWidget(QtWidgets.QWidget):
     def init_ui(self):
         """Initialize the UI."""
         # name label
-        self.name_label = QtWidgets.QLabel(self.channel)
+        name_label = QtWidgets.QLabel(self.channel)
         # make label bold
-        self.name_label_font = QtGui.QFont()
-        self.name_label_font.setBold(True)
-        self.name_label.setFont(self.name_label_font)
-
-        # status indicator
-        self.status_indicator = StatusIndicator()
+        name_label_font = QtGui.QFont()
+        name_label_font.setBold(True)
+        name_label.setFont(name_label_font)
 
         # buttons
-        self.on_button = QtWidgets.QPushButton("On")
-        self.on_button.clicked.connect(self.on_button_clicked)
-        self.off_button = QtWidgets.QPushButton("Off")
-        self.off_button.clicked.connect(self.off_button_clicked)
+        on_button = QtWidgets.QPushButton("On")
+        on_button.clicked.connect(self.on_button_clicked)
+        off_button = QtWidgets.QPushButton("Off")
+        off_button.clicked.connect(self.off_button_clicked)
 
         layout = QtWidgets.QHBoxLayout()
         layout.addWidget(self.status_indicator)
-        layout.addWidget(self.name_label)
+        layout.addWidget(name_label)
         layout.addStretch()
-        layout.addWidget(self.on_button)
-        layout.addWidget(self.off_button)
+        layout.addWidget(on_button)
+        layout.addWidget(off_button)
         self.setLayout(layout)
 
     def on_button_clicked(self):
@@ -260,12 +260,3 @@ class StatusIndicator(QtWidgets.QWidget):
                 "Unallowed Status",
                 "The selected status is not available for the indicator.",
             )
-
-
-if __name__ == "__main__":
-    import sys
-
-    app = QtWidgets.QApplication(sys.argv)
-    window = ChannelWidget("test", "cmd_on", "cmd_off", is_on=True)
-    window.show()
-    sys.exit(app.exec())

@@ -1,7 +1,7 @@
 """Utilities and checks."""
 
 # Initial hardcoded hardware configuration to write out.
-hw_config = [
+HW_CONFIG = [
     "A",
     "B",
     "C",

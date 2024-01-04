@@ -220,7 +220,7 @@ class ChannelWidget(QtWidgets.QWidget):
         """
         super().__init__(parent=parent)
         self.parent = parent
-        self.possible_hw_channels = kwargs.get("possible_hw_channels", utils.hw_config)
+        self.possible_hw_channels = kwargs.get("possible_hw_channels", utils.HW_CONFIG)
 
         # layout for central widget
         central_layout = QtWidgets.QVBoxLayout()

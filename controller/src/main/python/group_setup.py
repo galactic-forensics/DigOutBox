@@ -31,6 +31,10 @@ class GroupSetup(QtWidgets.QDialog):
             )
             self.close()
 
+        # UI
+        self.group_list = QtWidgets.QListWidget()
+        self.group_name_entry = QtWidgets.QLineEdit()
+        self.channel_list = QtWidgets.QListWidget()
         self.init_ui()
 
     def init_ui(self):
@@ -42,22 +46,21 @@ class GroupSetup(QtWidgets.QDialog):
         layout = QtWidgets.QVBoxLayout()
 
         # set up a list widget with the group names
-        self.group_list = QtWidgets.QListWidget()
         self.group_list.addItems(self.groups.keys())
 
         layout.addWidget(self.group_list)
 
         # add a few buttons to add, remove groups, and to close the dialog
-        self.add_group_button = QtWidgets.QPushButton("Add Group")
-        self.add_group_button.setToolTip("Add a new group.")
-        self.add_group_button.clicked.connect(self.add_group)
+        add_group_button = QtWidgets.QPushButton("Add Group")
+        add_group_button.setToolTip("Add a new group.")
+        add_group_button.clicked.connect(self.add_group)
 
-        self.remove_group_button = QtWidgets.QPushButton("Remove Group")
-        self.remove_group_button.setToolTip("Remove the selected group.")
-        self.remove_group_button.clicked.connect(self.remove_group)
+        remove_group_button = QtWidgets.QPushButton("Remove Group")
+        remove_group_button.setToolTip("Remove the selected group.")
+        remove_group_button.clicked.connect(self.remove_group)
 
-        self.close_button = QtWidgets.QPushButton("Close")
-        self.close_button.setToolTip("Close the dialog.")
+        close_button = QtWidgets.QPushButton("Close")
+        close_button.setToolTip("Close the dialog.")
 
         # button box with ok and cancel buttons
         button_box = QtWidgets.QDialogButtonBox(
@@ -68,8 +71,8 @@ class GroupSetup(QtWidgets.QDialog):
         button_box.rejected.connect(self.reject)
 
         button_layout = QtWidgets.QHBoxLayout()
-        button_layout.addWidget(self.add_group_button)
-        button_layout.addWidget(self.remove_group_button)
+        button_layout.addWidget(add_group_button)
+        button_layout.addWidget(remove_group_button)
         button_layout.addStretch()
         button_layout.addWidget(button_box)
 
@@ -86,8 +89,9 @@ class GroupSetup(QtWidgets.QDialog):
     def add_group(self):
         """Add a new group.
 
-        Open a dialog to enter the group name, and select from a list widget the channels to add to the group.
-        The channel names are taken from the keys of the channels dictionary.
+        Open a dialog to enter the group name, and select from a list widget the
+        channels to add to the group. The channel names are taken from the keys
+        of the channels dictionary.
         """
         # open a dialog to enter the group name and select channels
         dialog = GroupSetupIndividual(parent=self)
@@ -127,14 +131,12 @@ class GroupSetupIndividual(QtWidgets.QDialog):
 
         # label and entry box for group name
         group_name_layout = QtWidgets.QHBoxLayout()
-        self.group_name_label = QtWidgets.QLabel("Group name:")
-        self.group_name_entry = QtWidgets.QLineEdit()
-        group_name_layout.addWidget(self.group_name_label)
+        group_name_label = QtWidgets.QLabel("Group name:")
+        group_name_layout.addWidget(group_name_label)
         group_name_layout.addStretch()
         group_name_layout.addWidget(self.group_name_entry)
 
-        # list widget with available channels to select from, sorted alphabetically, allowing multiple selections
-        self.channel_list = QtWidgets.QListWidget()
+        # list widget with available channels, sorted alphabetically, multi selections
         self.channel_list.addItems(sorted(self.channels.keys()))
         self.channel_list.setSelectionMode(QtWidgets.QAbstractItemView.MultiSelection)
 

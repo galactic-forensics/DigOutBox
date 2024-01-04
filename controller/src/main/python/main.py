@@ -13,11 +13,10 @@ except ImportError:
 
 # Detect if fbs is installed
 try:
-    from fbs_runtime import PUBLIC_SETTINGS as fbsrt_public_settings
-    from fbs_runtime.application_context.PyQt6 import ApplicationContext
+    from fbs_runtime import PUBLIC_SETTINGS as FBSRT_PUBLIC_SETTINGS
     import fbs_runtime.platform as fbsrt_platform
 except ImportError:
-    fbsrt_public_settings = {"version": "Unknown"}
+    FBSRT_PUBLIC_SETTINGS = {"version": "Unknown"}
     ApplicationContext = None
     fbsrt_platform = None
 
@@ -46,10 +45,10 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         """
         super().__init__(parent=None)
 
-        self.debug = False  # debug mode - additional functionality and a debug button
         self.dummy = (
             False  # dummy mode - do not communicate over serial and "simulate" a device
         )
+        self.debug = False  # debug mode - additional functionality and a debug button
 
         # set window properties
         self.window_title = "DigOutBox Controller"
@@ -58,6 +57,8 @@ class DigOutBoxController(QtWidgets.QMainWindow):
 
         self.is_windows = is_windows
 
+        # local profile
+        self.user_folder = None
         self.app_local_path = None
         self.settings = None
         self.init_local_profile()
@@ -75,6 +76,7 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         self.init_hw_config()
 
         # init GUI
+        self.main_widget = QtWidgets.QWidget()
         self.init_menubar()
 
         # init settings manager
@@ -100,8 +102,6 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         """Initiate communication with the DigOutBox.
 
         When the software is opened, a dialog will be shown in order to
-
-        :param reset_port: Whether to reset the port or not.
         """
         if self.settings.get("Port") is None and self.dummy is not True:
             diag = dialogs.PortDialog(self)
@@ -112,22 +112,23 @@ class DigOutBoxController(QtWidgets.QMainWindow):
                     "No device selected. Using a dummy device for demo purposes.",
                 )
                 self.dummy = True
+                self.setWindowTitle(f"{self.window_title} (DEMO MODE)")
                 self.comm = DigIOBoxComm("dummy", dummy=True)
-                self.setWindowTitle(self.window_title + " (DEMO MODE)")
                 return
 
         # open connection and check for correct device
         try:
             self.comm = DigIOBoxComm(self.settings.get("Port"), dummy=self.dummy)
-            id = self.comm.identify
-            if "DigIOBox" not in id:
+            identity = self.comm.identify
+            if "DigIOBox" not in identity:
                 raise OSError
             self.comm.num_channels = len(self.hw_config)
-        except:
+        except:  # noqa
             QtWidgets.QMessageBox.warning(
                 self,
                 "Device not responding",
-                f"The device on port {self.settings.get('Port')} is not responding correctly. "
+                f"The device on port {self.settings.get('Port')} is not responding "
+                f"correctly. "
                 f"Please check that you selected the correct port and try again.",
             )
             self.settings.set("Port", None)
@@ -136,9 +137,6 @@ class DigOutBoxController(QtWidgets.QMainWindow):
 
         # save the port
         self.settings.save()
-
-        # set window title
-        self.setWindowTitle(self.window_title)
 
     def init_hw_config(self):
         """Initialize the hardware configuration from file.
@@ -155,48 +153,10 @@ class DigOutBoxController(QtWidgets.QMainWindow):
                     hw_config.append(line.strip())
             self.hw_config = hw_config
         else:
-            self.hw_config = utils.hw_config
+            self.hw_config = utils.HW_CONFIG
             with open(fname, "w") as f:
                 for line in self.hw_config:
                     f.write(f"{line}{terminator}")
-
-    def init_settings_manager(self):
-        """Initialize the configuration manager and load the default configuration."""
-        default_values = {
-            "Activate automatic read": True,
-            "Time between reads (s)": 1,
-            "Port": None,
-            "User folder": str(Path.home()),
-        }
-
-        default_settings_metadata = {
-            "Time between reads (s)": {
-                "preferred_handler": TimerSpinBox,
-            },
-            "Port": {"prefer_hidden": True},
-            "User folder": {"prefer_hidden": True},
-        }
-
-        try:
-            self.settings = ConfigManager(
-                default_values, filename=self.app_local_path.joinpath("settings.json")
-            )
-        except json.decoder.JSONDecodeError as err:
-            QtWidgets.QMessageBox.warning(
-                self,
-                "Settings error",
-                f"Your settings file seems to be corrupt. "
-                f"Deleting it and starting with the default config. "
-                f"Plese check your settings for correctness."
-                f"\n\n{err.args[0]}",
-            )
-            self.app_local_path.joinpath("settings.json").unlink()
-            self.settings = ConfigManager(
-                default_values, filename=self.app_local_path.joinpath("settings.json")
-            )
-
-        self.settings.set_many_metadata(default_settings_metadata)
-        self.user_folder = Path(self.settings.get("User folder"))
 
     def init_local_profile(self):
         """Initialize a user's local profile, platform dependent."""
@@ -267,6 +227,44 @@ class DigOutBoxController(QtWidgets.QMainWindow):
 
         help_menu.addAction(about_action)
 
+    def init_settings_manager(self):
+        """Initialize the configuration manager and load the default configuration."""
+        default_values = {
+            "Activate automatic read": True,
+            "Time between reads (s)": 1,
+            "Port": None,
+            "User folder": str(Path.home()),
+        }
+
+        default_settings_metadata = {
+            "Time between reads (s)": {
+                "preferred_handler": TimerSpinBox,
+            },
+            "Port": {"prefer_hidden": True},
+            "User folder": {"prefer_hidden": True},
+        }
+
+        try:
+            self.settings = ConfigManager(
+                default_values, filename=self.app_local_path.joinpath("settings.json")
+            )
+        except json.decoder.JSONDecodeError as err:
+            QtWidgets.QMessageBox.warning(
+                self,
+                "Settings error",
+                f"Your settings file seems to be corrupt. "
+                f"Deleting it and starting with the default config. "
+                f"Plese check your settings for correctness."
+                f"\n\n{err.args[0]}",
+            )
+            self.app_local_path.joinpath("settings.json").unlink()
+            self.settings = ConfigManager(
+                default_values, filename=self.app_local_path.joinpath("settings.json")
+            )
+
+        self.settings.set_many_metadata(default_settings_metadata)
+        self.user_folder = Path(self.settings.get("User folder"))
+
     def build_ui(self):
         """Setup the UI with all the channels.
 
@@ -313,6 +311,7 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         if self.debug:
             debug_button = QtWidgets.QPushButton("Debug")
             debug_button.clicked.connect(self.debug_function)
+            all_on_off_layout.addWidget(debug_button)
 
         all_read_button = QtWidgets.QPushButton("Read All")
         all_read_button.setToolTip("Read the status of all channels")
@@ -326,8 +325,6 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         all_off_button.setToolTip("Turn all channels off")
         all_off_button.clicked.connect(lambda: self.set_all_channels(state=False))
 
-        if self.debug:
-            all_on_off_layout.addWidget(debug_button)
         all_on_off_layout.addWidget(all_read_button)
         all_on_off_layout.addWidget(all_on_button)
         all_on_off_layout.addWidget(all_off_button)
@@ -335,7 +332,6 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         outer_layout.addLayout(all_on_off_layout)
 
         # create a new main widget and set it as the central widget
-        self.main_widget = QtWidgets.QWidget()
         self.main_widget.setLayout(outer_layout)
         self.setCentralWidget(self.main_widget)
 
@@ -348,11 +344,12 @@ class DigOutBoxController(QtWidgets.QMainWindow):
             f"Help can be found on GitHub:\n"
             f"https://github.com/galactic-forensics/DigOutBox\n\n"
             f"If you have issues, please report them on GitHub.\n\n"
-            f"{self.comm.identify}",
+            f"{self.comm.identify}\n"
+            f"Software version: {FBSRT_PUBLIC_SETTINGS['version']}",
         )
 
     def automatic_read(self):
-        """Thread out a timer to automatically read the status of all channels and set statuses."""
+        """Thread out a timer to read the status of all channels and set statuses."""
         self.read_all()
         if self.settings.get("Activate automatic read"):
             self.read_timer.timeout.connect(self.read_all)
@@ -361,10 +358,10 @@ class DigOutBoxController(QtWidgets.QMainWindow):
             self.read_timer.stop()
 
     def clean_up_groups(self):
-        """Clean up groups to make sure that all channels that are in groups actually exist.
+        """Clean up groups to make sure that all channels that are in groupsexist.
 
-        Groups that have undefined/dangling channels will be deleted. Note that the UI will not be updated and an
-        update must be triggered manually!
+        Groups that have undefined/dangling channels will be deleted. Note that the UI
+        will not be updated and an update must be triggered manually!
         """
         to_del = []
         for group in self.channel_groups:
@@ -516,6 +513,8 @@ class DigOutBoxController(QtWidgets.QMainWindow):
             )
             if query[0]:
                 fout = Path(query[0]).with_suffix(".json")
+            else:
+                return
         else:
             fout = self.app_local_path.joinpath("config.json")
 
