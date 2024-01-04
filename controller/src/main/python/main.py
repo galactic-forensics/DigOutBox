@@ -16,7 +16,7 @@ else:
     raise ImportError("Neither PyQt6 nor PySide6 are installed.")
 
 # Detect if fbs is installed
-if importlib.util.find_spec("fbs") is not None:
+try:
     from fbs_runtime import PUBLIC_SETTINGS as FBSRT_PUBLIC_SETTINGS
     import fbs_runtime.platform as fbsrt_platform
 
@@ -24,7 +24,7 @@ if importlib.util.find_spec("fbs") is not None:
         from fbs_runtime.application_context.PyQt6 import ApplicationContext
     else:
         from fbs_runtime.application_context.PySide6 import ApplicationContext
-else:
+except ImportError:
     FBSRT_PUBLIC_SETTINGS = {"version": "Unknown"}
     ApplicationContext = None
     fbsrt_platform = None
@@ -33,6 +33,7 @@ else:
 from qtpy import QtGui, QtWidgets, QtCore
 from pyqtconfig import ConfigDialog, ConfigManager
 
+import controller_cli
 from controller_cli import DigIOBoxComm
 from channel_setup import ChannelSetup
 import dialogs
@@ -53,6 +54,8 @@ class DigOutBoxController(QtWidgets.QMainWindow):
             False  # dummy mode - do not communicate over serial and "simulate" a device
         )
         self.debug = False  # debug mode - additional functionality and a debug button
+
+        self.version = FBSRT_PUBLIC_SETTINGS["version"]
 
         # set window properties
         self.window_title = "DigOutBox Controller"
@@ -350,7 +353,8 @@ class DigOutBoxController(QtWidgets.QMainWindow):
             f"https://github.com/galactic-forensics/DigOutBox\n\n"
             f"If you have issues, please report them on GitHub.\n\n"
             f"{self.comm.identify}\n"
-            f"Software version: {FBSRT_PUBLIC_SETTINGS['version']}",
+            f"GUI version: {self.version}\n"
+            f"CLI version: {controller_cli.__version__}",
         )
 
     def automatic_read(self):
