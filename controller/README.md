@@ -15,7 +15,12 @@ see [here](https://build-system.fman.io/).
 ### Arduino on Windows
 
 If you are using Windows,
-you need to install the Arduino IDE from
+you can install the Arduino drivers manually.
+A useful help article can be found
+[here](https://www.candelatech.com/cookbook.php?vol=misc&book=Install+Arduino+Mega+Driver+on+Windows+10)
+
+Alternatively,
+you could install the Arduino IDE from
 [here](https://www.arduino.cc/en/software).
 Unplug and replug the Arduino after installation.
 
