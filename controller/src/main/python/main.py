@@ -550,15 +550,17 @@ class DigOutBoxController(QtWidgets.QMainWindow):
     def set_all_channels(self, state: bool):
         """Turn all channels on or off."""
         if state:
-            for ch in self.channel_widgets_individual:
-                ch.is_on = state
-            for ch in self.channel_widgets_grouped:
+            for ch in itertools.chain(
+                self.channel_widgets_individual, self.channel_widgets_grouped
+            ):
                 ch.is_on = state
         else:
             self.comm.all_off()
-            for ch in self.channel_widgets_individual:
-                ch.set_status_custom(False)
-            for ch in self.channel_widgets_grouped:
+            for ch in itertools.chain(
+                self.channel_widgets_individual,
+                self.channel_widgets_grouped,
+                self.group_widgets,
+            ):
                 ch.set_status_custom(False)
 
 
