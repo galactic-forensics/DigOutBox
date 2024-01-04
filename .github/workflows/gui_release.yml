@@ -22,10 +22,10 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: |
+          choco install vcredist2010
           python -m pip install --upgrade pip
           pip install ${{ secrets.FBS_PRO_DOWNLOAD }}
           pip install PyQt6
-          pip install controller_cli
           pip install -r controller/src/requirements/base.txt
       - name: Run fbs and freeze application
         run: |
