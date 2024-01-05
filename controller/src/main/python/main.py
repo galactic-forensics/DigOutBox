@@ -49,10 +49,10 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         """
         super().__init__(parent=None)
 
-        self.dummy = (
-            False  # dummy mode - do not communicate over serial and "simulate" a device
-        )
-        self.debug = False  # debug mode - additional functionality and a debug button
+        # dummy mode - do not communicate over serial and "simulate" a device
+        self.dummy = False
+        # debug mode - additional functionality and a debug button
+        self.debug = False
 
         self.version = FBSRT_PUBLIC_SETTINGS["version"]
 
