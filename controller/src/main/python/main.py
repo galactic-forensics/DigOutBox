@@ -50,7 +50,7 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         super().__init__(parent=None)
 
         # dummy mode - do not communicate over serial and "simulate" a device
-        self.dummy = False
+        self.dummy = True
         # debug mode - additional functionality and a debug button
         self.debug = False
 
