@@ -73,6 +73,11 @@ class ChannelWidget(QtWidgets.QWidget):
         """Initialize the UI."""
         # name label
         name_label = QtWidgets.QLabel(self.channel)
+        if len(self.hw_channel) > 1:
+            tooltip = f"Channels: {', '.join(self.channel_names)}"
+        else:
+            tooltip = f"Physical output channel: {self.controller.hw_config[self.hw_channel[0]]}"
+        name_label.setToolTip(tooltip)
         # make label bold
         name_label_font = QtGui.QFont()
         name_label_font.setBold(True)
@@ -80,8 +85,10 @@ class ChannelWidget(QtWidgets.QWidget):
 
         # buttons
         on_button = QtWidgets.QPushButton("On")
+        on_button.setToolTip(f"Turn {self.channel} on")
         on_button.clicked.connect(self.on_button_clicked)
         off_button = QtWidgets.QPushButton("Off")
+        off_button.setToolTip(f"Turn {self.channel} off")
         off_button.clicked.connect(self.off_button_clicked)
 
         layout = QtWidgets.QHBoxLayout()
@@ -198,6 +205,7 @@ class StatusIndicator(QtWidgets.QWidget):
             False: QtCore.Qt.GlobalColor.red,
             "mixed": QtGui.QColor(255, 128, 0),  # orange
         }
+        self.setToolTip("green:\ton\nred:\toff\norange:\tmixed\ngray:\tunknown status")
 
         # color
         self.color = self.status_color[self.status]
