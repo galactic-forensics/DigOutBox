@@ -9,11 +9,19 @@ this should be fairly straightforward.
 However,
 you might need to detect and register new remotes.
 
+There are currently two types of firmware available.
+
+- `DigoutBox_fw_v*.ino`: This is the default firmware for the DigOutBox.
+- `DigoutBox_interlocked_fw*.ino`: This is the firmware for an interlocked version of the DigOutBox.
+  In order to control channels, you need to short the interlock/trigger channel to ground.
+  The interlock channel on the existing boxes and in the hardware design is currently called `TRIG`.
+  If this channel is open or at 5V, all channels are off and cannot be turned on.
+
 The firmware is written in `C` and uses the Arduino framework.
 You can find the current version `v0.1.0`
-in folder `DigOutBox_fw_v010`.
+in the respectively labeled sub folders.
 There are two files:
-- `DigOutBox_fw_v010.ino`: This is the main file that contains the firmware.
+- `*fw*.ino`: This is the main file that contains the firmware.
 - `config.h`: This file contains the configuration of the firmware.
   You can find the configuration for the existing setups in the folder `configs`.
   If you want to use a new setup,
@@ -45,7 +53,7 @@ It contains the following variables:
 - `fw_version`: The firmware version.
 - `hw_version`: The hardware version.
 
-### User setup
+### User setupcd
 
 This section contains the user setup.
 If you have a box with an existing setup,
@@ -55,6 +63,10 @@ The section contains the following variables:
 - `debug`: If set to `true`, the Arduino will print debug messages to the serial port.
   This is mainly used to set up new remotes (see below).
 - `rf_delay`: Set the delay time after accepting a second remote control command in ms.
+- `InterlockIn`: (Only used on `interlocked` firmware version)
+  The number of the digital input pin that is connected to the interlock/trigger channel.
+  If this pin is open or at 5V, all channels are off and cannot be turned on.
+  Note that the channel must be an interrupt pin (default: `3`).
 - `RFChannels`: Array that maps the buttons of the remote control to the channels of the DigOut Box.
   This array has `numOfRemoteButtons` elements.
   Each element is an integer that maps the button to a channel.
@@ -147,7 +159,7 @@ Below is a table with frequency codes that we have mapped already:
 ## Flash firmware
 
 **Important: Make sure that the jumper on the board connecting the reset pin via the capacitor to ground is open!
-Otherwise you will not be able to flash firmware.
+Otherwise, you will not be able to flash firmware.
 After you are done flashing firmware, close the connection with a jumper again.**
 
 The following libraries are required to compile the firmware:
