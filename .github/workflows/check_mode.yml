@@ -1,0 +1,29 @@
+# This workflow ensures that the controller_cli and controller package do not have debug or dummy mode turned on.
+
+name: mode_check
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  # Build and test
+  build:
+    if: github.repository_owner == 'galactic-forensics'
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: controller_cli
+      run: |
+        grep 'dummy: bool = False'  controller_cli/controller_cli/device_comm.py
+    - name: controller
+      run: |
+        grep 'self.dummy = False'  controller/src/main/python/main.py
+        grep 'self.debug = False'  controller/src/main/python/main.py
