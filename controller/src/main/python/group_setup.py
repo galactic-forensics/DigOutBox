@@ -135,6 +135,11 @@ class GroupSetupIndividual(QtWidgets.QDialog):
         group_name_label = QtWidgets.QLabel("Group name:")
         group_name_layout.addWidget(group_name_label)
         group_name_layout.addStretch()
+
+        self.group_name_entry.setToolTip(
+            "Enter a group name. If the group name already exists, "
+            "the existing group will be overwritten."
+        )
         group_name_layout.addWidget(self.group_name_entry)
 
         # list widget with available channels, sorted alphabetically, multi selections
@@ -174,9 +179,9 @@ class GroupSetupIndividual(QtWidgets.QDialog):
             return
 
         # add group to parent
-        self.parent.groups[self.group_name_entry.text()] = [
-            item.text() for item in self.channel_list.selectedItems()
-        ]
+        self.parent.groups[self.group_name_entry.text()] = sorted(
+            [item.text() for item in self.channel_list.selectedItems()]
+        )
 
         super().accept()
 

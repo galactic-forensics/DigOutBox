@@ -1,5 +1,4 @@
 """Main interface for DigOutBoxController."""
-
 import importlib.util
 import itertools
 import json
@@ -50,8 +49,9 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         """
         super().__init__(parent=None)
 
+        # FIXME
         self.dummy = (
-            False  # dummy mode - do not communicate over serial and "simulate" a device
+            True  # dummy mode - do not communicate over serial and "simulate" a device
         )
         self.debug = False  # debug mode - additional functionality and a debug button
 
