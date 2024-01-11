@@ -511,7 +511,7 @@ class DigOutBoxController(QtWidgets.QMainWindow):
             ch.set_status_from_read(read)
 
         # software lockout
-        self.software_lockout()
+        self.lockouts()
 
     def save(self, ask_fname: bool = False):
         """Save the current configuration to default json file.
@@ -572,12 +572,12 @@ class DigOutBoxController(QtWidgets.QMainWindow):
             ):
                 ch.set_status_custom(False)
 
-    def software_lockout(self):
+    def lockouts(self):
         """Activate/deactivate buttons depending on software lockout state."""
         if self.dummy:
             status = False
         else:
-            status = self.comm.software_lockout
+            status = self.comm.interlock_state or self.comm.software_lockout
 
         buttons_to_toggle = [self.all_on_button]  # non-widget buttons to toggle
 

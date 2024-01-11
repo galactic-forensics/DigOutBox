@@ -35,7 +35,7 @@ const int rf_delay = 500;
 const int InterlockPin = 3;
 
 // Turn interlock mode on (true) or off (false)
-const bool EnableInterlock = true;
+const bool EnableInterlock = false;
 
 // Software lockout time window (in ms) for double click (second click has to come after `rf_delay`!)
 const unsigned long SoftwareLockoutDoubleClickTime = 3000;

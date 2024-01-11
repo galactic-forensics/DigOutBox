@@ -38,7 +38,8 @@ void setup() {
   DigIOBox.RegisterCommand(F("DOut#"), &SetDigIO);
   DigIOBox.RegisterCommand(F("ALLDOut?"), &GetAllDigIO);
   DigIOBox.RegisterCommand(F("ALLOFF"), &AllOff);
-  DigIOBox.RegisterCommand(F("SWLockout?"), &GetSoftwareLockoutState);
+  DigIOBox.RegisterCommand(F("INTERLOCKState?"), &GetInterlockState);  // returns 1 if interlocked
+  DigIOBox.RegisterCommand(F("SWLockout?"), &GetSoftwareLockoutState);  // returns 1 if software is locked
 
   // Output and LED setups
   for (int it = 0; it < numOfChannels; it++) {
@@ -57,7 +58,7 @@ void setup() {
   AllOff();
 
   // Interlock setup
-  if (EnableInterlock) {
+  if (EnableInterlock == true) {
     pinMode(InterlockPin, INPUT_PULLUP);
     attachInterrupt(digitalPinToInterrupt(InterlockPin), interlock, CHANGE);
     // check interlock status and activate / deactivate remote
@@ -104,12 +105,12 @@ void software_lockout() {
   // Lock the software out with the remote
   if (not SoftwareLockoutToggle) {
     SoftwareLockoutToggle = true;
-    if (debug) {
+    if (debug == true) {
       Serial.println("Software lockout activated.");
     }
   }
   else {
-    if (debug) {
+    if (debug == true) {
       Serial.print("Software lockout counter: ");
       Serial.println(SoftwareLockoutCounter);
     }
@@ -122,7 +123,7 @@ void software_lockout() {
     else {
       // click was not in time
       if (millis() - SoftwareLockoutClock > SoftwareLockoutDoubleClickTime) {
-        if (debug) {
+        if (debug == true) {
           Serial.println("Assuming this is the first click.");
         }
         SoftwareLockoutCounter = 1;
@@ -130,7 +131,7 @@ void software_lockout() {
       }
       // second click -> deactivate SoftwareLockout
       else {
-        if (debug) {
+        if (debug == true) {
           Serial.println("Deactivating software lockout.");
         }
         SoftwareLockoutCounter = 0;
@@ -239,7 +240,7 @@ void ListenForRemote() {
      }
     }
 
-    if (debug) {
+    if (debug == true) {
       Serial.print("Valid RF Remote code received: ");
       Serial.print(received_value);
       Serial.print(" / Channel associated: ");
@@ -280,6 +281,17 @@ int GetChannel(int ch) {
 void GetSoftwareLockoutState(SCPI_C commands, SCPI_P parameters, Stream& interface) {
   // Get the state of the SoftwareLockoutToggle. return 0 if off, 1 if on.
   if (SoftwareLockoutToggle) {
+    interface.println(1);
+  }
+  else {
+    interface.println(0);
+  }
+
+}
+
+void GetInterlockState(SCPI_C commands, SCPI_P parameters, Stream& interface) {
+  // Get the state of the SoftwareLockoutToggle. return 0 if off, 1 if on.
+  if (IsInterlocked) {
     interface.println(1);
   }
   else {

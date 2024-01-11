@@ -90,6 +90,11 @@ class DigIOBoxComm(DevComm):
         return self.query("*IDN?")
 
     @property
+    def interlock_state(self) -> bool:
+        """Read if software lockout is on."""
+        return bool(int(self.query("INTERLOCKState?")))
+
+    @property
     def num_channels(self) -> int:
         """Get / Set number of available channels.
 
