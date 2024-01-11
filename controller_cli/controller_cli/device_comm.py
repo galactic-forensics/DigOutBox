@@ -102,6 +102,11 @@ class DigIOBoxComm(DevComm):
         self._num_channels = int(value)
 
     @property
+    def software_lockout(self) -> bool:
+        """Read if software lockout is on."""
+        return bool(int(self.query("SWLockout?")))
+
+    @property
     def states(self):
         """Read the states of all channels and return as a boolean array."""
         retval = self.query("ALLDOut?")

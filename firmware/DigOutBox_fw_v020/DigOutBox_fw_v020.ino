@@ -24,6 +24,11 @@ void AllOff();
 // Interlock variable: True if currently triggered
 bool IsInterlocked = true;
 
+// Software lockout active?
+bool SoftwareLockoutToggle = false;
+int SoftwareLockoutCounter = 0;
+unsigned long SoftwareLockoutClock = 0;
+
 
 void setup() {
 
@@ -33,6 +38,7 @@ void setup() {
   DigIOBox.RegisterCommand(F("DOut#"), &SetDigIO);
   DigIOBox.RegisterCommand(F("ALLDOut?"), &GetAllDigIO);
   DigIOBox.RegisterCommand(F("ALLOFF"), &AllOff);
+  DigIOBox.RegisterCommand(F("SWLockout?"), &GetSoftwareLockoutState);
 
   // Output and LED setups
   for (int it = 0; it < numOfChannels; it++) {
@@ -51,7 +57,7 @@ void setup() {
   AllOff();
 
   // Interlock setup
-  if (InterlockActive) {
+  if (EnableInterlock) {
     pinMode(InterlockPin, INPUT_PULLUP);
     attachInterrupt(digitalPinToInterrupt(InterlockPin), interlock, CHANGE);
     // check interlock status and activate / deactivate remote
@@ -91,6 +97,47 @@ void interlock() {
 
     myRemote.enableReceive(RFInterrupt);
     IsInterlocked = false;
+  }
+}
+
+void software_lockout() {
+  // Lock the software out with the remote
+  if (not SoftwareLockoutToggle) {
+    SoftwareLockoutToggle = true;
+    if (debug) {
+      Serial.println("Software lockout activated.");
+    }
+  }
+  else {
+    if (debug) {
+      Serial.print("Software lockout counter: ");
+      Serial.println(SoftwareLockoutCounter);
+    }
+    // this is the first click
+    if (SoftwareLockoutCounter == 0) {
+      SoftwareLockoutCounter++;
+      SoftwareLockoutClock = millis();
+    }
+    // this is the second click
+    else {
+      // click was not in time
+      if (millis() - SoftwareLockoutClock > SoftwareLockoutDoubleClickTime) {
+        if (debug) {
+          Serial.println("Assuming this is the first click.");
+        }
+        SoftwareLockoutCounter = 1;
+        SoftwareLockoutClock = millis();
+      }
+      // second click -> deactivate SoftwareLockout
+      else {
+        if (debug) {
+          Serial.println("Deactivating software lockout.");
+        }
+        SoftwareLockoutCounter = 0;
+        SoftwareLockoutToggle = false;
+        SoftwareLockoutClock = 0;
+      }
+    }
   }
 }
 
@@ -149,23 +196,26 @@ void SetDigIO(SCPI_C commands, SCPI_P parameters, Stream& interface) {
   //  DOut4 1  (Sets DOut[4] to HIGH)
   //  DO0 1  (Sets DOut[0] to HIGH)
 
-  //Get the numeric suffix/index (if any) from the commands
-  String header = String(commands.Last());
-  header.toUpperCase();
-  int suffix = -1;
+  // do nothing if software is locked out
+  if (not SoftwareLockoutToggle) {
+    //Get the numeric suffix/index (if any) from the commands
+    String header = String(commands.Last());
+    header.toUpperCase();
+    int suffix = -1;
 
-  sscanf(header.c_str(),"%*[DO]%u", &suffix);
+    sscanf(header.c_str(),"%*[DO]%u", &suffix);
 
-  //If the suffix is valid,
-  //use the first parameter (if valid) to set the digital Output
-  String first_parameter = String(parameters.First());
-  first_parameter.toUpperCase();
-  if ( (suffix >= 0) && (suffix < numOfChannels) ) {
-    if (first_parameter == "1") {
-      SetChannel(suffix, 1);
-    }
-    else if (first_parameter == "0"){
-      SetChannel(suffix, 0);
+    //If the suffix is valid,
+    //use the first parameter (if valid) to set the digital Output
+    String first_parameter = String(parameters.First());
+    first_parameter.toUpperCase();
+    if ( (suffix >= 0) && (suffix < numOfChannels) ) {
+      if (first_parameter == "1") {
+        SetChannel(suffix, 1);
+      }
+      else if (first_parameter == "0"){
+        SetChannel(suffix, 0);
+      }
     }
   }
 }
@@ -175,7 +225,7 @@ void ListenForRemote() {
   if (myRemote.available()) {
     // read remote value
     long received_value = myRemote.getReceivedValue();
-    int channel = -2;  // no channel
+    int channel = -3;  // no channel
     // Read channel to be triggered
     for (int it = 0; it < numOfRemoteButtons; it++) {
       for (int rt = 0; rt < numOfRemotes; rt++) {
@@ -184,7 +234,7 @@ void ListenForRemote() {
          break;
         }
       }
-     if (channel != -2) {
+     if (channel != -3) {
        break;
      }
     }
@@ -199,6 +249,10 @@ void ListenForRemote() {
     // Now toggle if required
     if (channel == -1) {
       AllOff();
+    }
+    else if (channel == -2) {
+      software_lockout();
+      delay(rf_delay);
     }
     else if ((channel > -1) && (channel < numOfChannels)) {
       ToggleRFChannel(channel);
@@ -223,6 +277,16 @@ int GetChannel(int ch) {
 
 }
 
+void GetSoftwareLockoutState(SCPI_C commands, SCPI_P parameters, Stream& interface) {
+  // Get the state of the SoftwareLockoutToggle. return 0 if off, 1 if on.
+  if (SoftwareLockoutToggle) {
+    interface.println(1);
+  }
+  else {
+    interface.println(0);
+  }
+
+}
 
 void SetChannel(int ch, int state) {
   // only set a channel if not interlocked

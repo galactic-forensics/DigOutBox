@@ -5,7 +5,7 @@ from .device_comm import DigIOBoxComm
 __all__ = ["DigIOBoxComm"]
 
 # Package information
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 __title__ = "controller_cli"
 __description__ = """Communication package to talk to the DigOutBox via Serial."""

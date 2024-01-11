@@ -15,7 +15,7 @@ const int numOfChannels = 16;
 const int numOfRemoteButtons = 10;
 
 // hard- and firmware versions
-const char fw_version[7] = "v0.1.0";
+const char fw_version[7] = "v0.2.0";
 const char hw_version[7] = "v0.1.0";
 
 
@@ -35,9 +35,12 @@ const int rf_delay = 500;
 const int InterlockPin = 3;
 
 // Turn interlock mode on (true) or off (false)
-const bool InterlockActive = true;
+const bool EnableInterlock = true;
 
-// Associate remote buttons with channels, -1 for ALL OFF, -2 for None
+// Software lockout time window (in ms) for double click (second click has to come after `rf_delay`!)
+const unsigned long SoftwareLockoutDoubleClickTime = 3000;
+
+// Associate remote buttons with channels, -1 for ALL OFF, -2 for software lockout toggling, -3 for None
 const int RFChannels[numOfRemoteButtons] = {
   0,
   1,
@@ -47,7 +50,7 @@ const int RFChannels[numOfRemoteButtons] = {
   5,
   8,
   9,
-  10,
+  -2,
   -1
 };
 

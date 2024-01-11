@@ -81,6 +81,9 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         self.hw_config = None
         self.init_hw_config()
 
+        # buttons to toggle
+        self.all_on_button = None
+
         # init GUI
         self.main_widget = None
         self.init_menubar()
@@ -323,16 +326,16 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         all_read_button.setToolTip("Read the status of all channels")
         all_read_button.clicked.connect(self.read_all)
 
-        all_on_button = QtWidgets.QPushButton("All On")
-        all_on_button.setToolTip("Turn all channels on")
-        all_on_button.clicked.connect(lambda: self.set_all_channels(state=True))
+        self.all_on_button = QtWidgets.QPushButton("All On")
+        self.all_on_button.setToolTip("Turn all channels on")
+        self.all_on_button.clicked.connect(lambda: self.set_all_channels(state=True))
 
         all_off_button = QtWidgets.QPushButton("All Off")
         all_off_button.setToolTip("Turn all channels off")
         all_off_button.clicked.connect(lambda: self.set_all_channels(state=False))
 
         all_on_off_layout.addWidget(all_read_button)
-        all_on_off_layout.addWidget(all_on_button)
+        all_on_off_layout.addWidget(self.all_on_button)
         all_on_off_layout.addWidget(all_off_button)
 
         outer_layout.addLayout(all_on_off_layout)
@@ -507,6 +510,9 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         ):
             ch.set_status_from_read(read)
 
+        # software lockout
+        self.software_lockout()
+
     def save(self, ask_fname: bool = False):
         """Save the current configuration to default json file.
 
@@ -565,6 +571,26 @@ class DigOutBoxController(QtWidgets.QMainWindow):
                 self.group_widgets,
             ):
                 ch.set_status_custom(False)
+
+    def software_lockout(self):
+        """Activate/deactivate buttons depending on software lockout state."""
+        if self.dummy:
+            status = False
+        else:
+            status = self.comm.software_lockout
+
+        buttons_to_toggle = [self.all_on_button]  # non-widget buttons to toggle
+
+        for button in buttons_to_toggle:
+            button.setEnabled(not status)
+
+        for widget in itertools.chain(
+            self.channel_widgets_individual,
+            self.channel_widgets_grouped,
+            self.group_widgets,
+        ):
+            widget.on_button.setEnabled(not status)
+            widget.off_button.setEnabled(not status)
 
 
 if __name__ == "__main__":

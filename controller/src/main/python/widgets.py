@@ -52,6 +52,9 @@ class ChannelWidget(QtWidgets.QWidget):
         # status indicator
         self.status_indicator = StatusIndicator()
 
+        # UI
+        self.on_button = None
+        self.off_button = None
         self.init_ui()
 
         self.is_on = is_on
@@ -84,19 +87,19 @@ class ChannelWidget(QtWidgets.QWidget):
         name_label.setFont(name_label_font)
 
         # buttons
-        on_button = QtWidgets.QPushButton("On")
-        on_button.setToolTip(f"Turn {self.channel} on")
-        on_button.clicked.connect(self.on_button_clicked)
-        off_button = QtWidgets.QPushButton("Off")
-        off_button.setToolTip(f"Turn {self.channel} off")
-        off_button.clicked.connect(self.off_button_clicked)
+        self.on_button = QtWidgets.QPushButton("On")
+        self.on_button.setToolTip(f"Turn {self.channel} on")
+        self.on_button.clicked.connect(self.on_button_clicked)
+        self.off_button = QtWidgets.QPushButton("Off")
+        self.off_button.setToolTip(f"Turn {self.channel} off")
+        self.off_button.clicked.connect(self.off_button_clicked)
 
         layout = QtWidgets.QHBoxLayout()
         layout.addWidget(self.status_indicator)
         layout.addWidget(name_label)
         layout.addStretch()
-        layout.addWidget(on_button)
-        layout.addWidget(off_button)
+        layout.addWidget(self.on_button)
+        layout.addWidget(self.off_button)
         self.setLayout(layout)
 
     def on_button_clicked(self):

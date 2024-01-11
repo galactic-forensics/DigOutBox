@@ -64,6 +64,13 @@ def test_all_off():
         dev.all_off()
 
 
+@pytest.mark.parametrize("state", [0, 1])
+def test_software_lockout(state):
+    """Read state of software lockout."""
+    with expected_communication(command=["SWLockout?"], response=[f"{state}"]) as dev:
+        assert dev.software_lockout == bool(state)
+
+
 # CHANNEL PROPERTIES #
 
 
