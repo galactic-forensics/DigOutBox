@@ -27,3 +27,5 @@ jobs:
       run: |
         grep 'self.dummy = False'  controller/src/main/python/main.py
         grep 'self.debug = False'  controller/src/main/python/main.py
+        grep 'const bool debug = false;' firmware/DigOutBox_fw*/config.h
+        grep 'const bool EnableInterlock = false;' firmware/DigOutBox_fw*/config.h

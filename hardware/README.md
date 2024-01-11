@@ -27,7 +27,7 @@ The following table lists the parts that are needed to assemble the DigOutBox.
 Note that this assembly for a box that has 8 outputs via a DB-9 connector
 and 8 outputs via BNC connectors.
 Furthermore, the box has 16 LEDs to indicate the status of each output.
-A trigger input is also provided via a BNC connector,
+A trigger/interlock input is also provided via a BNC connector,
 however, it is not used in the current version of the firmware.
 
 | Part                   | Quantity | Description             | Link                                                                                                                                                                                                      |

@@ -203,6 +203,38 @@ Here you can configure if you want the status of channels to be automatically re
 and how often (in seconds) this should be done.
 When you are done, hit "Ok" to save the settings.
 
+## Lockouts
+
+The GUI does not behave differently depending on which lockout is active.
+
+### Interlock safety
+
+If enabled in the firmware,
+the interlock safety -- if triggered --
+will disable sending commands to the hardware from any input method.
+The GUI will change its behavior to reflect this and,
+after reading the hardware,
+gray out all interaction buttons.
+
+If the interlock safety is triggered,
+all channels will turned off and stay off.
+Neither the software,
+nor the remote can overwrite this.
+
+### Software lockout
+
+The remote can be configured to have a software lockout button,
+see firmware notes.
+If enabled,
+the GUI will change its behavior to reflect this and,
+after reading the hardware,
+gray out all interaction buttons.
+
+If the software lockout is triggered,
+the software will not be allowed to change the state of any channel.
+However, the remote can still change the state of the channels.
+
+
 ## Saving your configuration file / loading a configuration file
 
 The "File" entry in the menu bar allows you to save the current configuration
