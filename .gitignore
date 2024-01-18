@@ -138,3 +138,6 @@ dmypy.json
 
 # fbs
 !controller/src/build
+
+# hatch
+.hatch
