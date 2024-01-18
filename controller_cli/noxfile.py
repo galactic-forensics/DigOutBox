@@ -7,8 +7,8 @@ nox.options.sessions = ["lint", "tests"]
 package = "controller_cli"
 locations = ["controller_cli"]
 
-python_default = "3.10"
-python_suite = ["3.11", "3.10", "3.9", "3.8"]
+python_default = "3.12"
+python_suite = ["3.12", "3.11", "3.10", "3.9", "3.8"]
 
 
 @nox.session(python=python_default)
