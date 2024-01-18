@@ -27,6 +27,10 @@ dev = [
     "flake8-import-order",
     "bandit"
 ]
+doc = [
+    "sphinx",
+    "sphinx_rtd_theme"
+]
 test = [
     "hypothesis",
     "pytest>=6.0.0",
