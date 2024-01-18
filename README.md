@@ -29,7 +29,7 @@ Depending on the number of channels the control has
 multiple channels can be controlled.
 
 
-| [<img src="images/gfl002_setup_small.jpeg" width="600"><br>Front and top of DigOutBox</img>](images/gfl002_setup.jpeg) | [<img src="images/gfl002_back_top.jpeg" width="600"><br>Back of DigOutBox</img>](images/gfl002_back_top.jpeg) |
+| [<img src="docs/graphics/boxes/gfl002_setup_small.jpeg" width="600"><br>Front and top of DigOutBox</img>](images/gfl002_setup.jpeg) | [<img src="docs/graphics/boxes/gfl002_back_top.jpeg" width="600"><br>Back of DigOutBox</img>](images/gfl002_back_top.jpeg) |
 |:----------------------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------:|
 
 
@@ -37,14 +37,14 @@ multiple channels can be controlled.
 
 This git repository contains the following folders:
 
-- `DigIOBoxController`: Python software to control the box from a computer via CLI or GUI.
+- `controller`: Python software to control the box from a computer via a GUI.
+- `controller_cli`: Python software to control the box from python scripts.
 - `firmware`: Arduino firmware.
 - `hardware`: Designs with bill of materials, build instructions, etc.
 - `images`: Images of the box.
 
-Each folder contains its own, specific README file
-that contains further information on what can be done
-with the specific files.
+The documentation for the project can be found on
+[ReadTheDocs](https://digoutbox.readthedocs.io/).
 
 ## Issues
 
@@ -78,12 +78,12 @@ Copyright: 2021-2024, Galactic Forensics Laboratory.
 
 ### All around the transparent `llnl001` box
 
-| [<img src="images/llnl001_front_small.jpeg" width="600"/>](images/llnl001_front.jpeg) | [<img src="images/llnl001_front_top_small.jpeg" width="600"/>](images/llnl001_front_top.jpeg) |
+| [<img src="docs/graphics/boxes/llnl001_front_small.jpeg" width="600"/>](docs/graphics/boxes/llnl001_front.jpeg) | [<img src="docs/graphics/boxes/llnl001_front_top_small.jpeg" width="600"/>](docs/graphics/boxes/llnl001_front_top.jpeg) |
 |:-------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------:|
-|  [<img src="images/llnl001_back_small.jpeg" width="600"/>](images/llnl001_back.jpeg)  |                                                                                               |
+|  [<img src="docs/graphics/boxes/llnl001_back_small.jpeg" width="600"/>](docs/graphics/boxes/llnl001_back.jpeg)  |                                                                                               |
 
 ### The black/transparent `gfl002` box
 
-| [<img src="images/gfl002_setup_small.jpeg" width="600"/>](images/gfl002_setup.jpeg) | [<img src="images/gfl002_back_top_small.jpeg" width="600"/>](images/gfl002_back_top.jpeg) |
+| [<img src="docs/graphics/boxes/gfl002_setup_small.jpeg" width="600"/>](images/gfl002_setup.jpeg) | [<img src="docs/graphics/boxes/gfl002_back_top_small.jpeg" width="600"/>](images/gfl002_back_top.jpeg) |
 |:-----------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|
-|  [<img src="images/gfl002_back_small.jpeg" width="600"/>](images/gfl002_back.jpeg)  |   [<img src="images/gfl002_inside_small.jpeg" width="600"/>](images/gfl002_inside.jpeg)   |
+|  [<img src="docs/graphics/boxes/gfl002_back_small.jpeg" width="600"/>](docs/graphics/boxes/gfl002_back.jpeg)  |   [<img src="docs/graphics/boxes/gfl002_inside_small.jpeg" width="600"/>](docs/graphics/boxes/gfl002_inside.jpeg)   |

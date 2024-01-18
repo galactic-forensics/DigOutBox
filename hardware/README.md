@@ -91,7 +91,7 @@ after the components have been installed and tested!
    If the standoffs are too long, you can cut them down to the desired length.
 3. Screw the Arduino with two short mounting screws to the standoffs (see picture below).
 
-   [![Arduino mounted](../images/arduino_screwed_in_small.jpeg)](../images/arduino_screwed_in.jpeg)
+   [![Arduino mounted](../docs/graphics/hardware/arduino_screwed_in_small.jpeg)](../docs/graphics/hardware/arduino_screwed_in.jpeg)
 
 4. Mount the DB-9 connector to the case and tighten it.
 5. Mount the BNC connectors to the case and tighten them.
@@ -104,20 +104,20 @@ after the components have been installed and tested!
 2. Solder the reset button onto the proto shield (if you want to use the reset button) (yellow marking).
 3. Solder additional headers to the proto shield, see green (ground headers) and red markings (pin headers) in picture below.
 
-   [![Proto shield with headers](../images/proto_shield_marked_small.jpeg)](../images/proto_shield_marked.jpeg)
+   [![Proto shield with headers](../docs/graphics/hardware/proto_shield_marked_small.jpeg)](../docs/graphics/hardware/proto_shield_marked.jpeg)
 
 4. Solder the RF receiver to the proto shield. Anywhere on the proto shield is fine.
    1. Connect the `Vcc` pin of the RF receiver to the `5V` line on the proto shield.
    2. Connect the ground pin of the RF receiver to the ground line on the proto shield.
    3. Connect the `Data` pin of the RF receiver to pin `2` on the proto shield: This is interrupt 0.
 
-   [![RF receiver](../images/rf_connections_small.jpeg)](../images/rf_connections.jpeg)
+   [![RF receiver](../docs/graphics/hardware/rf_connections_small.jpeg)](../docs/graphics/hardware/rf_connections.jpeg)
 
    Note that the blue (data) and red (5V) boxes show connections made on the bottom of the proto shield.
    The ground connection (leftmost) is directly connected to the ground line on the proto shield.
 5. Solder the capacitor and a jumper wire between the reset pin and ground.
 
-   [![Reset connection](../images/reset_pin_connection_small.jpeg)](../images/reset_pin_connection.jpeg)
+   [![Reset connection](../docs/graphics/hardware/reset_pin_connection_small.jpeg)](../docs/graphics/hardware/reset_pin_connection.jpeg)
 
    Note that the yellow markings show connections that are done underneath. The red marking show the jumper position.
    When flashing firmware to the Arduino, this connection must be opened, when running the box, this connection should be closed.
@@ -126,15 +126,15 @@ after the components have been installed and tested!
 8. Solder DB-9 pin 9 to the ground line on the proto shield (see image below).
 9. Solder the anodes of the LED's each to its individual line that can be plugged into the proto shield.
 
-   [![LEDs](../images/led_connections_small.jpeg)](../images/led_connections.jpeg)
+   [![LEDs](../docs/graphics/hardware/led_connections_small.jpeg)](../docs/graphics/hardware/led_connections.jpeg)
 
 10. Solder each BNC plug to its individual line that can be plugged into the proto shield.
 
-    [![BNC connectors](../images/bnc_connections_small.jpeg)](../images/bnc_connections.jpeg)
+    [![BNC connectors](../docs/graphics/hardware/bnc_connections_small.jpeg)](../docs/graphics/hardware/bnc_connections.jpeg)
 
 11. Solder pins 1 through 8 of the DB-9 connector to the individual lines that can be plugged into the proto shield.
 
-    [![DB-9 connector](../images/db9_connections_small.jpeg)](../images/db9_connections.jpeg)
+    [![DB-9 connector](../docs/graphics/hardware/db9_connections_small.jpeg)](../docs/graphics/hardware/db9_connections.jpeg)
 
 Now you are ready to connect all your components to the proto shield and assemble the box.
 Plug in all the grounds to the ground lines.
@@ -148,7 +148,7 @@ Each file goes with its respective `.h` file, which contains the configuration f
 Your finished box should look inside something like this
 (however, here the reset pin ground connection via a capacitor is missing):
 
-[![Finished box](../images/gfl002_inside_small.jpeg)](../images/gfl002_inside.jpeg)
+[![Finished box](../docs/graphics/boxes/gfl002_inside_small.jpeg)](../docs/graphics/boxes/gfl002_inside.jpeg)
 
 *Tip*: If you bought the male-male wires from the recommended link,
 or bought similar wires, DO NOT take them apart.
