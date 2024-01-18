@@ -164,7 +164,7 @@ Assembly of the case
 
    .. image:: ../graphics/hardware/arduino_screwed_in_small.jpeg
       :alt: Arduino mounted
-      :target: ../graphics/hardware/arduino_screwed_in.jpeg
+      :target: https://github.com/galactic-forensics/DigOutBox/blob/main/docs/graphics/hardware/arduino_screwed_in.jpeg
 
 4. Mount the DB-9 connector to the case and tighten it.
 5. Mount the BNC connectors to the case and tighten them.
@@ -181,7 +181,7 @@ Assembly of the electronics
 
    .. image:: ../graphics/hardware/proto_shield_marked_small.jpeg
       :alt: Proto shield with headers
-      :target: ../graphics/hardware/proto_shield_marked.jpeg
+      :target: https://github.com/galactic-forensics/DigOutBox/blob/main/docs/graphics/hardware/proto_shield_marked.jpeg
 
 4. Solder the RF receiver to the proto shield. Anywhere on the proto shield is fine.
    1. Connect the `Vcc` pin of the RF receiver to the `5V` line on the proto shield.
@@ -190,7 +190,7 @@ Assembly of the electronics
 
    .. image:: ../graphics/hardware/rf_connections_small.jpeg
       :alt: RF receiver
-      :target: ../graphics/hardware/rf_connections.jpeg
+      :target: https://github.com/galactic-forensics/DigOutBox/blob/main/docs/graphics/hardware/rf_connections.jpeg
 
    Note that the blue (data) and red (5V) boxes show connections made on the bottom of the proto shield.
    The ground connection (leftmost) is directly connected to the ground line on the proto shield.
@@ -198,7 +198,7 @@ Assembly of the electronics
 
    .. image:: ../graphics/hardware/reset_pin_connection_small.jpeg
       :alt: Reset connection
-      :target: ../graphics/hardware/reset_pin_connection.jpeg
+      :target: https://github.com/galactic-forensics/DigOutBox/blob/main/docs/graphics/hardware/reset_pin_connection.jpeg
 
    Note that the yellow markings show connections that are done underneath. The red marking show the jumper position.
    When flashing firmware to the Arduino, this connection must be opened, when running the box, this connection should be closed.
@@ -209,19 +209,19 @@ Assembly of the electronics
 
    .. image:: ../graphics/hardware/led_connections_small.jpeg
       :alt: LEDs
-      :target: ../graphics/hardware/led_connections.jpeg
+      :target: https://github.com/galactic-forensics/DigOutBox/blob/main/docs/graphics/hardware/led_connections.jpeg
 
 10. Solder each BNC plug to its individual line that can be plugged into the proto shield.
 
     .. image:: ../graphics/hardware/bnc_connections_small.jpeg
        :alt: BNC connectors
-       :target: ../graphics/hardware/bnc_connections.jpeg
+       :target: https://github.com/galactic-forensics/DigOutBox/blob/main/docs/graphics/hardware/bnc_connections.jpeg
 
 11. Solder pins 1 through 8 of the DB-9 connector to the individual lines that can be plugged into the proto shield.
 
     .. image:: ../graphics/hardware/db9_connections_small.jpeg
        :alt: DB-9 connector
-       :target: ../graphics/hardware/db9_connections.jpeg
+       :target: https://github.com/galactic-forensics/DigOutBox/blob/main/docs/graphics/hardware/db9_connections.jpeg
 
 Now you are ready to connect all your components to the proto shield and assemble the box.
 Plug in all the grounds to the ground lines.
@@ -237,7 +237,7 @@ Your finished box should look inside something like this
 
 .. image:: ../graphics/boxes/gfl002_inside_small.jpeg
    :alt: Finished box
-   :target: ../graphics/boxes/gfl002_inside.jpeg
+   :target: https://github.com/galactic-forensics/DigOutBox/blob/main/docs/graphics/boxes/gfl002_inside.jpeg
 
 *Tip*: If you bought the male-male wires from the recommended link,
 or bought similar wires, DO NOT take them apart.
