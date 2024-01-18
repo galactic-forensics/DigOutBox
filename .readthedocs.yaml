@@ -26,4 +26,4 @@ formats:
 python:
    install:
      - method: pip
-       path: .[doc]
+       path: controller_cli
