@@ -17,5 +17,4 @@ mkdocs:
 # install package via pip
 python:
    install:
-     - method: pip
-       path: controller_cli
+       - requirements: docs/requirments.txt

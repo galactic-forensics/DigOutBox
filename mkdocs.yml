@@ -7,6 +7,9 @@ site_author: Reto Trappitsch
 markdown_extensions:
   - admonition
 
+plugins:
+  - mermaid2
+
 nav:
   - Home: index.md
   - Images: images.md
