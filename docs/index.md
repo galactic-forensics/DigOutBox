@@ -32,6 +32,33 @@ Depending on the number of channels the control has
 (the default is 8),
 multiple channels can be controlled.
 
+## Use cases and safety features
+
+The DigOutBox can be used in a variety of applications,
+however,
+it's originally intended use is to control laser shutters.
+For this reason,
+two safety features are implemented into the firwmare:
+
+- Interlock via the external line labeled `TRIG`
+- Software lockout that can be triggered from a remote
+
+The interlock feature,
+if activated in the firmware,
+requires a TTL signal to be present on the `TRIG` line.
+If the signal is not present or is low,
+all digital outputs will be set to their `off` positions
+and cannot be turned on again
+until the interlock signal is present/high again.
+
+The software lockout can be set/unset from the remote
+and will prevent any computer connection
+to set digital outputs to `on`.
+The computer can still read the states and turn all outputs `off`.
+
+More details can be found in the
+[firmware documentation](firmware.md).
+
 ## Some images
 
 More images can be found [here](images.md).
