@@ -30,7 +30,8 @@ graph LR
   B --> C[GUI];
 ```
 
-This means that the GUI depends on both,
+This means, e.g.,
+that the GUI depends on both,
 the firmware and the controller_cli.
 
 ## Major versions
