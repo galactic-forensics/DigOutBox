@@ -19,4 +19,5 @@ nav:
   - Python Interface: cli.md
   - GUI: gui.md
   - Changelog: changelog.md
+  - Developer Guide: dev.md
   - Acknowledgement: acknowledgement.md
