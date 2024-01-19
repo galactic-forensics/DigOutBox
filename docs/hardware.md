@@ -62,7 +62,9 @@ however, it is not used in the current version of the firmware.
 ### Case
 
 The case can be cut out of acrylic sheets using a laser cutter.
-The folder `case` contains the files for the case.
+The folder `case`
+on [GitHub](https://github.com/galactic-forensics/DigOutBox/tree/main/hardware)
+contains the files for the case.
 The `svg` file has been created using [Inkscape](https://inkscape.org/)
 and contains various layers that can be turned on and off.
 In order for all fonts to properly display,
@@ -141,7 +143,7 @@ Plug in all the grounds to the ground lines.
 Plug in all LEDs, BNC connectors, and DB-9 connector to their respective lines.
 For the current existing setups,
 pin assignments can be found in the
-[`firmware/configs`](https://github.com/galactic-forensics/DigOutBox/tree/caa2740d46c07922274ae04c9754127a3d0fd2d2/firmware/configs)
+[`firmware/configs`](https://github.com/galactic-forensics/DigOutBox/tree/main/firmware/configs)
 folder.
 Here, `xlsx` files provide pin outs for various serial number numbers.
 Each file goes with its respective `.h` file, which contains the configuration for the firmware
