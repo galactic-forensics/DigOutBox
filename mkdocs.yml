@@ -18,4 +18,5 @@ nav:
   - Firmware: firmware.md
   - Python Interface: cli.md
   - GUI: gui.md
+  - Changelog: changelog.md
   - Acknowledgement: acknowledgement.md

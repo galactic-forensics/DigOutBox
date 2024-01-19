@@ -60,3 +60,5 @@ as well as with controller_cli versions
 ## Patch versions
 
 Patch versions are reserved for bug fixes.
+
+## Changelog
