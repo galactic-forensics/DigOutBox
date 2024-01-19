@@ -27,9 +27,9 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install nox
-        cd controller_cli
+        pip install nox tomllib
         pip install pytest pytest-cov pytest-mock
+        cd controller_cli
         pip install .
     - name: Run nox
       run: |
