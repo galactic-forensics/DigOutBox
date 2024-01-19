@@ -1,0 +1,9 @@
+site_name: DigOutBox Documentation
+theme: readthedocs
+site_url: https://digoutbox.readthedocs.io
+repo_url: https://github.com/galactic-forensics/DigOutBox
+site_author: Reto Trappitsch
+nav:
+  - Home: index.md
+  - Images: images.md
+  - Acknowledgement: acknowledgement.md

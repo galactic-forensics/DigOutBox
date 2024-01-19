@@ -11,19 +11,11 @@ build:
   tools:
     python: "3.12"
 
-# Build documentation in the docs/ directory with Sphinx
-sphinx:
-   builder: html
-   configuration: docs/conf.py
-   fail_on_warning: false
-
-# If using Sphinx, optionally build your docs in additional formats such as PDF
-formats:
-   - epub
-   - pdf
+mkdocs:
+  configuration: mkdocs.yml
 
 # install package via pip
 python:
    install:
      - method: pip
-       path: .[doc]
+       path: controller_cli
