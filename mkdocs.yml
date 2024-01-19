@@ -6,4 +6,9 @@ site_author: Reto Trappitsch
 nav:
   - Home: index.md
   - Images: images.md
+  - Versioning: versioning.md
+  - Hardware: hardware.md
+  - Firmware: firmware.md
+  - Python Interface: cli.md
+  - GUI: gui.md
   - Acknowledgement: acknowledgement.md
