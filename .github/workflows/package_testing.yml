@@ -14,21 +14,15 @@ jobs:
   build:
     if: github.repository_owner == 'galactic-forensics'
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
-
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
+    - uses: excitedleigh/setup-nox@v2.0.0
       run: |
-        echo python --version
         python -m pip install --upgrade pip
-        pip install nox tomllib
+        nox
+    - name: Install dependencies for coverage
+      run: |
+        python -m pip install --upgrade pip
         pip install pytest pytest-cov pytest-mock
         cd controller_cli
         pip install .
