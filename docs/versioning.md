@@ -7,11 +7,11 @@ are versioned independently.
 The following tags are added
 to GitHub:
 
-| Module        | Tag          | Example      |
-|---------------|--------------|--------------|
-| firmware      | `fw_vXYZ`    | `fw_v020`    |
+| Module         | Tag          | Example      |
+|----------------|--------------|--------------|
+| firmware       | `fw_vXYZ`    | `fw_v020`    |
 | controller_cli | `cli_vX.Y.Z` | `cli_0.2.0`  |
-| controller   | `gui_vX.Y.Z` | `gui_v0.2.0` |
+| controller     | `gui_vX.Y.Z` | `gui_v0.2.0` |
 
 Here, `X`, `Y`, and `Z`
 are follow
