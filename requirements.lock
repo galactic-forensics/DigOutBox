@@ -6,6 +6,19 @@
 #   features: []
 #   all-features: false
 
+-e file:controller
 -e file:controller_cli
 -e file:.
+altgraph==0.17.4
+fbs @ https://galactic-forensics.space/files/sw/6gfV4QhiKD74.tar.gz
+packaging==23.2
+pyinstaller==6.3.0
+pyinstaller-hooks-contrib==2024.0
+pyqt6==6.6.1
+pyqt6-qt6==6.6.1
+pyqt6-sip==13.6.0
+pyqtconfig==0.9.2
 pyserial==3.5
+qtpy==2.4.1
+# The following packages are considered to be unsafe in a requirements file:
+setuptools==69.0.3

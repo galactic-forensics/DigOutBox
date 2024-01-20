@@ -32,7 +32,7 @@ lint = "ruff lint ."
 test = "pytest --cov controller_cli"
 
 [tool.rye.workspace]
-members = ["controller_cli"]
+members = ["controller_cli", "controller"]
 
 [tool.hatch.metadata]
 allow-direct-references = true
