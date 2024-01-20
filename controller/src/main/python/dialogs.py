@@ -1,8 +1,7 @@
 """Dialogs for the controller application."""
 
-from serial.tools import list_ports
-
 from qtpy import QtWidgets
+from serial.tools import list_ports
 
 
 class PortDialog(QtWidgets.QDialog):

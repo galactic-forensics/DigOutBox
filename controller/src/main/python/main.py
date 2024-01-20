@@ -3,9 +3,9 @@ import importlib.util
 import itertools
 import json
 import os
-from pathlib import Path
 import sys
 import warnings
+from pathlib import Path
 
 if importlib.util.find_spec("PyQt6") is not None:
     os.environ["QT_API"] = "pyqt6"
@@ -16,8 +16,8 @@ else:
 
 # Detect if fbs is installed
 try:
-    from fbs_runtime import PUBLIC_SETTINGS as FBSRT_PUBLIC_SETTINGS
     import fbs_runtime.platform as fbsrt_platform
+    from fbs_runtime import PUBLIC_SETTINGS as FBSRT_PUBLIC_SETTINGS
 
     if os.environ["QT_API"] == "pyqt6":
         from fbs_runtime.application_context.PyQt6 import ApplicationContext
@@ -29,19 +29,21 @@ except ImportError:
     fbsrt_platform = None
 
 
-from qtpy import QtGui, QtWidgets, QtCore
+import dialogs
+import utils
+from channel_setup import ChannelSetup
+from group_setup import GroupSetup
 from pyqtconfig import ConfigDialog, ConfigManager
+from qtpy import QtCore, QtGui, QtWidgets
+from widgets import ChannelWidget, TimerSpinBox
 
 import controller_cli
 from controller_cli import DigIOBoxComm
-from channel_setup import ChannelSetup
-import dialogs
-from group_setup import GroupSetup
-import utils
-from widgets import ChannelWidget, TimerSpinBox
 
 
 class DigOutBoxController(QtWidgets.QMainWindow):
+    """Main DigOutBox controller GUI."""
+
     def __init__(self, is_windows=False) -> None:
         """Initialize the main window.
 
@@ -275,7 +277,7 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         self.user_folder = Path(self.settings.get("User folder"))
 
     def build_ui(self):
-        """Setup the UI with all the channels.
+        """Set up the UI with all the channels.
 
         This sets up the main widget from scratch and can be called while the GUI is
         running.
@@ -612,7 +614,8 @@ def gui_no_fbs():
         is_windows = False
         warnings.warn(
             f"Current platform {current_platform} is not recognized. "
-            f"Assuming this is not windows."
+            f"Assuming this is not windows.",
+            stacklevel=2,
         )
 
     # run the app

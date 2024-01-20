@@ -1,4 +1,4 @@
-"""Test your DigOutBox hardware!
+"""Test your DigOutBox hardware.
 
 This simple script allows you to test your DigOutBox hardware.
 After installing the `controller_cli`, you can use this script to test your hardware.
