@@ -12,7 +12,6 @@ on:
 jobs:
   # Build and test
   build:
-    if: github.repository_owner == 'galactic-forensics'
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -31,3 +30,6 @@ jobs:
     - name: Run Lint on one python
       run: rye run lint
       if: matrix.python-version == "3.12"
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v3
+      if: github.repository_owner == 'galactic-forensics'
