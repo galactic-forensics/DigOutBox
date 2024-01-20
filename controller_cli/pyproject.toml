@@ -29,6 +29,9 @@ dev-dependencies = [
     "mock_serial>=0.0.1",
 ]
 
+[tool.rye.scripts]
+test_cov = "pytest --cov ."
+
 [tool.hatch.metadata]
 allow-direct-references = true
 
