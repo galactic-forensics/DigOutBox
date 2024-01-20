@@ -1,7 +1,10 @@
 # DigOutBox
 
- [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Rye](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/mitsuhiko/rye/main/artwork/badge.json)](https://rye-up.com)
+[![Documentation Status](https://readthedocs.org/projects/digoutbox/badge/?version=latest)](https://digoutbox.readthedocs.io/en/latest/?badge=latest)
+[![codecov](https://codecov.io/gh/galactic-forensics/DigOutBox/graph/badge.svg?token=R4VQOKG1IR)](https://codecov.io/gh/galactic-forensics/DigOutBox)
+[![tests](https://github.com/galactic-forensics/DigOutBox/actions/workflows/package_testing.yml/badge.svg)](https://github.com/galactic-forensics/DigOutBox/actions/workflows/package_testing.yml)
 
 This project provides instrument builders with an easy interface
 to control digital output pins to control other devices,
