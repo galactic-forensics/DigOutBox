@@ -30,32 +30,42 @@ Furthermore, the box has 16 LEDs to indicate the status of each output.
 A trigger/interlock input is also provided via a BNC connector,
 however, it is not used in the current version of the firmware.
 
-| Part                   | Quantity | Description             | Link                                                                                                                                                                                                      |
-|------------------------|----------|-------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Arduino Mega 2560 Rev3 | 1        | Arduino Mega 2560 Rev3  | [Link](https://store.arduino.cc/products/arduino-mega-2560-rev3)                                                                                                                                          |
- | 12V power supply       | 1        | 12V power supply        | [Link](https://www.digikey.com/en/products/detail/tensility-international-corp/16-00216/13235972)                                                                                                         |
- | USB cable              | 1        | USB male A - male B     | [Link](https://www.digikey.com/en/products/detail/micro-connectors-inc/E07-121BLB/16353389)                                                                                                               |
-| Mega Proto Shield      | 1        | Shield for Arduino Mega | [Link](https://www.digikey.com/en/products/detail/dfrobot/DFR0016/7087126)                                                                                                                                |
-| 433 MHz RF receiver    | 1        | 433 MHz RF receiver     | [Link](https://www.digikey.com/en/products/detail/rf-solutions/QAM-RX10-433/6235156)                                                                                                                      |
-| Capacitor              | 1        | 1 - 10 µF               | [Link](https://www.digikey.com/en/products/detail/kyocera-avx/M39014-02-1415V/3451965)                                                                                                                    |
- | Remote control         | 1-2      | Bestten 433.92 MHz      | [Link](https://ibestten.com/products/wireless-remote-controller-compatible-with-bestten-remote-control-outlet-easy-to-program-5-channels-self-learning-code-12v-23a-battery-included-white)               |
-| DB-9 connector         | 1        | DB-9 connector          | [Link](https://www.digikey.com/en/products/detail/mh-connectors/MHDB9SS/16983851)                                                                                                                         |
- | DB-9 hardware          | 1        | D-Sub Hardware Set      | [Link](https://www.digikey.com/en/products/detail/adam-tech/HDW-023/9831277)                                                                                                                              |
-| BNC connector          | 9        | BNC connector           | [Link](https://www.digikey.com/en/products/detail/adam-tech/rf1-08-d-00-50-hdw/9830966)                                                                                                                   |
- | LED green              | 8        | LED green               | [Link](https://www.digikey.com/en/products/detail/broadcom-limited/HLMP-3680/637607)                                                                                                                      |
-| LED orange             | 8        | LED orange              | [Link](https://www.digikey.com/en/products/detail/broadcom-limited/HLMP-3650/637605)                                                                                                                      |
- | LED mounts             | 16       | LED panel mounts        | [Link](https://www.digikey.com/en/products/detail/sparkfun-electronics/COM-11147/5673798)                                                                                                                 |
- | Standoffs              | 6        | M3, 6mm, Nylon          | [Link](https://www.digikey.com/en/products/detail/essentra-components/CBMFTS210A/4104489)                                                                                                                 |
- | Screws                 | 6        | M3, XXmm                | [Link](https://www.digikey.com/en/products/detail/essentra-components/50M030050I020/11638554)                                                                                                             |
- | Male-Male Wire         | 1        | Pack of wires           | [Link](https://www.amazon.com/Elegoo-EL-CP-004-Multicolored-Breadboard-arduino/dp/B01EV70C78/ref=sr_1_2?crid=1SV39JJOW7BJR&keywords=arduino+wires&qid=1676645212&sprefix=arduino+wire%2Caps%2C175&sr=8-2) |
- | Male-Female Header     | 1        | Set                     | [Link](https://www.amazon.com/2-54mm-Breakaway-Female-Connector-Arduino/dp/B01MQ48T2V/ref=sr_1_5?crid=1BEO0GXQNQ43P&keywords=arduino+headers&qid=1676645393&sprefix=arduino+header%2Caps%2C208&sr=8-5)    |
+| Part                   | Quantity | Description                  | Link                                                                                                                                                                                                      |
+|------------------------|----------|------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Arduino Mega 2560 Rev3 | 1        | Arduino Mega 2560 Rev3       | [Link](https://store.arduino.cc/products/arduino-mega-2560-rev3)                                                                                                                                          |
+ | 12V power supply       | 1        | 12V power supply             | [Link](https://www.digikey.com/en/products/detail/tensility-international-corp/16-00216/13235972)                                                                                                         |
+ | USB cable              | 1        | USB male A - male B          | [Link](https://www.digikey.com/en/products/detail/micro-connectors-inc/E07-121BLB/16353389)                                                                                                               |
+| Mega Proto Shield      | 1        | Shield for Arduino Mega      | [Link](https://www.digikey.com/en/products/detail/dfrobot/DFR0016/7087126)                                                                                                                                |
+| 433 MHz RF receiver    | 1        | 433 MHz RF receiver          | [Link](https://www.digikey.com/en/products/detail/rf-solutions/QAM-RX10-433/6235156)                                                                                                                      |
+| Capacitor              | 1        | 1 - 10 µF                    | [Link](https://www.digikey.com/en/products/detail/kyocera-avx/M39014-02-1415V/3451965)                                                                                                                    |
+ | Remote control         | 1-2      | Bestten 433.92 MHz (see tip) | [Link](https://ibestten.com/collections/remote-control-outlets)                                                                                                                                           |
+| DB-9 connector         | 1        | DB-9 connector               | [Link](https://www.digikey.com/en/products/detail/mh-connectors/MHDB9SS/16983851)                                                                                                                         |
+ | DB-9 hardware          | 1        | D-Sub Hardware Set           | [Link](https://www.digikey.com/en/products/detail/adam-tech/HDW-023/9831277)                                                                                                                              |
+| BNC connector          | 9        | BNC connector                | [Link](https://www.digikey.com/en/products/detail/adam-tech/rf1-08-d-00-50-hdw/9830966)                                                                                                                   |
+ | LED green              | 8        | LED green                    | [Link](https://www.digikey.com/en/products/detail/broadcom-limited/HLMP-3680/637607)                                                                                                                      |
+| LED orange             | 8        | LED orange                   | [Link](https://www.digikey.com/en/products/detail/broadcom-limited/HLMP-3650/637605)                                                                                                                      |
+ | LED mounts             | 16       | LED panel mounts             | [Link](https://www.digikey.com/en/products/detail/sparkfun-electronics/COM-11147/5673798)                                                                                                                 |
+ | Standoffs              | 6        | M3, 6mm, Nylon               | [Link](https://www.digikey.com/en/products/detail/essentra-components/CBMFTS210A/4104489)                                                                                                                 |
+ | Screws                 | 6        | M3, XXmm                     | [Link](https://www.digikey.com/en/products/detail/essentra-components/50M030050I020/11638554)                                                                                                             |
+ | Male-Male Wire         | 1        | Pack of wires                | [Link](https://www.amazon.com/Elegoo-EL-CP-004-Multicolored-Breadboard-arduino/dp/B01EV70C78/ref=sr_1_2?crid=1SV39JJOW7BJR&keywords=arduino+wires&qid=1676645212&sprefix=arduino+wire%2Caps%2C175&sr=8-2) |
+ | Male-Female Header     | 1        | Set                          | [Link](https://www.amazon.com/2-54mm-Breakaway-Female-Connector-Arduino/dp/B01MQ48T2V/ref=sr_1_5?crid=1BEO0GXQNQ43P&keywords=arduino+headers&qid=1676645393&sprefix=arduino+header%2Caps%2C208&sr=8-5)    |
 
-**Notes**:
-- Screws and standoffs are examples, any other screws / standoffs will work as well, however, ensure that the standoff is 6 mm!
-- Male-male wires are recommendations, since they make the wire management easier.
-- Headers are recommended for creating pluggable connections. Any setup would work.
-- Select the USB cable according to your length requirements.
-- Ensure that the power supply works in your country.
+!!! note
+    - Screws and standoffs are examples, any other screws / standoffs will work as well, however, ensure that the standoff is 6 mm!
+    - Male-male wires are recommendations, since they make the wire management easier.
+    - Headers are recommended for creating pluggable connections. Any setup would work.
+    - Select the USB cable according to your length requirements.
+    - Ensure that the power supply works in your country.
+
+!!! tip
+    It used to be possible to buy the Bestten remote controls individually.
+    This seems not to be the case anymore,
+    therefore the link above points to the remote controlled outlets.
+    However, you can use other remotes as well,
+    as long as they are compatible with the `rc-switch` Arduino library.
+    A nice compilation of compatible remotes can be found
+    [here](https://github.com/sui77/rc-switch/wiki/List_KnownDevices).
+
 
 ## Assembly instructions
 
@@ -152,7 +162,7 @@ Each file goes with its respective `.h` file, which contains the configuration f
 Your finished box should look inside something like this
 (however, here the reset pin ground connection via a capacitor is missing):
 
-[![Finished box](img/boxes/gfl002_inside_small.jpeg)](/img/boxes/gfl002_inside.jpeg)
+[![Finished box](img/boxes/gfl002_inside_small.jpeg)](img/boxes/gfl002_inside.jpeg)
 
 *Tip*: If you bought the male-male wires from the recommended link,
 or bought similar wires, DO NOT take them apart.

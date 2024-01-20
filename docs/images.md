@@ -2,9 +2,9 @@
 
 ### Transparent `llnl001` box
 
-| [<img src="../img/boxes/llnl001_front_small.jpeg" width="600"/>](img/boxes/llnl001_front.jpeg)  | [<img src="../img/boxes/llnl001_front_top_small.jpeg" width="600"/>](img/boxes/llnl001_front_top.jpeg) |
-|:-----------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------:|
-| [<img src="../img/boxes/llnl001_back_small.jpeg" width="600"/>](img/boxes/llnl001_back.jpeg) |                                                                                                        |
+| [<img src="../img/boxes/llnl001_front_small.jpeg" width="600"/>](img/boxes/llnl001_front.jpeg) | [<img src="../img/boxes/llnl001_front_top_small.jpeg" width="600"/>](img/boxes/llnl001_front_top.jpeg) |
+|:----------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------:|
+|  [<img src="../img/boxes/llnl001_back_small.jpeg" width="600"/>](img/boxes/llnl001_back.jpeg)  |                                                                                                        |
 
 ### The black/transparent `gfl002` box
 

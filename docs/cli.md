@@ -15,8 +15,7 @@ you can directly install the latest version of the interface from GitHub
 via `pip` using the following command:
 
 ```bash
-pip install git+https://github.com/galactic-forensics/DigOutBox.git#subdirecto
-ry=controller_cli
+pip install git+https://github.com/galactic-forensics/DigOutBox.git#subdirectory=controller_cli
 ```
 
 ## Usage

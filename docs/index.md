@@ -39,7 +39,7 @@ The DigOutBox can be used in a variety of applications,
 however,
 it's originally intended use is to control laser shutters.
 For this reason,
-two safety features are implemented into the firwmare:
+two safety features are implemented into the firmware:
 
 - Interlock via the external line labeled `TRIG`
 - Software lockout that can be triggered from a remote

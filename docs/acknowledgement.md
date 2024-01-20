@@ -7,6 +7,6 @@ which are hereby acknowledged for their amazing work:
   to add a remote control to the DigIOBox.
 - [Vreker SCPI Parser](https://github.com/Vrekrer/Vrekrer_scpi_parser) (MIT):
   Used to create the SCPI interface on the Arduino.
-- [InstrumentKit](https://github.com/Galvant/InstrumentKit) (AGPL-v3):
+- [InstrumentKit](https://github.com/instrumentkit/InstrumentKit) (AGPL-v3):
   Several parts of the python driver (code and conceptual idea)
-  were adopted from this fanastic driver suite.
+  were adopted from this fantastic driver suite.

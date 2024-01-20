@@ -11,7 +11,7 @@ you might need to detect and register new remotes.
 
 The firmware is written in `C` and uses the Arduino framework.
 You can find the current version `v0.2.0`
-[on GitHub]https://github.com/galactic-forensics/DigOutBox/tree/main/firmware).
+[on GitHub](https://github.com/galactic-forensics/DigOutBox/tree/main/firmware).
 
 The firmware consists of two files:
 - `DigOutBox_fw_v*.ino`: This is the main file that contains the firmware.
@@ -118,18 +118,22 @@ After you have recorded the remote codes,
 enter them into the configuration file.
 
 1. Ensure that you set up the correct `numOfRemotes` value.
-2. Set up the `RFRemoteCodes` array as following:
-   ```cpp
-   RFRemoteCodes[numOfRemoteButtons][numOfRemotes]{
-     {rm1_b1, rm2_b1, ...},
-     {rm1_b2, rm2_b2, ...},
-     ...
-     {rm1_bn, rm2_bn, ...}
-   }
-   ```
-   Here, `rm1` and `rm2` stand for remote 1 and remote 2, respectively, and
-   `b1`, `b2`, ..., `bn` for buttons 1 through `n` of the remote.
+2. Set up the `RFRemoteCodes` array as shown in the example below.
 3. Flash the firmware and try it out!
+
+!!! example
+
+    ```
+    RFRemoteCodes[numOfRemoteButtons][numOfRemotes]{
+      {rm1_b1, rm2_b1, ...},
+      {rm1_b2, rm2_b2, ...},
+      ...
+      {rm1_bn, rm2_bn, ...}
+    }
+    ```
+
+    Here, `rm1` and `rm2` stand for remote 1 and remote 2, respectively, and
+    `b1`, `b2`, ..., `bn` for buttons 1 through `n` of the remote.
 
 ### Already mapped remotes
 

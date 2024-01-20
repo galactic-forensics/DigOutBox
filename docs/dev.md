@@ -14,6 +14,10 @@ You are welcome to open a pull request early on.
 If you do so,
 please open a draft pull request.
 
+We use [`pre-commit`](https://pre-commit.com/)
+in order to ensure formatting before committing to `git`.
+using a pre-commit hook.
+
 ## Documentation
 
 Better documentation is always welcome!
@@ -62,8 +66,6 @@ With `rye`, this can easily be done by running
 rye install pre-commit
 ```
 
-We use `pre-commit` in order to ensure formatting before committing to `git`.
-using a pre-commit hook.
 
 
 ### Linting and formatting

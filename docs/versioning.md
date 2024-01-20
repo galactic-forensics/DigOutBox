@@ -15,11 +15,11 @@ to GitHub:
 
 Here, `X`, `Y`, and `Z`
 are follow
-[semantic verioning](https://semver.org/)
+[semantic versioning](https://semver.org/)
 guidelines and are:
 
 - `X`: Major version (breaking changes)
-- `Y`: Minor versions (non-breaking changes)
+- `Y`: Minor version (non-breaking changes)
 - `Z`: Patch version (bug fixes)
 
 The dependency flow is as following:
