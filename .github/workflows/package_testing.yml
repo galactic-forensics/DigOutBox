@@ -31,15 +31,15 @@ jobs:
     - name: Run Tests for CLI
       run: rye run test
     - name: Run Lint on one python
-      if: ${{ matrix.python-version == $MAIN_PYTHON_VERSION }}
+      if: ${{ matrix.python-version == MAIN_PYTHON_VERSION }}
       run: rye run lint
     - name: Run Pytest with coverage
-      if: ${{ matrix.python-version == $MAIN_PYTHON_VERSION }}
+      if: ${{ matrix.python-version == MAIN_PYTHON_VERSION }}
       run: |
         cd controller_cli
         rye run test_cov
     - name: Upload coverage reports to Codecov
-      if: ${{ matrix.python-version == $MAIN_PYTHON_VERSION }} && github.repository_owner == 'galactic-forensics'
+      if: ${{ matrix.python-version == MAIN_PYTHON_VERSION }} && github.repository_owner == 'galactic-forensics'
       uses: codecov/codecov-action@v3
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
