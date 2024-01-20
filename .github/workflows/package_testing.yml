@@ -37,9 +37,9 @@ jobs:
       if: ${{ matrix.python-version == env.MAIN_PYTHON_VERSION }}
       run: |
         cd controller_cli
-        rye run test_cov
+        pytest --cov --coverage-report xml
     - name: Upload coverage reports to Codecov
-      if: ${{ matrix.python-version == env.MAIN_PYTHON_VERSION }} && github.repository_owner == 'galactic-forensics'
+      if: ${{ matrix.python-version == env.MAIN_PYTHON_VERSION && github.repository_owner == 'galactic-forensics' }}
       uses: codecov/codecov-action@v3
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
