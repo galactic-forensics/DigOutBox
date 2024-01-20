@@ -24,7 +24,7 @@ jobs:
       uses: eifinger/setup-rye@v1
     - name: Sync Rye
       run: |
-        rye pin matrix.python-version
+        rye pin ${{ matrix.python-version }}
         rye sync
     - name: Run Tests
       run: rye run test
