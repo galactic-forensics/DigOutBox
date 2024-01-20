@@ -14,7 +14,6 @@ These will be turned off automatically before ending the script.
 
 from controller_cli import DigIOBoxComm
 
-
 PORT = "/dev/ttyACM0"
 
 
