@@ -29,6 +29,7 @@ dev-dependencies = [
     "mkdocs>=1.5.3",
     "mkdocs-mermaid2-plugin>=1.1.1",
     "ruff>=0.1.14",
+    "mkdocs-material>=9.5.4",
 ]
 [tool.rye.scripts]
 docs = "mkdocs"

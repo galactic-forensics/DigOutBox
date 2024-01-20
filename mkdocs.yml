@@ -1,11 +1,23 @@
 site_name: DigOutBox Documentation
-theme: readthedocs
+theme:
+  name: material
+  palette:
+    # Palette toggle for dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+    # Palette toggle for light mode
+    - scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
 site_url: https://digoutbox.readthedocs.io
 repo_url: https://github.com/galactic-forensics/DigOutBox
 site_author: Reto Trappitsch
 
 markdown_extensions:
-  - admonition
   - pymdownx.highlight:
       anchor_linenums: true
       line_spans: __span
