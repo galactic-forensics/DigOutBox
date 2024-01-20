@@ -1,6 +1,7 @@
 # DigOutBox
 
  [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Rye](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/mitsuhiko/rye/main/artwork/badge.json)](https://rye-up.com)
 
 This project provides instrument builders with an easy interface
 to control digital output pins to control other devices,

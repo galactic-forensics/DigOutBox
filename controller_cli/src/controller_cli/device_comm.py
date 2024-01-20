@@ -39,6 +39,7 @@ class DigIOBoxComm(DevComm):
             :return: State of channel.
 
             Example:
+            -------
                 >>> device = DigIOBox("/dev/ttyACM0")
                 >>> ch = device.channel[1]
                 >>> ch.state
@@ -77,6 +78,7 @@ class DigIOBoxComm(DevComm):
         :return: Channel object.
 
         Example:
+        -------
             >>> device = DigIOBoxComm("/dev/ttyACM0")
             >>> ch = device.channel[0]
         """

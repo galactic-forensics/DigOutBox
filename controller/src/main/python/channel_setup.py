@@ -2,9 +2,8 @@
 
 import sys
 
-from qtpy import QtWidgets
-
 import utils
+from qtpy import QtWidgets
 
 
 class ChannelSetup(QtWidgets.QDialog):

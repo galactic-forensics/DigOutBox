@@ -4,7 +4,6 @@ import pytest
 
 from . import expected_communication
 
-
 # PROPERTIES #
 
 

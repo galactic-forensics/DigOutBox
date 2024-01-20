@@ -10,7 +10,7 @@ from controller_cli import DigIOBoxComm
 
 
 @contextlib.contextmanager
-def expected_communication(command: List = [], response: List = []):
+def expected_communication(command: List = [], response: List = []):  # noqa: B006
     """Expect a command and response from the device.
 
     :param mock_serial: Mocked serial.Serial object.

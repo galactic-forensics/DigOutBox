@@ -38,9 +38,10 @@ class ChannelWidget(QtWidgets.QWidget):
         self.channel = channel
 
         if len(hw_channel) > 1:
-            assert (
-                channel_names is not None
-            ), "Must provide channel names if hw_channel is a list of length > 1."
+            if channel_names is None:
+                raise ValueError(
+                    "Must provide channel names if hw_channel is a list of length > 1."
+                )
             self.channel_names = channel_names
         else:
             self.channel_names = [channel]
@@ -79,7 +80,10 @@ class ChannelWidget(QtWidgets.QWidget):
         if len(self.hw_channel) > 1:
             tooltip = f"Channels: {', '.join(self.channel_names)}"
         else:
-            tooltip = f"Physical output channel: {self.controller.hw_config[self.hw_channel[0]]}"
+            tooltip = (
+                f"Physical output channel: "
+                f"{self.controller.hw_config[self.hw_channel[0]]}"
+            )
         name_label.setToolTip(tooltip)
         # make label bold
         name_label_font = QtGui.QFont()
@@ -196,7 +200,10 @@ class TimerSpinBox(QtWidgets.QSpinBox):
 
 
 class StatusIndicator(QtWidgets.QWidget):
+    """Status indicator widget."""
+
     def __init__(self, parent=None, size=20, margin=5):
+        """Initialize the status indicator."""
         super().__init__(parent=parent)
         # for statuses: True (green), "mixed" (yellow), None (gray), False (red)
         self.status = None
@@ -226,9 +233,9 @@ class StatusIndicator(QtWidgets.QWidget):
         self.setFixedHeight(self.size + 2 * self.margin)
 
     def paintEvent(self, event):
-        """
-        Paints the status indicator with the defined width if an event is triggered.
-        :param event:
+        """Paints the status indicator with the defined width if an event is triggered.
+
+        :param event:  <QPaintEvent>   Event that triggers the paint
         :return:
         """
         # this will paint automatically when called (calling is an event apparently)
@@ -243,9 +250,9 @@ class StatusIndicator(QtWidgets.QWidget):
         painter.drawEllipse(self.margin, self.margin, self.size, self.size)
 
     def set_color(self, color):
-        """
-        Sets the color of the status  indicator. Then emits a signal to trigger the
-        event painter.
+        """Set the color of the status  indicator.
+
+        When done, emits a signal to trigger the event painter.
 
         :param color:   <QColor>    Color to change it to
         :return:
@@ -254,9 +261,9 @@ class StatusIndicator(QtWidgets.QWidget):
         self.update()  # updates the widget -> sends the event to trigger the painter
 
     def set_status(self, status: Union[bool, None]):
-        """
-        Sets the color of the LED according to the status. See the dictionary
-        self.status_color
+        """Set the color of the LED according to the status.
+
+        See the dictionary self.status_color
 
         :param status: See class docstring for allowed statuses
         :return:
