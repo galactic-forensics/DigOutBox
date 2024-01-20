@@ -24,7 +24,8 @@ Better documentation is always welcome!
 
 We use [`mkdocs`](https://www.mkdocs.org/) to generate the documentation.
 To build or serve the documentation locally,
-you will need to install `mkdocs` and the `mkdocs-material`.
+you will need to install `mkdocs`, `mkdocs-material`
+and `mkdocs-mermaid2-plugin`.
 If you are using `rye` for python management (see [below](#python-development)),
 these dependencies will be automatically installed.
 In this case you can run `mkdocs` with
