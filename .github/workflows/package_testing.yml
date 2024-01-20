@@ -9,6 +9,9 @@ on:
   pull_request:
     branches: [ main ]
 
+env:
+  MAIN_PYTHON_VERSION: "3.12"
+
 jobs:
   # Build and test
   build:
@@ -25,11 +28,18 @@ jobs:
       run: |
         rye pin ${{ matrix.python-version }}
         rye sync
-    - name: Run Tests
+    - name: Run Tests for CLI
       run: rye run test
     - name: Run Lint on one python
+      if: ${{ matrix.python-version == env.MAIN_PYTHON_VERSION }}
       run: rye run lint
-      if: matrix.python-version == "3.12"
+    - name: Run Pytest with coverage
+      if: ${{ matrix.python-version == env.MAIN_PYTHON_VERSION }}
+      run: |
+        cd controller_cli
+        rye run test_cov
     - name: Upload coverage reports to Codecov
+      if: ${{ matrix.python-version == env.MAIN_PYTHON_VERSION && github.repository_owner == 'galactic-forensics' }}
       uses: codecov/codecov-action@v3
-      if: github.repository_owner == 'galactic-forensics'
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

@@ -32,7 +32,7 @@ dev-dependencies = [
 [tool.rye.scripts]
 format = "ruff format ."
 lint = "ruff check ."
-test = "pytest --cov controller_cli"
+test = "pytest controller_cli"
 
 [tool.rye.workspace]
 members = ["controller_cli", "controller"]
