@@ -33,7 +33,7 @@ def check_channels(channels: dict) -> bool:
                 return False
             if not isinstance(channels[channel]["section"], str):
                 return False
-    except KeyError or IndexError:
+    except (KeyError, IndexError):
         return False
 
     return True

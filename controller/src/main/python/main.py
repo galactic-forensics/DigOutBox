@@ -3,9 +3,9 @@ import importlib.util
 import itertools
 import json
 import os
-from pathlib import Path
 import sys
 import warnings
+from pathlib import Path
 
 if importlib.util.find_spec("PyQt6") is not None:
     os.environ["QT_API"] = "pyqt6"
@@ -16,8 +16,8 @@ else:
 
 # Detect if fbs is installed
 try:
-    from fbs_runtime import PUBLIC_SETTINGS as FBSRT_PUBLIC_SETTINGS
     import fbs_runtime.platform as fbsrt_platform
+    from fbs_runtime import PUBLIC_SETTINGS as FBSRT_PUBLIC_SETTINGS
 
     if os.environ["QT_API"] == "pyqt6":
         from fbs_runtime.application_context.PyQt6 import ApplicationContext
@@ -29,19 +29,21 @@ except ImportError:
     fbsrt_platform = None
 
 
-from qtpy import QtGui, QtWidgets, QtCore
+import dialogs
+import utils
+from channel_setup import ChannelSetup
+from group_setup import GroupSetup
 from pyqtconfig import ConfigDialog, ConfigManager
+from qtpy import QtCore, QtGui, QtWidgets
+from widgets import ChannelWidget, TimerSpinBox
 
 import controller_cli
 from controller_cli import DigIOBoxComm
-from channel_setup import ChannelSetup
-import dialogs
-from group_setup import GroupSetup
-import utils
-from widgets import ChannelWidget, TimerSpinBox
 
 
 class DigOutBoxController(QtWidgets.QMainWindow):
+    """Main DigOutBox controller GUI."""
+
     def __init__(self, is_windows=False) -> None:
         """Initialize the main window.
 
@@ -275,7 +277,7 @@ class DigOutBoxController(QtWidgets.QMainWindow):
         self.user_folder = Path(self.settings.get("User folder"))
 
     def build_ui(self):
-        """Setup the UI with all the channels.
+        """Set up the UI with all the channels.
 
         This sets up the main widget from scratch and can be called while the GUI is
         running.
@@ -593,31 +595,46 @@ class DigOutBoxController(QtWidgets.QMainWindow):
             widget.off_button.setEnabled(not status)
 
 
-if __name__ == "__main__":
-    # fbs installed
+def gui_start():
+    """Run the DigOutBox fbs installed GUI."""
     if ApplicationContext is not None:
-        appctxt = ApplicationContext()  # 1. Instantiate ApplicationContext
-        window = DigOutBoxController(is_windows=fbsrt_platform.is_windows())
-        window.show()
-        exit_code = appctxt.app.exec()  # 2. Invoke appctxt.app.exec()
-        sys.exit(exit_code)
-    # fbs not installed
+        gui_fbs()
     else:
-        current_platform = sys.platform
-        if current_platform == "win32" or current_platform == "cygwin":
-            is_windows = True
-        elif current_platform == "linux" or current_platform == "darwin":
-            is_windows = False
-        else:
-            is_windows = False
-            warnings.warn(
-                f"Current platform {current_platform} is not recognized. "
-                f"Assuming this is not windows."
-            )
+        gui_no_fbs()
 
-        # run the app
-        app = QtWidgets.QApplication(sys.argv)
-        window = DigOutBoxController(is_windows=is_windows)
-        window.show()
 
-        app.exec()
+def gui_no_fbs():
+    """Run the GUI without fbs being installed."""
+    current_platform = sys.platform
+    if current_platform == "win32" or current_platform == "cygwin":
+        is_windows = True
+    elif current_platform == "linux" or current_platform == "darwin":
+        is_windows = False
+    else:
+        is_windows = False
+        warnings.warn(
+            f"Current platform {current_platform} is not recognized. "
+            f"Assuming this is not windows.",
+            stacklevel=2,
+        )
+
+    # run the app
+    app = QtWidgets.QApplication(sys.argv)
+    window = DigOutBoxController(is_windows=is_windows)
+    window.show()
+
+    app.exec()
+
+
+def gui_fbs():
+    """Run GUI when fbs is installed."""
+    appctxt = ApplicationContext()  # 1. Instantiate ApplicationContext
+    window = DigOutBoxController(is_windows=fbsrt_platform.is_windows())
+    window.show()
+    exit_code = appctxt.app.exec()  # 2. Invoke appctxt.app.exec()
+    sys.exit(exit_code)
+
+
+if __name__ == "__main__":
+    """If executed directly, start the GUI."""
+    gui_start()

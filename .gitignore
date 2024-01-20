@@ -139,5 +139,6 @@ dmypy.json
 # fbs
 !controller/src/build
 
-# hatch
-.hatch
+# rye
+.python-version
+*/.python-version

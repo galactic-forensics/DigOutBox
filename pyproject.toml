@@ -1,0 +1,44 @@
+[project]
+name = "DigOutBox"
+version = "0.2.0"
+description = "DigOutBox rye configuration."
+authors = [
+    { name = "Reto Trappitsch", email = "reto@galactic-forensics.space" }
+]
+dependencies = []
+readme = "README.md"
+requires-python = ">= 3.12"
+license = { text = "MIT" }
+
+[project.scripts]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff.lint]
+select = ["B", "C", "D", "E", "F", "I", "S", "W"]
+ignore = ["D203", "D213"]
+
+[tool.ruff.lint.per-file-ignores]
+"*/tests/*" = ["S101"]
+
+[tool.rye]
+managed = true
+dev-dependencies = [
+    "mkdocs-mermaid2-plugin>=1.1.1",
+    "ruff>=0.1.14",
+]
+[tool.rye.scripts]
+format = "ruff format ."
+lint = "ruff check ."
+test = "pytest --cov controller_cli"
+
+[tool.rye.workspace]
+members = ["controller_cli", "controller"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/digoutbox"]
