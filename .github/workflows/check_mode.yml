@@ -22,7 +22,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: controller_cli
       run: |
-        grep 'dummy: bool = False'  controller_cli/controller_cli/device_comm.py
+        grep 'dummy: bool = False'  controller_cli/src/controller_cli/device_comm.py
     - name: controller
       run: |
         grep 'self.dummy = False'  controller/src/main/python/main.py
