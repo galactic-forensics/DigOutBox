@@ -122,6 +122,7 @@ enter them into the configuration file.
 3. Flash the firmware and try it out!
 
 !!! example
+    The following shows how to set up the `RFRemoteCodes` array
 
     ```
     RFRemoteCodes[numOfRemoteButtons][numOfRemotes]{
