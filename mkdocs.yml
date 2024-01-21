@@ -1,0 +1,53 @@
+site_name: DigOutBox Documentation
+
+theme:
+  name: material
+  features:
+    - content.code.copy
+    - content.code.select
+    - navigation.footer
+  palette:
+    # Palette toggle for dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+    # Palette toggle for light mode
+    - scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+site_url: https://digoutbox.readthedocs.io
+repo_url: https://github.com/galactic-forensics/DigOutBox
+site_author: Reto Trappitsch
+
+markdown_extensions:
+  - admonition
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+
+
+plugins:
+  - mermaid2
+
+nav:
+  - Home: index.md
+  - Images: images.md
+  - Versioning: versioning.md
+  - Hardware: hardware.md
+  - Firmware: firmware.md
+  - Python Interface: cli.md
+  - GUI: gui.md
+  - Changelog: changelog.md
+  - Developer Guide: dev.md
+  - Acknowledgement: acknowledgement.md

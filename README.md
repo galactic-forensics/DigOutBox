@@ -1,7 +1,10 @@
 # DigOutBox
 
- [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Rye](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/mitsuhiko/rye/main/artwork/badge.json)](https://rye-up.com)
+[![Documentation Status](https://readthedocs.org/projects/digoutbox/badge/?version=latest)](https://digoutbox.readthedocs.io/en/latest/?badge=latest)
+[![codecov](https://codecov.io/gh/galactic-forensics/DigOutBox/graph/badge.svg?token=R4VQOKG1IR)](https://codecov.io/gh/galactic-forensics/DigOutBox)
+[![tests](https://github.com/galactic-forensics/DigOutBox/actions/workflows/package_testing.yml/badge.svg)](https://github.com/galactic-forensics/DigOutBox/actions/workflows/package_testing.yml)
 
 This project provides instrument builders with an easy interface
 to control digital output pins to control other devices,
@@ -30,8 +33,8 @@ Depending on the number of channels the control has
 multiple channels can be controlled.
 
 
-| [<img src="images/gfl002_setup_small.jpeg" width="600"><br>Front and top of DigOutBox</img>](images/gfl002_setup.jpeg) | [<img src="images/gfl002_back_top.jpeg" width="600"><br>Back of DigOutBox</img>](images/gfl002_back_top.jpeg) |
-|:----------------------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------:|
+| [<img src="docs/img/boxes/gfl002_setup_small.jpeg" width="600"><br>Front and top of DigOutBox</img>](docs/img/boxes/gfl002_setup.jpeg) | [<img src="docs/graphics/img/gfl002_back_top.jpeg" width="600"><br>Back of DigOutBox</img>](docs/img/boxes/gfl002_back_top.jpeg) |
+|:--------------------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------:|
 
 
 ## Folders and further information
@@ -74,17 +77,3 @@ that you would like to contribute.
 
 This project is licensed under [MIT](LICENSE).
 Copyright: 2021-2024, Galactic Forensics Laboratory.
-
-## Images of assembled boxes
-
-### All around the transparent `llnl001` box
-
-| [<img src="images/llnl001_front_small.jpeg" width="600"/>](images/llnl001_front.jpeg) | [<img src="images/llnl001_front_top_small.jpeg" width="600"/>](images/llnl001_front_top.jpeg) |
-|:-------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------:|
-|  [<img src="images/llnl001_back_small.jpeg" width="600"/>](images/llnl001_back.jpeg)  |                                                                                               |
-
-### The black/transparent `gfl002` box
-
-| [<img src="images/gfl002_setup_small.jpeg" width="600"/>](images/gfl002_setup.jpeg) | [<img src="images/gfl002_back_top_small.jpeg" width="600"/>](images/gfl002_back_top.jpeg) |
-|:-----------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|
-|  [<img src="images/gfl002_back_small.jpeg" width="600"/>](images/gfl002_back.jpeg)  |   [<img src="images/gfl002_inside_small.jpeg" width="600"/>](images/gfl002_inside.jpeg)   |
