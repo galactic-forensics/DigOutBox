@@ -46,6 +46,7 @@ class DigIOBoxComm(DevComm):
                 >>> ch.state = True
                 >>> ch.state
                 True
+
             """
             return bool(int(self._parent.query(f"DO{self._idx}?")))
 
@@ -81,6 +82,7 @@ class DigIOBoxComm(DevComm):
         -------
             >>> device = DigIOBoxComm("/dev/ttyACM0")
             >>> ch = device.channel[0]
+
         """
         return ProxyList(self, self.Channel, range(self._num_channels))
 
