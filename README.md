@@ -39,16 +39,16 @@ multiple channels can be controlled.
 
 ## Folders and further information
 
-This git repository contains the following folders:
+This git repository contains the following folders that might be useful to the user:
 
-- `DigIOBoxController`: Python software to control the box from a computer via CLI or GUI.
+- `controller`: Python interface to control the box from a computer.
+- `controller_gui`: Python graphical user interface to control the box from a computer.
 - `firmware`: Arduino firmware.
 - `hardware`: Designs with bill of materials, build instructions, etc.
 - `images`: Images of the box.
 
-Each folder contains its own, specific README file
-that contains further information on what can be done
-with the specific files.
+Please also see the full documentation
+[here](https://digoutbox.readthedocs.io/).
 
 ## Issues
 
@@ -76,4 +76,4 @@ that you would like to contribute.
 ## License
 
 This project is licensed under [MIT](LICENSE).
-Copyright: 2021-2024, Galactic Forensics Laboratory.
+Copyright: 2021-2024, Reto Trappitsch

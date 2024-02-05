@@ -7,7 +7,7 @@ __all__ = ["DigIOBoxComm"]
 # Package information
 __version__ = "0.2.0"
 
-__title__ = "controller_cli"
+__title__ = "controller"
 __description__ = """Communication package to talk to the DigOutBox via Serial."""
 
 __uri__ = "https://github.com/galactic-forensics/DigOutBox"

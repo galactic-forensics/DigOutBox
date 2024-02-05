@@ -1,7 +1,7 @@
 """Test your DigOutBox hardware.
 
 This simple script allows you to test your DigOutBox hardware.
-After installing the `controller_cli`, you can use this script to test your hardware.
+After installing the `controller`, you can use this script to test your hardware.
 Set the `PORT` variable below to the correct port and run the script by typing
 
 `python hw_check.py`
@@ -12,7 +12,7 @@ Finally, you will be asked to turn on some channels using the remote control.
 These will be turned off automatically before ending the script.
 """
 
-from controller_cli import DigIOBoxComm
+from controller import DigIOBoxComm
 
 PORT = "/dev/ttyACM0"
 

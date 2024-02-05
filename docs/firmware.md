@@ -27,7 +27,7 @@ flashing the firmware, and communicating with the Arduino via serial.
 Once finished with this section,
 your box can be used with the remote.
 You can also use our [GUI](gui.md)
-or [Python Interface](cli.md)
+or [Python Interface](controller)
 for computer control.
 
 ## Overview of the configuration
@@ -202,5 +202,5 @@ but also see the voltage output assume the desired value.
 A simple testing script that allows you to measure each channel individually
 and to test the remote and SCPI commands is provided with the python software
 in the
-[`controller_cli/examples`](https://github.com/galactic-forensics/DigOutBox/tree/main/controller_cli/examples)
+[`controller/examples`](https://github.com/galactic-forensics/DigOutBox/tree/main/controller/examples)
 folder.

@@ -50,8 +50,8 @@ However, we add info boxes for other environments where necessary.
     set up the project as a workspace.
     The workspace itself has no python package,
     however,
-    it consists of the `controller_cli` package
-    and the `controller` GUI.
+    it consists of the `controller` package
+    and the `controller_gui` GUI.
 
 !!! info
     If you are not using `rye`,
@@ -91,8 +91,8 @@ rye run lint
 ### Testing
 
 !!! warning
-    Currently, only the `controller_cli` module is tested.
-    The `controller` (GUI) module is not tested yet.
+    Currently, only the `controller` module is tested.
+    The `controller_gui` (GUI) module is not tested yet.
 
 We use [`pytest`](https://docs.pytest.org/) for testing.
 All tests are located in the `tests` folder.
@@ -105,7 +105,7 @@ rye run test
 !!! info
     If you are not using `rye`,
     you can run `pytest` directly
-    (e.g., `pytest .` in the `controller_cli` folder).
+    (e.g., `pytest .` in the `controller` folder).
 
 ### GUI development
 

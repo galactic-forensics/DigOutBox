@@ -1,4 +1,4 @@
-# Python Interface ("CLI")
+# Python Interface
 
 [![tests](https://github.com/galactic-forensics/DigOutBox/actions/workflows/package_testing.yml/badge.svg)](https://github.com/galactic-forensics/DigOutBox/actions/workflows/package_testing.yml)
 [![codecov](https://codecov.io/github/galactic-forensics/DigOutBox/branch/main/graph/badge.svg?token=R4VQOKG1IR)](https://codecov.io/github/galactic-forensics/DigOutBox)
@@ -9,13 +9,13 @@ The interface is currently tested on python 3.8-3.12.
 
 ## Installation
 
-We currently do not provide a package hosted on PyPI for this interface.
+We do not provide a package hosted on PyPI for this interface.
 However,
 you can directly install the latest version of the interface from GitHub
 via `pip` using the following command:
 
 ```bash
-pip install git+https://github.com/galactic-forensics/DigOutBox.git#subdirectory=controller_cli
+pip install git+https://github.com/galactic-forensics/DigOutBox.git#subdirectory=controller
 ```
 
 ## Usage
@@ -25,7 +25,7 @@ you can import it as following and connect to a new device
 connected on a given `port`:
 
 ```python
-from controller_cli import DigIOBoxComm
+from controller import DigIOBoxComm
 
 port = "/dev/ttyACM"  # com port the box is connected to
 dev = DigIOBoxComm(port)
@@ -93,5 +93,5 @@ This will tell you what is currently running on the box.
 ## Testing your hardware
 
 A very simple script to test your hardware is provided
-[here](https://github.com/galactic-forensics/DigOutBox/blob/main/controller_cli/examples/hw_check.py).
+[here](https://github.com/galactic-forensics/DigOutBox/blob/main/controller/examples/hw_check.py).
 Read the documentation in the script for more information.
