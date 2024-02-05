@@ -1,4 +1,4 @@
-"""Fixtures for controller_cli tests."""
+"""Fixtures for controller tests."""
 
 import time
 

@@ -6,7 +6,7 @@ from unittest import mock
 
 from mock_serial import MockSerial
 
-from controller_cli import DigIOBoxComm
+from controller import DigIOBoxComm
 
 
 @contextlib.contextmanager

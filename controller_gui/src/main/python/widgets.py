@@ -5,7 +5,7 @@ from typing import Union
 
 from qtpy import QtCore, QtGui, QtWidgets
 
-from controller_cli import DigIOBoxComm
+from controller import DigIOBoxComm
 
 
 class ChannelWidget(QtWidgets.QWidget):

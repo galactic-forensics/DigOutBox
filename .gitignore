@@ -137,7 +137,7 @@ dmypy.json
 .theia
 
 # fbs
-!controller/src/build
+!controller_gui/src/build
 
 # rye
 .python-version

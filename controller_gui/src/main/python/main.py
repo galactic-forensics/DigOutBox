@@ -37,8 +37,8 @@ from pyqtconfig import ConfigDialog, ConfigManager
 from qtpy import QtCore, QtGui, QtWidgets
 from widgets import ChannelWidget, TimerSpinBox
 
-import controller_cli
-from controller_cli import DigIOBoxComm
+import controller
+from controller import DigIOBoxComm
 
 
 class DigOutBoxController(QtWidgets.QMainWindow):
@@ -358,7 +358,7 @@ class DigOutBoxController(QtWidgets.QMainWindow):
             f"If you have issues, please report them on GitHub.\n\n"
             f"{self.comm.identify}\n"
             f"GUI version: {self.version}\n"
-            f"CLI version: {controller_cli.__version__}",
+            f"Interface version: {controller.__version__}",
         )
 
     def automatic_read(self):

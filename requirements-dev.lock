@@ -5,9 +5,10 @@
 #   pre: false
 #   features: []
 #   all-features: false
+#   with-sources: false
 
 -e file:controller
--e file:controller_cli
+-e file:controller_gui
 -e file:.
 attrs==23.2.0
 babel==2.14.0

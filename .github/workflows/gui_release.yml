@@ -28,10 +28,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install ${{ secrets.FBS_PRO_DOWNLOAD }}
           pip install PyQt6
-          pip install -r controller/src/requirements/base.txt
+          pip install -r controller_gui/src/requirements/base.txt
       - name: Run fbs and freeze application
         run: |
-          cd controller
+          cd controller_gui
           fbs freeze
           fbs installer
       - name: Create Release
@@ -43,7 +43,7 @@ jobs:
           tag_name: ${{ github.ref_name }}
           release_name: Release ${{ github.ref }}
           # body: ""  # release message, alternative to body_path
-          body_path: controller/release_text.md  # uncomment if not used
+          body_path: controller_gui/release_text.md  # uncomment if not used
           draft: false
           prerelease: false
       - name: Upload Release Asset
@@ -53,6 +53,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing its ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: "controller/target/DigOutBox ControllerSetup.exe"
+          asset_path: "controller_gui/target/DigOutBox ControllerSetup.exe"
           asset_name: DigOutBox_Controller_Setup_${{ github.ref_name }}.exe
           asset_content_type: application/exe

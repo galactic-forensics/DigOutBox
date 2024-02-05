@@ -1,6 +1,6 @@
 [project]
 name = "DigOutBox"
-version = "0.2.0"
+version = "0.2"
 description = "DigOutBox rye configuration."
 authors = [
     { name = "Reto Trappitsch", email = "reto@galactic-forensics.space" }
@@ -35,10 +35,10 @@ dev-dependencies = [
 docs = "mkdocs"
 format = "ruff format ."
 lint = "ruff check ."
-test = "pytest controller_cli"
+test = "pytest controller"
 
 [tool.rye.workspace]
-members = ["controller_cli", "controller"]
+members = ["controller", "controller_gui"]
 
 [tool.hatch.metadata]
 allow-direct-references = true

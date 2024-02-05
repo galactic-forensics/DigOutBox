@@ -1,4 +1,4 @@
-"""Dialogs for the controller application."""
+"""Dialogs for the controller_gui application."""
 
 from qtpy import QtWidgets
 from serial.tools import list_ports

@@ -46,7 +46,7 @@ nav:
   - Versioning: versioning.md
   - Hardware: hardware.md
   - Firmware: firmware.md
-  - Python Interface: cli.md
+  - Python Interface: controller.md
   - GUI: gui.md
   - Changelog: changelog.md
   - Developer Guide: dev.md
