@@ -18,22 +18,21 @@ jobs:
         uses: actions/checkout@v2
       - name: Setup env
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install dependencies
+      - name: Install Windows dependencies
         run: |
           choco install vcredist2010
-          python -m pip install --upgrade pip
-          pip install ${{ secrets.FBS_PRO_DOWNLOAD }}
-          pip install PyQt6
-          pip install -r controller_gui/src/requirements/base.txt
+      - name: Install the latest version of rye
+        uses: eifinger/setup-rye@v1
+      - name: Sync Rye
+        run: |
+          rye pin ${{ matrix.python-version }}
+          rye add fbs --dev -q --url ${{ secrets.FBS_PRO_DOWNLOAD }}
+          rye sync
       - name: Run fbs and freeze application
         run: |
           cd controller_gui
-          fbs freeze
-          fbs installer
+          rye run fbs freeze
+          rye run fbs installer
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
