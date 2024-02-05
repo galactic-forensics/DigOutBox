@@ -33,8 +33,8 @@ Depending on the number of channels the control has
 multiple channels can be controlled.
 
 
-| [<img src="docs/img/boxes/gfl002_setup_small.jpeg" width="600"><br>Front and top of DigOutBox</img>](docs/img/boxes/gfl002_setup.jpeg) | [<img src="docs/graphics/img/gfl002_back_top.jpeg" width="600"><br>Back of DigOutBox</img>](docs/img/boxes/gfl002_back_top.jpeg) |
-|:--------------------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------:|
+| [<img src="docs/img/boxes/gfl002_setup_small.jpeg" width="600"><br>Front and top of DigOutBox</img>](docs/img/boxes/gfl002_setup.jpeg) | [<img src="docs/img/boxes/gfl002_back_top.jpeg" width="600"><br>Back of DigOutBox</img>](docs/img/boxes/gfl002_back_top.jpeg) |
+|:--------------------------------------------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------------:|
 
 
 ## Folders and further information

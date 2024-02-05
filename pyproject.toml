@@ -5,7 +5,11 @@ description = "DigOutBox rye configuration."
 authors = [
     { name = "Reto Trappitsch", email = "reto@galactic-forensics.space" }
 ]
-dependencies = []
+dependencies = [
+    "mkdocs>=1.5.3",
+    "mkdocs-material>=9.5.7",
+    "mkdocs-mermaid2-plugin>=1.1.1",
+]
 readme = "README.md"
 requires-python = ">= 3.12"
 license = { text = "MIT" }
@@ -26,10 +30,8 @@ ignore = ["D203", "D213"]
 [tool.rye]
 managed = true
 dev-dependencies = [
-    "mkdocs>=1.5.3",
     "mkdocs-mermaid2-plugin>=1.1.1",
     "ruff>=0.1.14",
-    "mkdocs-material>=9.5.4",
 ]
 [tool.rye.scripts]
 docs = "mkdocs"

@@ -17,4 +17,4 @@ mkdocs:
 # install package via pip
 python:
    install:
-       - requirements: docs/requirements.txt
+       - requirements: requirements.lock
