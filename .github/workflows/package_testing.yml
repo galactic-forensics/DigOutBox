@@ -32,7 +32,7 @@ jobs:
       run: rye run test
     - name: Run Lint on one python
       if: ${{ matrix.python-version == env.MAIN_PYTHON_VERSION }}
-      run: rye run lint
+      run: rye lint
     - name: Run Pytest with coverage
       if: ${{ matrix.python-version == env.MAIN_PYTHON_VERSION }}
       run: |

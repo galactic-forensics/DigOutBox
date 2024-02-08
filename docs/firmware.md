@@ -14,10 +14,12 @@ You can find the current version `v0.2.0`
 [on GitHub](https://github.com/galactic-forensics/DigOutBox/tree/main/firmware).
 
 The firmware consists of two files:
+
 - `DigOutBox_fw_v*.ino`: This is the main file that contains the firmware.
 - `config.h`: This file contains the configuration of the firmware.
-  You can find the configuration for the existing setups in the folder `configs` on GitHub.
-  If you want to use a new setup,
+
+You can find the configuration for the existing setups in the folder `configs` on GitHub.
+If you want to use a new setup,
   you will need to create a new configuration file.
 
 Please read the following sections
@@ -27,12 +29,12 @@ flashing the firmware, and communicating with the Arduino via serial.
 Once finished with this section,
 your box can be used with the remote.
 You can also use our [GUI](gui.md)
-or [Python Interface](controller)
+or [Python Interface](controller.md)
 for computer control.
 
 ## Overview of the configuration
 
-The important file to understand, assuming you use the existing setups, is `config.h`.
+The important file to understand, assuming you use the existing configuration, is `config.h`.
 This file contains the configuration of the firmware.
 It has three sections:
 
@@ -41,10 +43,13 @@ It has three sections:
 This section contains the configuration of the DigOutBox hardware.
 It contains the following variables:
 
-- `numOfChannels`: The number of channels that are available.
+- `numOfChannels`: The number of channels that are available in the DigOutBox.
 - `numOfRemoteButtons`: The number of buttons on the remote control.
 - `fw_version`: The firmware version.
 - `hw_version`: The hardware version.
+
+If you followed the instructions exactly,
+these values do not have to be changed.
 
 ### User setup
 
@@ -68,9 +73,11 @@ The section contains the following variables:
 - `RFChannels`: Array that maps the buttons of the remote control to the channels of the DigOut Box.
   This array has `numOfRemoteButtons` elements.
   Each element is an integer that maps the button to a channel.
-  "Channel" `-1` means that this button will turn all channels off.
-  "Channel" `-2` means that this button will be used to toggle the software lockout.
-  "Channel" `-3` means that this button is unused.
+
+    - "Channel" `-1` means that this button will turn all channels off.
+    - "Channel" `-2` means that this button will be used to toggle the software lockout.
+    - "Channel" `-3` means that this button is unused.
+
 - `DOutInvert`: Array that defines the "off-state" of a channel.
   This array has `numOfChannels` elements.
   Each element is either `0` or `1` and defines the "off-state" of a channel.
@@ -108,9 +115,9 @@ and open the `Serial Terminal`.
 If you press a remote control button,
 the serial terminal will print out a message like:
 
-```Valid RF Remote code received: 4543804 / Channel associated: -2```
+```Valid RF Remote code received: 4543804 / Channel associated: -3```
 
-If the code has not been set up, the associated channel will be `-2` (i.e., do nothing).
+If the code has not been set up, the associated channel will be `-3` (i.e., do nothing).
 For every button on your remote, write down the code that is received by the Arduino.
 Do this for every remote that you would like to add to the instrument.
 
@@ -162,9 +169,11 @@ Below is a table with frequency codes that we have mapped already:
 
 ## Flash firmware
 
-**Important: Make sure that the jumper on the board connecting the reset pin via the capacitor to ground is open!
-Otherwise, you will not be able to flash firmware.
-After you are done flashing firmware, close the connection with a jumper again.**
+!!! warning
+    Make sure that the jumper on the board connecting the reset pin via the capacitor to ground
+    is removed (open connection).
+    Otherwise, you will not be able to flash firmware.
+    After you are done flashing firmware, close the connection with a jumper again.**
 
 The following libraries are required to compile the firmware:
 
@@ -177,30 +186,33 @@ Many tutorials are out there on how to flash the firmware to the Arduino.
 You will need to install the [Arduino IDE](https://www.arduino.cc/en/Main/Software).
 You can find help with the IDEs, e.g., here [Arduino website](https://docs.arduino.cc/software/ide-v2).
 
-## SCPI commands
+## SCPI commands and serial connection
 
-We use the `Vrekrer_scpi_parser.h` library to enable SCPI communication
-with the DigOutBox. The following commands can be sent to set/query the device:
+The Arduino can be controlled via a serial interface using a standard set of
+[SCPI commands](https://en.wikipedia.org/wiki/Standard_Commands_for_Programmable_Instruments).
+Open a serial terminal and connect to the Arduino (`9600` baud).
+Then, the following commands can be used:
 
-| Command       | Parameters                                                   | Description                                                                                               | Example                                                                                                         |
-|---------------|--------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
-| `*IDN?`       | None                                                         | Query identity of device                                                                                  | `>>> *IDN?`<br/>`DigIOBox, Hardware v0.1.0, Firmware v0.1.0`                                                    |
-| `DO#?`        | - `#`: Number of channel                                     | Query status of channel.<br/>Returns:<br/>- `0`: Channel off<br/>- `1`: Channel on                        | Status of channel 5 (on):<br/>`>>> DO5?`<br/>`1`                                                                |
-| `DO# S`       | - `#`: Number of channel<br/>- `S`: Status (`0` off, `1` on) | Set status of channel.                                                                                    | Turn channel 3 off:<br/>`>>> DO3 0`                                                                             |
-| `ALLDO?`      | None                                                         | Query status of all channels.                                                                             | `>>> ALLDO?`<br/>`1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0`<br/>Here, channel 1 reports as being on, all others are off. |
-| `ALLOFF`      | None                                                         | Turn off all channels.                                                                                    | `>>> ALLOFF`                                                                                                    |
-| `INTERLOCKS?` | None                                                         | Query the interlock state.<br/>- `1`: Interlocked<br/>- `0`: Not interlocked                              | `>>> INTERLOCKS?`<br/>`1`<br/>                                                                                  |
-| `SWL?`        | None                                                         | Query the software lockout state.<br/>- `1`: Software lockout active<br/>- `0`: Software lockout inactive | `>>> SWL?`<br/>`1`<br/>                                                                                         |
+| Command       | Description                                                                             | Parameters                                                   | Example                                                                                                         |
+|---------------|-----------------------------------------------------------------------------------------|--------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
+| `*IDN?`       | Query identity of device.                                                               | None                                                         | `>>> *IDN?`<br/>`DigIOBox, Hardware v0.1.0, Firmware v0.1.0`                                                    |
+| `DO#?`        | Query status of channel.<br/>Returns:<br/>- `0`: Channel off<br/>- `1`: Channel on      | - `#`: Number of channel                                     | Status of channel 5 (on):<br/>`>>> DO5?`<br/>`1`                                                                |
+| `DO# S`       | Set status of channel.                                                                  | - `#`: Number of channel<br/>- `S`: Status (`0` off, `1` on) | Turn channel 3 off:<br/>`>>> DO3 0`                                                                             |
+| `ALLDO?`      | Query status of all channels.                                                           | None                                                         | `>>> ALLDO?`<br/>`1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0`<br/>Here, channel 1 reports as being on, all others are off. |
+| `ALLOFF`      | Turn off all channels.                                                                  | None                                                         | `>>> ALLOFF`                                                                                                    |
+| `INTERLOCKS?` | Query the interlock state.<br/>- `1`: Interlocked<br/>- `0`: Not interlocked            | None                                                         | `>>> INTERLOCKS?`<br/>`1`<br/>                                                                                  |
+| `SWL?`        | Query the software lockout state.<br/>- `1`: Lockout active<br/>- `0`: Lockout inactive | None                                                         | `>>> SWL?`<br/>`1`<br/>                                                                                         |
 
-Command sending is indicated with `>>>`.
-Note that all commands must be terminated with a newline character (`\n`).
+!!! note
+    Command sending is indicated with `>>>`.
+    All commands must be terminated with a newline character (`\n`).
 
 ## Testing
 
 If all works, you can send SCPI commands to the device and see the LEDs turn on and off,
 but also see the voltage output assume the desired value.
 A simple testing script that allows you to measure each channel individually
-and to test the remote and SCPI commands is provided with the python software
+and to test the remote and SCPI commands is provided with the python interface
 in the
 [`controller/examples`](https://github.com/galactic-forensics/DigOutBox/tree/main/controller/examples)
 folder.

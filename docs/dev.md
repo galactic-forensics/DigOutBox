@@ -2,7 +2,8 @@
 
 Any contributions to this project are very welcome!
 If you have an idea that you would like to implement,
-please raise an issue and mention that you would like to contribute.
+please [raise an issue](https://github.com/galactic-forensics/DigOutBox/issues)
+and mention that you would like to contribute.
 
 ## Pull requests
 
@@ -15,8 +16,14 @@ If you do so,
 please open a draft pull request.
 
 We use [`pre-commit`](https://pre-commit.com/)
-in order to ensure formatting before committing to `git`.
+in order to ensure formatting before committing to `git`
 using a pre-commit hook.
+Once you have installed `pre-commit`,
+you can run the following command to install the pre-commit hook:
+
+```bash
+pre-commit install
+```
 
 ## Documentation
 
@@ -76,17 +83,24 @@ Please make sure that code is properly linted before committing.
 You can run the linter with
 
 ```bash
-rye run lint
+rye lint
 ```
 
 !!! tip
-    You can also run `rye run lint --fix` to automatically fix some issues.
+    You can also run `rye lint --fix` to automatically fix some issues.
+
+
+The code base can be formatted with the command
+
+```
+rye fmt
+```
 
 !!! info
-    If you are not using `rye`,
-    you can run `ruff` directly.
-    However, you will need to install `ruff` in your environment.
-    See the `ruff` documentation for details.
+If you are not using `rye`,
+you can run `ruff` directly.
+However, you will need to install `ruff` in your environment.
+See the `ruff` documentation for details.
 
 ### Testing
 
@@ -98,7 +112,7 @@ We use [`pytest`](https://docs.pytest.org/) for testing.
 All tests are located in the `tests` folder.
 You can run the tests with
 
-```bash
+```
 rye run test
 ```
 
@@ -167,4 +181,5 @@ on installation.
 ## Hardware
 
 If you would like to contribute hardware designs,
-please get in touch with us by raising an issue.
+please get in touch with us by
+[raising an issue](https://github.com/galactic-forensics/DigOutBox/issues).
