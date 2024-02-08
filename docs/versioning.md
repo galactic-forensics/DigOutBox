@@ -16,7 +16,7 @@ to GitHub:
 | controller_gui  | `gui_vX.Y.Z` | `gui_v0.2.0` |
 
 Here, `X`, `Y`, and `Z`
-are follow
+follow
 [semantic versioning](https://semver.org/)
 guidelines and are:
 

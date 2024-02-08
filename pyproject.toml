@@ -35,8 +35,6 @@ dev-dependencies = [
 ]
 [tool.rye.scripts]
 docs = "mkdocs"
-format = "ruff format ."
-lint = "ruff check ."
 test = "pytest controller"
 
 [tool.rye.workspace]

@@ -7,30 +7,32 @@
 [![tests](https://github.com/galactic-forensics/DigOutBox/actions/workflows/package_testing.yml/badge.svg)](https://github.com/galactic-forensics/DigOutBox/actions/workflows/package_testing.yml)
 
 ## Welcome!
-This project provides instrument builders with an easy interface
-to control digital output pins to control other devices,
-e.g., laser shutters.
+The Digital Output Box (DigOutBox) provides instrument builders with a simple hard- and software interface
+to generate output signals for controlling instruments,
+e.g., to open/close laser shutters.
 The project makes use of an
 [Arduino Mega](https://store.arduino.cc/products/arduino-mega-2560-rev3)
-in order to have digital output pins available via
+and makes 16 digital output pins (channels) available via
 DSub-9 and BNC connectors.
-Each channel will have its own LED as an indication status
-if the channel is high (LED on) or low (LED off).
-The Arduino can be controlled via a serial using a standard set of
-[SCPI commands](https://en.wikipedia.org/wiki/Standard_Commands_for_Programmable_Instruments)
-in order to control the device.
+Each channel has its own LED on the front of the box
+to display the status of the channel (high/low).
+
+The Arduino can be controlled via a serial interface using a standard set of
+[SCPI commands](https://en.wikipedia.org/wiki/Standard_Commands_for_Programmable_Instruments).
 Furthermore,
-a Python communications class
-and a Python GUI (making use of this class)
-are provided for easy control of the DigOutBox.
+a Python interface
+and a GUI (making use of this interface)
+are provided for easy computer control of the DigOutBox.
 Finally,
-the Arduino can also take commands from an RF control at 433 MHz,
-which puts it in the allowable range in the US and in Europe,
-to drive digital outputs.
+the box can also take commands from an RF control at 433 MHz
+to activate/deactivate channels.
+The selected frequency
+is in the allowable range in the US and in Europe.
 The idea of the remote is to give the user direct control
 when attending to, e.g., a laser on the table.
-Depending on the number of channels the control has
-(the default is 8),
+Depending on the number channels/buttons the control has
+(the remote chosen here has 8 buttons)
+and depending on the configuration,
 multiple channels can be controlled.
 
 ## Use cases and safety features
@@ -62,6 +64,9 @@ More details can be found in the
 
 ## Some images
 
+Here are two images of a completed DigOutBox.
+The left image shows the status LEDs,
+the right image the connections in the back.
 More images can be found [here](images.md).
 
 | [<img src="img/boxes/gfl002_setup_small.jpeg" width="600">](img/boxes/gfl002_setup.jpeg) | [<img src="img/boxes/gfl002_back_top.jpeg" width="600">](img/boxes/gfl002_back_top.jpeg) |

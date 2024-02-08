@@ -49,7 +49,10 @@ frida = dev.channel[0]
 frida.state = True
 ```
 
-Note that all channels are zero-indexed.
+!!! note
+    Channels are zero-indexed,
+    as is usual in python.
+
 You could also query the state of the channel by printing out `frida.state`.
 
 ### Commands for all channels
@@ -63,7 +66,7 @@ To turn all channels to the off state, you can call
 
 ### Number of channels
 
-By default, the number of channels is set to 15.
+By default, the number of channels is set to 16.
 You could change this if your hardware is different using
 the `num_channels` property, e.g., to set it to 7, use:
 
@@ -88,10 +91,4 @@ the interlock or software lockout is active.
 
 Finally, to query the hardware and firmware version of the DigOutBox,
 you can check out the property: `dev.identify`.
-This will tell you what is currently running on the box.
-
-## Testing your hardware
-
-A very simple script to test your hardware is provided
-[here](https://github.com/galactic-forensics/DigOutBox/blob/main/controller/examples/hw_check.py).
-Read the documentation in the script for more information.
+This will tell you what firmware is currently running on the box.
