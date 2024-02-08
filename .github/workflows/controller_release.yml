@@ -1,0 +1,37 @@
+name: GUI Release Windows
+
+on:
+  push:
+    # Sequence of patterns matched against refs/tags
+    tags:
+    - 'cnt_v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
+jobs:
+  build:
+    name: Controller python interface release
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.12]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      - name: Install the latest version of rye
+        uses: eifinger/setup-rye@v1
+      - name: Sync Rye
+        run: |
+          rye pin ${{ matrix.python-version }}
+          rye sync
+      - name: Build the controller
+        run: |
+          cd controller
+          rye build -- out dist
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ${{ github.workspace }}/controller/dist/*
+          tag_name: ${{ env.RELEASE_VERSION }}
+          name: DigOutBox controller ${{ env.RELEASE_VERSION }}
+          body_path: ${{ github.workspace }}/controller/release_text.md
