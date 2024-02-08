@@ -16,8 +16,14 @@ If you do so,
 please open a draft pull request.
 
 We use [`pre-commit`](https://pre-commit.com/)
-in order to ensure formatting before committing to `git`.
+in order to ensure formatting before committing to `git`
 using a pre-commit hook.
+Once you have installed `pre-commit`,
+you can run the following command to install the pre-commit hook:
+
+```bash
+pre-commit install
+```
 
 ## Documentation
 
