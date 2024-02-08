@@ -32,20 +32,21 @@ Unplug and replug the Arduino after installation.
 
 If it still does not work,
 open the device manager,
-look for the COM port of the Arduino.
+and look for the COM port of the Arduino.
 The properties of the device, in extras,
 will mention that the device needs further installation.
 Update the driver by searching the local computer for drivers
 where you installed the Arduino IDE.
 This path is most likely:
-```bash
+```
 C:\Users\<USERNAME>\AppData\Local\Arduino15\packages\arduino\hardware\avr\1.8.3\drivers
 ```
 
 
 ## Usage
 
-The easiest usage is to download an installer.
+The simplest way to use the GUI is to download an installer
+from our [releases](https://github.com/galactic-forensics/DigOutBox/releases).
 We provide installers for Windows.
 This is especially recommended for air-gapped systems,
 since no internet connection is required.
@@ -75,7 +76,10 @@ The settings and configuration files are by default saved to the following locat
 
 If you encounter issues with the software,
 it might be worth deleting these files and restarting the program.
-Note that you will lose your configuration and settings if you do so!
+
+!!! warning
+    If you delete these files,
+    you will lose your configuration and settings.
 
 The following settings files are used:
 
@@ -104,7 +108,8 @@ This file will only be written if it does not exist already.
 ## First startup
 
 On the first startup,
-the standard hardware configuration file are and settings file are written.
+the standard hardware configuration file (if not existent)
+and settings file are written.
 The settings file is written with the default settings.
 No channels are configured.
 Before you get to the main UI,
@@ -130,12 +135,12 @@ since no channels are configured.
 At the bottom is the statusbar,
 which will display messages and menubar tooltips.
 
-!!! note
+!!! tip
     All buttons and menubar entries have tool tips implemented.
     Hover over them to get more information.
 
 Once your channels are configured,
-the UI might look something like this:
+the user interface might look something like this:
 
 ![Main UI with channels](img/gui/main_ui.png)
 
@@ -154,8 +159,8 @@ The status indicator has four states:
 - Green: The channel is on.
 - Red: The channel is off.
 - Orange: Some channels in the software group are on, some are off.
-  This status only applies for software groups
-- Grey: The channel state is unknown.
+  This status only applies to software groups
+- Gray: The channel state is unknown.
 
 ## Configuration of channels
 
@@ -172,7 +177,7 @@ and select which display section "individual" or "grouped" this channel should b
 You can add more channels by clicking "Add" and
 delete a channel by clicking "Delete".
 Pressing cancel will discard all changes.
-"Save" check if the configuration is valid and save it.
+"Save" checks if the configuration is valid and saves it.
 
 !!! note
     Channel names have to be unique,
@@ -215,7 +220,7 @@ You will be presented with a window like this:
 
 Here you can configure if you want the status of channels to be automatically read
 (if so, set the checkbox as in the picture)
-and how often (in seconds) this should be done.
+and how frequently (in seconds) this should be done.
 When you are done, hit "Ok" to save the settings.
 
 ## Lockouts
