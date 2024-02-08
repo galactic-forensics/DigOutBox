@@ -1,4 +1,4 @@
-name: GUI Release Windows
+name: Controller Release
 
 on:
   push:
@@ -27,7 +27,7 @@ jobs:
       - name: Build the controller
         run: |
           cd controller
-          rye build -- out dist
+          rye build --out dist
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
