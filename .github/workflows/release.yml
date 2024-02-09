@@ -1,0 +1,73 @@
+name: Release creation
+
+on:
+  push:
+    # Sequence of patterns matched against refs/tags
+    tags:
+    - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
+env:
+  PYTHON_VERSION: "3.12"
+
+jobs:
+  build-linux:
+    name: Controller and Firmware Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install the latest version of rye
+        uses: eifinger/setup-rye@v1
+      - name: Sync Rye
+        run: |
+          rye pin ${{ env.PYTHON_VERSION }}
+          rye sync
+      - name: Build the controller
+        run: |
+          cd controller
+          rye build --sdist
+          cd ..
+          mv dist/controller*.tar.gz dist/controller-source.tar.gz  # rename the source tarball
+      - name: Package firmware into a tarball
+        run: |
+          cd firmware
+          tar -czf firmware.tar.gz *
+          mv firmware.tar.gz ../dist
+          cd ..
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ${{ github.workspace }}/dist/controller-source.tar.gz
+            ${{ github.workspace }}/dist/firmware.tar.gz
+          tag_name: ${{ github.ref_name }}
+          name: DigOutBox ${{ github.ref_name }}
+          body_path: ${{ github.workspace }}/release_text.md
+
+  build-windows:
+    needs: build-linux
+    name: GUI for Windows add to Release
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install Windows dependencies
+        run: |
+          choco install vcredist2010
+      - name: Install the latest version of rye
+        uses: eifinger/setup-rye@v1
+      - name: Sync Rye
+        run: |
+          rye pin ${{ env.PYTHON_VERSION }}
+          rye add fbs --dev -q --url ${{ secrets.FBS_PRO_DOWNLOAD }}
+          rye sync
+      - name: Run fbs and freeze application
+        run: |
+          cd controller_gui
+          rye run fbs freeze
+          rye run fbs installer
+      - name: Add to Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ${{ github.workspace }}/controller_gui/target/*Setup.exe
+          tag_name: ${{ github.ref_name }}
