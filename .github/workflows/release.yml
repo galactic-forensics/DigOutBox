@@ -71,5 +71,5 @@ jobs:
       - name: Add to Release
         uses: softprops/action-gh-release@v1
         with:
-          files: ${{ github.workspace }}/controller_gui/target/*Setup.exe
+          files: controller_gui/target/*.exe
           tag_name: ${{ github.ref_name }}
