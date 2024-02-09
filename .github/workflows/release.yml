@@ -54,18 +54,20 @@ jobs:
       - name: Install Windows dependencies
         run: |
           choco install vcredist2010
-      - name: Install the latest version of rye
-        uses: atu4403/setup-rye-multiOS@v1  # eifinger/setup-rye@v1 does not support windows yet
-      - name: Sync Rye
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Install dependencies
         run: |
-          rye pin ${{ env.PYTHON_VERSION }}
-          rye add fbs --dev -q --url ${{ secrets.FBS_PRO_DOWNLOAD }}
-          rye sync
+          pip install controller
+          pip install controller_gui
+          pip install ${{ secrets.FBS_PRO_DOWNLOAD }}
       - name: Run fbs and freeze application
         run: |
           cd controller_gui
-          rye run fbs freeze
-          rye run fbs installer
+          fbs freeze
+          fbs installer
       - name: Add to Release
         uses: softprops/action-gh-release@v1
         with:
