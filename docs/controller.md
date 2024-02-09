@@ -11,8 +11,14 @@ The interface is currently tested on python 3.8-3.12.
 
 We do not provide a package hosted on PyPI for this interface.
 However,
-you can directly install the latest version of the interface from GitHub
+you can directly install the latest released version of the interface from GitHub
 via `pip` using the following command:
+
+```bash
+pip install https://github.com/galactic-forensics/DigOutBox/releases/latest/download/controller-source.tar.gz
+```
+
+If you would like to install the latest version from the `main` branch, run:
 
 ```bash
 pip install git+https://github.com/galactic-forensics/DigOutBox.git#subdirectory=controller

@@ -39,6 +39,7 @@ markdown_extensions:
 
 plugins:
   - mermaid2
+  - search
 
 nav:
   - Home: index.md
