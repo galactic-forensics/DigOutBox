@@ -6,16 +6,16 @@ The firmware,
 python interface (aka controller),
 and GUI (aka controller_gui)
 are versioned independently.
-The following tags are added
-to GitHub:
+Each one gets a version number as following:
 
-| Module          | Tag          | Example      |
-|-----------------|--------------|--------------|
-| firmware        | `fw_vXYZ`    | `fw_v020`    |
-| controller      | `cnt_vX.Y.Z` | `cnt_0.2.0`  |
-| controller_gui  | `gui_vX.Y.Z` | `gui_v0.2.0` |
+- Firmware: `vXYZ`
+- Controller: `vX.Y.Z`
+- GUI: `vX.Y.Z`
 
-Here, `X`, `Y`, and `Z`
+The overall project is also versioned and tagged on GitHub.
+Each tag is named `vX.Y.Z` and is associated with a release.
+
+In above examples, `X`, `Y`, and `Z`
 follow
 [semantic versioning](https://semver.org/)
 guidelines and are:
@@ -36,11 +36,12 @@ This means, e.g.,
 that the GUI depends on both,
 the firmware and the controller.
 
+Generally, major and minor versions for every part of the project should agree with each other.
+The patch version can and will differ.
+
 !!! note
-    The whole project is versioned as well with a GitHub tag,
-    e.g., `v0.2`.
-    The patch version is omitted in this tag,
-    since it is not relevant for the whole project.
+    The patch version for the whole project
+    is the sum of all the firmware, controller, and GUI patch versions.
 
 ## Major versions
 
@@ -53,13 +54,13 @@ or the software are incompatible with previous versions.
 
 Minor versions are reserved for non-breaking changes,
 where new features are added.
-A GUI version `gui_0.1.0` will be compatible
-with firmware versions `fw_v010` and `fw_v020`
-as well as with controllerversions
-`cnt_v0.1.0` and `cnt_v0.2.0`.
+A GUI version `v0.1.0` will be compatible
+with firmware versions `v010` and `v020`
+as well as with controller versions
+`v0.1.0` and `v0.2.0`.
 
 !!! warning
-    The GUI with version `gui_v0.2.0` however
+    The GUI with version `v0.2.0` however
     will not be compatible with
     firmware or controller versions that are lower than `v0.2.0`.
     The same holds true for the controller,
