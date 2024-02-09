@@ -61,7 +61,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install controller
-          pip install controller_gui
+          pip install -r requirements.lock
           pip install ${{ secrets.FBS_PRO_DOWNLOAD }}
       - name: Run fbs and freeze application
         run: |
