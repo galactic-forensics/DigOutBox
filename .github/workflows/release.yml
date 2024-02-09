@@ -55,7 +55,7 @@ jobs:
         run: |
           choco install vcredist2010
       - name: Install the latest version of rye
-        uses: eifinger/setup-rye@v1
+        uses: atu4403/setup-rye-multiOS@v1  # eifinger/setup-rye@v1 does not support windows yet
       - name: Sync Rye
         run: |
           rye pin ${{ env.PYTHON_VERSION }}
