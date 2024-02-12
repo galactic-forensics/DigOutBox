@@ -78,5 +78,6 @@ that you would like to contribute.
 
 ## License
 
-This project is licensed under [MIT](LICENSE).
+All software in this project is licensed under [MIT](LICENSE).
+All hardware designs, images, and documentation are licensed under [CC-BY-4.0](LICENSE_CC-BY-4.0).
 Copyright: 2021-2024, Reto Trappitsch

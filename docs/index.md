@@ -84,3 +84,9 @@ would like to contribute,
 have feature requests,
 please get in contact by filing an
 [issue on GitHub](https://github.com/galactic-forensics/DigOutBox/issues).
+
+## License
+
+All software in this project is licensed under [MIT](LICENSE).
+All hardware designs, images, and documentation are licensed under [CC-BY-4.0](LICENSE_CC-BY-4.0).
+Copyright: 2021-2024, Reto Trappitsch
