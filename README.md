@@ -78,6 +78,10 @@ that you would like to contribute.
 
 ## License
 
+DigOutBox is certified open source hardware.
+[![OSHW](docs/img/certification-mark-CH000020-wide-sm.png)](https://certification.oshwa.org/ch000020.html)
+
+
 All software in this project is licensed under [MIT](LICENSE).
 All hardware designs, images, and documentation are licensed under [CC-BY-4.0](LICENSE_CC-BY-4.0).
 Copyright: 2021-2024, Reto Trappitsch
