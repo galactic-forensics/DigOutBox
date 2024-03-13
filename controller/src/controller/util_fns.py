@@ -3,7 +3,6 @@
 ProxyList is taken from InstrumentKit: https://github.com/Galvant/InstrumentKit
 """
 
-
 from enum import Enum, IntEnum
 
 

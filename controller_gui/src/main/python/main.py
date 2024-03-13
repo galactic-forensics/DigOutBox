@@ -1,4 +1,5 @@
 """Main interface for DigOutBoxController."""
+
 import importlib.util
 import itertools
 import json
