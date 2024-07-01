@@ -23,7 +23,7 @@ class GroupSetup(QtWidgets.QDialog):
         self.groups = groups if groups is not None else {}
 
         # raise warning message box if no channels are defined and exit dialog
-        if self.channels is {} or channels is None:
+        if self.channels == {} or channels is None:
             QtWidgets.QMessageBox.warning(
                 self,
                 "No channels defined",
