@@ -62,13 +62,13 @@ class ProxyList:
                     pass
             if not isinstance(idx, self._valid_set):
                 raise IndexError(
-                    "Index out of range. Must be " "in {}.".format(self._valid_set)
+                    f"Index out of range. Must be in {self._valid_set}."
                 )
             idx = idx.value
         else:
             if idx not in self._valid_set:
                 raise IndexError(
-                    "Index out of range. Must be " "in {}.".format(self._valid_set)
+                    f"Index out of range. Must be in {self._valid_set}."
                 )
         return self._proxy_cls(self._parent, idx)
 
